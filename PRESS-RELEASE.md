@@ -17,28 +17,29 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+
+Waypoint is for creating and sharing location-based experiences with audio messages
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+Waypoint is for ARG enthusiasts, urban explorers, runners, pub-crawlers, and artists. Waypoint is for people who want adventures in their life.
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
 
 ## Problem ##
-  > Describe the problem your product solves.
+Everyone needs a little adventure in their life. While it's easy to find great places to spend your money, finding real experiences is a challenge. The amount of research required to find the right blog or forum prevents us from finding the fresh experiences we all crave.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+Waypoint is the only platform that makes it easy for anyone to create and share rich, location based experiences.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+We created Waypoint because we wanted more adventures in our lives.
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+Download the app, sign in and start browsing the waypoints around you. When you create your own experiences, you can show them off to the world or share them privately to other users.
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+TODO
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+Download Waypoint and find an adventure just around the corner.
