@@ -33,9 +33,24 @@ class Waypoint extends React.Component {
     };
   } // look ma, no commas!
 
+  getInitialState() {
+    return {
+      annotations: [{
+        // latitude: this.state.position.coords.latitude,
+        // longitude: this.state.position.coords.longitude,
+        // title: 'Hack Reator',
+        // subtitle: 'you are here'
+      }]
+    }
+  }
+
+  //Add title and current location to map
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>
+          Waypoint
+        </Text>
         <MapView
           style={styles.map}
           region={{
@@ -44,6 +59,11 @@ class Waypoint extends React.Component {
             longitude: this.state.position.coords.longitude,
             longitudeDelta: 0.001,
           }}
+          showsUserLocation={true}
+          annotations={[{latitude: 37.783366,
+                         longitude: -122.406831,
+                         title: 'Cafe Venue',
+                         subtitle: 'quick noshes'}]}
          />
          <Text style={styles.coords}>
            {this.state.position.coords.latitude}, {this.state.position.coords.longitude}
@@ -76,7 +96,8 @@ class Waypoint extends React.Component {
     });
 
   }
-} // end of Waypoint subclass definition
+
+}
 
 AppRegistry.registerComponent('Waypoint', () => Waypoint);
 
