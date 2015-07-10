@@ -76,6 +76,8 @@ class Waypoint extends React.Component {
     });
 
   }
-}
+} // end of Waypoint subclass definition
 
 AppRegistry.registerComponent('Waypoint', () => Waypoint);
+
+module.exports = 'Waypoint';
