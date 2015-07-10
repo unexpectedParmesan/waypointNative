@@ -5,9 +5,10 @@
 'use strict';
 
 var React = require('react-native');
+var styles = require('./styles.js');
+
 var {
   AppRegistry,
-  StyleSheet,
   Text,
   View,
   MapView,
@@ -76,34 +77,5 @@ class Waypoint extends React.Component {
 
   }
 }
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  coords: {
-    // fontWeight: 'bold',
-    fontSize: 24,
-    // color: '#dddddd',
-    textAlign: 'center',
-    alignSelf: 'flex-end',
-    marginBottom: 24,
-  },
-  map: {
-    position: 'absolute',
-    right: 0,
-    left: 0,
-    top: 12,
-    bottom: 60,
-    margin: 10,
-    borderWidth: 1,
-    borderColor: '#dddddd',
-    borderRadius: 5,
-  },
-});
 
 AppRegistry.registerComponent('Waypoint', () => Waypoint);
