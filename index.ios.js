@@ -14,7 +14,7 @@ var {
   MapView,
 } = React;
 
-// with class definition syntax we extend Component instead of calling createClass
+// With subclass definition syntax we extend Component instead of calling createClass
 class Waypoint extends React.Component {
 
   // Don't need the function keyword when defining functions.
