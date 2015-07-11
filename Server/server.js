@@ -6,7 +6,7 @@ var db = require("./db/config.js");
 var app = express();
 
 app.set("port", process.env.PORT || 3000);
-console.log('Listening on port' + process.env.PORT || 3000);
+console.log('Server is running');
 
 app.use("/", router);
 

@@ -22,7 +22,9 @@ db.knex.schema.hasTable('paths').then(function(exists) {
 			path.string('estimated_time', 40);
 			//Creates created_at and updated_at columns
 			path.timestamps();
-		})
+		}).then(function(table){
+			console.log('Created table', table);
+		});
 	}
 });
 
@@ -35,7 +37,9 @@ db.knex.schema.hasTable('waypoints').then(function(exists) {
 			waypoint.float('longitude', 30);
 			waypoint.string('title', 100);
 			waypoint.string('description', 100);
-		})
+		}).then(function(table){
+			console.log('Created table', table);
+		});
 	}
 });
 
