@@ -1,5 +1,5 @@
 var React = require('react-native');
-var Icon = require('react-native-vector-icons/FontAwesome');
+// var Icon = require('react-native-vector-icons/FontAwesome');
 var Browse = require('../Browse/browse.index.js');
 var Map = require('../Map/map.index.js');
 var Create = require('../Create/create.index.js');
@@ -20,7 +20,7 @@ class Main extends React.Component {
 
   render () {
     return (
-      <TabBarIOS 
+      <TabBarIOS
         selectedTab={this.state.selectedTab}>
         <TabBarIOS.Item
           style={styles.description}
