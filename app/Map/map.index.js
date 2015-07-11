@@ -1,5 +1,7 @@
 var React = require('react-native');
-var styles = require('./map.styles.js')
+var styles = require('./map.styles.js');
+var secret = require('../../secrets.js');
+
 var {
   Text,
   View,
@@ -20,19 +22,37 @@ class Map extends React.Component {
     this.state = {
       position: {
         coords: {}
-      }
+      },
+      waypoints: {
+        annotations: [{latitude: 37.780900,
+                      longitude: -122.405627,
+                      title: 'Tin Vietnamese',
+                      subtitle: 'classic Vietnamese eats'
+                      }]
+      },
+      distance: 0
     };
   } // look ma, no commas!
 
-  getInitialState() {
-    return {
-      annotations: [{
-        // latitude: this.state.position.coords.latitude,
-        // longitude: this.state.position.coords.longitude,
-        // title: 'Hack Reator',
-        // subtitle: 'you are here'
-      }]
-    }
+
+  _getDistanceToNextPoint() {
+    var pos1 = this.state.position.coords;
+    var pos2 = this.state.waypoints.annotations[0];
+    var latDist = pos1.latitude - pos2.latitude;
+    var longDist = pos1.longitude - pos2.longitude;
+    // var origin = 'origin=' + pos1.latitude + ',' + pos1.longitude;
+    // var destination = 'destination=' + pos2.latitude + ',' + pos2.longitude;
+    var key = secret.googleMaps;
+    // var url = 'https://maps.googleapis.com/maps/api/directions/json?' + origin + '&' + destination + '&key=' + key;
+    // fetch(url)
+    //  .then((response) => response.text())
+    //  .then((responseText) => {
+    //   console.log(responseText);
+    //  })
+    //  .catch((error) => {
+    //   console.warn(error);
+    //  });
+    return Math.sqrt( Math.pow(latDist, 2) + Math.pow(longDist, 2) );
   }
 
   //Add title and current location to map
@@ -51,12 +71,10 @@ class Map extends React.Component {
             longitudeDelta: 0.001,
           }}
           showsUserLocation={true}
-          annotations={[{latitude: 37.783366,
-                         longitude: -122.406831,
-                         title: 'Cafe Venue',
-                         subtitle: 'quick noshes'}]}/>
+          annotations={this.state.waypoints.annotations}
+         />
          <Text style={styles.coords}>
-           {this.state.position.coords.latitude}, {this.state.position.coords.longitude}
+           Distance: {this.state.distance}
          </Text>
       </View>
     );
@@ -77,12 +95,21 @@ class Map extends React.Component {
     //
     // getCurrentPosition() and watchPostion() take a success callback, error callback, and options object 
     navigator.geolocation.getCurrentPosition(
-      (position) => this.setState({position}),
+      (position) => {
+        this.setState({position});
+        console.log('Distance: ', this.state.distance);
+      },
       (error) => alert(error.message),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
     navigator.geolocation.watchPosition((position) => {
+      console.log('watching position...')
       this.setState({position});
+      this.setState({distance: this._getDistanceToNextPoint()});
+      console.log('setting distance: ' + this.state.distance);
+      if (this.state.distance <= 0.00005) {
+        this.setState({distance: 'ARRIVED!'});
+      }
     });
 
   }
