@@ -10,6 +10,7 @@ var styles = require('./app.styles.js');
 
 var {
   AppRegistry,
+  Navigator,
 } = React;
 
 // With subclass definition syntax we extend Component instead of calling createClass
@@ -22,7 +23,16 @@ class Waypoint extends React.Component {
 
   render(){
     return (
-      <Main />
+      <Navigator
+        initialRoute={{
+          title: 'Browse Paths',
+          component: Main
+        }}
+        renderScene={(route, navigator) =>
+          <Main
+            name={route.name}
+            navigator={navigator}/>
+        }/>
     )
   }
 }
