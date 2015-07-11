@@ -31,7 +31,7 @@ class Main extends React.Component {
               selectedTab: 'browse'
             });
           }}>
-          <Browse />
+          {this.renderBrowseView()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
           selected={this.state.selectedTab === 'map'}
@@ -41,7 +41,7 @@ class Main extends React.Component {
               selectedTab: 'map'
             });
           }}>
-          <Map />
+          {this.renderMapView()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
           selected={this.state.selectedTab === 'create'}
@@ -51,9 +51,39 @@ class Main extends React.Component {
               selectedTab: 'create'
             });
           }}>
-          <Create />
+          {this.renderCreateView()}
           </TabBarIOS.Item>
       </TabBarIOS>
+    )
+  }
+
+  renderBrowseView(){
+    return (
+      <NavigatorIOS 
+        initialRoute={{
+          title: 'Browse Paths',
+          component: Browse
+        }}/>
+    )
+  }
+
+  renderMapView(){
+    return (
+      <NavigatorIOS 
+        initialRoute={{
+          title: 'Map View',
+          component: Map
+        }}/>
+    )
+  }
+
+  renderCreateView(){
+    return (
+      <NavigatorIOS 
+        initialRoute={{
+          title: 'Create Path',
+          component: Create
+        }}/>
     )
   }
 

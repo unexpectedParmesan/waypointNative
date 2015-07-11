@@ -12,7 +12,7 @@ var {
   AppRegistry,
   Text,
   View,
-  NavigatorIOS,
+  Navigator,
   MapView,
   AppStateIOS,
 } = React;
@@ -27,7 +27,16 @@ class Waypoint extends React.Component {
 
   render(){
     return (
-      <Main />
+      <Navigator
+        initialRoute={{
+          title: 'Browse Paths',
+          component: Main
+        }}
+        renderScene={(route, navigator) =>
+          <Main
+            name={route.name}
+            navigator={navigator}/>
+        }/>
     )
   }
 }
