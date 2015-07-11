@@ -1,5 +1,5 @@
 var db = require('../config.js');
-var Waypoint = require('./waypoint.js')
+var Waypoint = require('./waypoint.js');
 
 var Path = db.Model.extend({
 	tableName: 'waypoints',
