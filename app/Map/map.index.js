@@ -25,20 +25,36 @@ class Map extends React.Component {
         coords: {}
       },
       waypoints: {
-        annotations: [{latitude: 37.780900,
-                      longitude: -122.405627,
-                      title: 'Tin Vietnamese',
-                      subtitle: 'classic Vietnamese eats'
-                      }]
+        annotations: [{
+                       latitude: 37.783872,
+                       longitude: -122.408972,
+                       title: 'Hack Reactor',
+                       subtitle: 'Coding!',
+                      },
+                      {
+                       latitude: 37.781966,
+                       longitude: -122.411277,
+                       title: 'The Hall',
+                       subtitle: 'Hipster eatery',
+                      },
+                      {
+                       latitude: 37.781342,
+                       longitude: -122.406273,
+                       title: 'Tempest',
+                       subtitle: 'Beer!',
+                      }],
+        number: 3
       },
-      distance: 0
+      distance: 0,
+      current: 0
     };
+    this.state.currentWaypoint = this.state.waypoints.annotations[0];
   } // look ma, no commas!
 
 
   _getDistanceToNextPoint() {
     var pos1 = this.state.position.coords;
-    var pos2 = this.state.waypoints.annotations[0];
+    var pos2 = this.state.waypoints.annotations[this.state.current];
     var latDist = pos1.latitude - pos2.latitude;
     var longDist = pos1.longitude - pos2.longitude;
     // var origin = 'origin=' + pos1.latitude + ',' + pos1.longitude;
@@ -72,7 +88,7 @@ class Map extends React.Component {
             longitudeDelta: 0.001,
           }}
           showsUserLocation={true}
-          annotations={this.state.waypoints.annotations}
+          annotations={ [this.state.currentWaypoint] }
          />
          <Text style={styles.coords}>
            Distance: {this.state.distance}
@@ -82,13 +98,20 @@ class Map extends React.Component {
   }
 
   _handleArrival() {
+    var currentWaypoint = this.state.waypoints.annotations[this.state.current];
+    var next = this.state.current < this.state.waypoints.number - 1 ? this.state.current + 1 : null;
+    var alertText = next ? 'Next Waypoint' : 'Done!';
     AlertIOS.alert(
-      this.state.waypoints.annotations[0].title,
-      this.state.waypoints.annotations[0].subtitle,
+      currentWaypoint.title,
+      currentWaypoint.subtitle,
       [
-        {text: 'Next Waypoint', onPress: () => console.log('Moving on!')},
+        {text: alertText, onPress: () => console.log('Moving on!')},
       ]
     )
+    this.setState({current: next});
+    if (next) {
+      this.setState({currentWaypoint: this.state.waypoints.annotations[next]});
+    }
   }
 
   // this function will execute after rendering on the client occurs
@@ -121,6 +144,8 @@ class Map extends React.Component {
     });
 
     setTimeout(this._handleArrival.bind(this), 1200);
+    setTimeout(this._handleArrival.bind(this), 6000);
+    setTimeout(this._handleArrival.bind(this), 12000);
 
   }
 }
