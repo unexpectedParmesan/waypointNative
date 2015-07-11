@@ -14,10 +14,16 @@ var {
   View,
   NavigatorIOS,
   MapView,
+  AppStateIOS,
 } = React;
 
 // With subclass definition syntax we extend Component instead of calling createClass
 class Waypoint extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {}
+  }
 
   render(){
     return (

@@ -3,13 +3,7 @@ var styles = require('./map.styles.js')
 var {
   Text,
   View,
-  ListView,
   MapView,
-  Image,
-  TouchableHighlight,
-  SegmentedControlIOS,
-  AlertIOS,
-  AppStateIOS
   } = React;
 
 class Map extends React.Component {

@@ -3,12 +3,6 @@ var styles = require('./create.styles.js')
 var {
   Text,
   View,
-  ListView,
-  Image,
-  TouchableHighlight,
-  SegmentedControlIOS,
-  AlertIOS,
-  AppStateIOS
   } = React;
 
 class Create extends React.Component {

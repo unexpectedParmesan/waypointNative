@@ -3,12 +3,6 @@ var styles = require('./browse.styles.js')
 var {
   Text,
   View,
-  ListView,
-  Image,
-  TouchableHighlight,
-  SegmentedControlIOS,
-  AlertIOS,
-  AppStateIOS
   } = React;
 
 class Browse extends React.Component {

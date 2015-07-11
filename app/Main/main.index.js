@@ -6,8 +6,6 @@ var Create = require('../Create/create.index.js');
 var styles = require('./main.styles.js')
 
 var {
-  View,
-  Text,
   TabBarIOS,
   NavigatorIOS,
 } = React;
@@ -22,8 +20,10 @@ class Main extends React.Component {
 
   render () {
     return (
-      <TabBarIOS selectedTab={this.state.selectedTab}>
+      <TabBarIOS 
+        selectedTab={this.state.selectedTab}>
         <TabBarIOS.Item
+          style={styles.description}
           selected={this.state.selectedTab === 'browse'}
           title="Browse"
           onPress={ ()=> {

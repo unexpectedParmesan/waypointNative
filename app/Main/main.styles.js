@@ -10,6 +10,7 @@ var styles = StyleSheet.create({
       color: '#656565'
     },
     container: {
+      flex: 1,
       padding: 30,
       marginTop: 65,
       alignItems: 'center'
