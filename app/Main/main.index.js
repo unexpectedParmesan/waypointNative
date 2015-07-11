@@ -59,31 +59,34 @@ class Main extends React.Component {
 
   renderBrowseView(){
     return (
-      <NavigatorIOS 
-        initialRoute={{
-          title: 'Browse Paths',
-          component: Browse
-        }}/>
+      <Browse />
+      // <NavigatorIOS 
+      //   initialRoute={{
+      //     title: 'Browse Paths',
+      //     component: Browse
+      //   }}/>
     )
   }
 
   renderMapView(){
     return (
-      <NavigatorIOS 
-        initialRoute={{
-          title: 'Map View',
-          component: Map
-        }}/>
+      <Map />
+      // <NavigatorIOS 
+      //   initialRoute={{
+      //     title: 'Map View',
+      //     component: Map
+      //   }}/>
     )
   }
 
   renderCreateView(){
     return (
-      <NavigatorIOS 
-        initialRoute={{
-          title: 'Create Path',
-          component: Create
-        }}/>
+      <Create />
+      // <NavigatorIOS 
+      //   initialRoute={{
+      //     title: 'Create Path',
+      //     component: Create
+      //   }}/>
     )
   }
 
