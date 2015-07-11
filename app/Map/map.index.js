@@ -6,6 +6,7 @@ var {
   Text,
   View,
   MapView,
+  AlertIOS,
   } = React;
 
 class Map extends React.Component {
@@ -80,6 +81,16 @@ class Map extends React.Component {
     );
   }
 
+  _handleArrival() {
+    AlertIOS.alert(
+      this.state.waypoints.annotations[0].title,
+      this.state.waypoints.annotations[0].subtitle,
+      [
+        {text: 'Next Waypoint', onPress: () => console.log('Moving on!')},
+      ]
+    )
+  }
+
   // this function will execute after rendering on the client occurs
   componentDidMount() {
    
@@ -97,20 +108,19 @@ class Map extends React.Component {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({position});
-        console.log('Distance: ', this.state.distance);
       },
       (error) => alert(error.message),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
     navigator.geolocation.watchPosition((position) => {
-      console.log('watching position...')
       this.setState({position});
       this.setState({distance: this._getDistanceToNextPoint()});
-      console.log('setting distance: ' + this.state.distance);
-      if (this.state.distance <= 0.00005) {
-        this.setState({distance: 'ARRIVED!'});
+      if (this.state.distance <= 0.0005) {
+        this._handleArrival();
       }
     });
+
+    setTimeout(this._handleArrival.bind(this), 1200);
 
   }
 }
