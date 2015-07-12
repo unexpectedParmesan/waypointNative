@@ -57,10 +57,17 @@ class Map extends React.Component {
     var pos2 = this.state.waypoints.annotations[this.state.current];
     var latDist = pos1.latitude - pos2.latitude;
     var longDist = pos1.longitude - pos2.longitude;
+    return Math.sqrt( Math.pow(latDist, 2) + Math.pow(longDist, 2) );
+  }
+
+  _getDirectionsToNextPoint() {
+    // var pos1 = this.state.position.coords;
+    // var pos2 = this.state.currentWaypoint;
     // var origin = 'origin=' + pos1.latitude + ',' + pos1.longitude;
     // var destination = 'destination=' + pos2.latitude + ',' + pos2.longitude;
-    var key = secret.googleMaps;
+    // var key = secret.googleMaps;
     // var url = 'https://maps.googleapis.com/maps/api/directions/json?' + origin + '&' + destination + '&key=' + key;
+    // console.log('Making google API call: ' + url);
     // fetch(url)
     //  .then((response) => response.text())
     //  .then((responseText) => {
@@ -69,7 +76,6 @@ class Map extends React.Component {
     //  .catch((error) => {
     //   console.warn(error);
     //  });
-    return Math.sqrt( Math.pow(latDist, 2) + Math.pow(longDist, 2) );
   }
 
   //Add title and current location to map
@@ -143,9 +149,9 @@ class Map extends React.Component {
       }
     });
 
-    setTimeout(this._handleArrival.bind(this), 1200);
-    setTimeout(this._handleArrival.bind(this), 6000);
-    setTimeout(this._handleArrival.bind(this), 12000);
+    // setTimeout(this._handleArrival.bind(this), 1200);
+    // setTimeout(this._handleArrival.bind(this), 6000);
+    // setTimeout(this._handleArrival.bind(this), 12000);
 
   }
 }
