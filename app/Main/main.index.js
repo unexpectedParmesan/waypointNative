@@ -1,14 +1,15 @@
 var React = require('react-native');
-// var Icon = require('react-native-vector-icons/FontAwesome');
-var Browse = require('../Browse/browse.index.js');
-var Map = require('../Map/map.index.js');
-var Create = require('../Create/create.index.js');
 var styles = require('./main.styles.js')
 
 var {
   TabBarIOS,
   NavigatorIOS,
 } = React;
+
+// Components
+var Browse = require('../Browse/browse.index.js');
+var Map = require('../Map/map.index.js');
+var Create = require('../Create/create.index.js');
 
 class Main extends React.Component {
   constructor (props) {
@@ -20,7 +21,8 @@ class Main extends React.Component {
 
   render () {
     return (
-      <TabBarIOS
+      <TabBarIOS 
+        style={styles.tabBar}
         selectedTab={this.state.selectedTab}>
         <TabBarIOS.Item
           style={styles.description}
@@ -59,34 +61,34 @@ class Main extends React.Component {
 
   renderBrowseView(){
     return (
-      <Browse />
-      // <NavigatorIOS 
-      //   initialRoute={{
-      //     title: 'Browse Paths',
-      //     component: Browse
-      //   }}/>
+      <NavigatorIOS 
+        style={styles.wrapper}
+        initialRoute={{
+          title: 'Browse Paths',
+          component: Browse
+        }}/>
     )
   }
 
   renderMapView(){
     return (
-      <Map />
-      // <NavigatorIOS 
-      //   initialRoute={{
-      //     title: 'Map View',
-      //     component: Map
-      //   }}/>
+      <NavigatorIOS 
+        style={styles.wrapper}
+        initialRoute={{
+        title: 'Map View',
+        component: Map,
+        }}/>
     )
   }
 
   renderCreateView(){
     return (
-      <Create />
-      // <NavigatorIOS 
-      //   initialRoute={{
-      //     title: 'Create Path',
-      //     component: Create
-      //   }}/>
+      <NavigatorIOS 
+        style={styles.wrapper}
+        initialRoute={{
+          title: 'Create Path',
+          component: Create
+        }}/>
     )
   }
 

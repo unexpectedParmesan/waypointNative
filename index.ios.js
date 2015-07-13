@@ -24,6 +24,7 @@ class Waypoint extends React.Component {
   render(){
     return (
       <Navigator
+        style={styles.wrapper}
         initialRoute={{
           title: 'Browse Paths',
           component: Main

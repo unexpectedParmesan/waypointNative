@@ -33,9 +33,14 @@ var styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     left: 0,
+<<<<<<< HEAD
     top: 60,
     bottom: 80,
     margin: 10,
+=======
+    top: 0,
+    bottom: 0,
+>>>>>>> (feat) Display navbar and view content
     borderWidth: 1,
     borderColor: '#dddddd',
     borderRadius: 5,
