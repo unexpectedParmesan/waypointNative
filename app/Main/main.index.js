@@ -87,7 +87,8 @@ class Main extends React.Component {
         style={styles.wrapper}
         initialRoute={{
           title: 'Create Path',
-          component: Create
+          component: Create,
+          passProps: { test: "HEYA! I'M THE CREATE VIEW!! "}
         }}/>
     )
   }

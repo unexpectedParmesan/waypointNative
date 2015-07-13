@@ -7,9 +7,11 @@ var {
 
 class Create extends React.Component {
   render() {
+    console.log(this.props.navigator);
+
     return (
       <View style={styles.container}>
-        <Text style={styles.description}>Create View</Text>
+        <Text style={styles.description}>{this.props.test}</Text>
       </View>
     )
   }
