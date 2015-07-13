@@ -82,10 +82,7 @@ class Map extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>
-          Waypoint
-        </Text>
-        <MapView
+        <MapView 
           style={styles.map}
           region={{
             latitude: this.state.position.coords.latitude,
