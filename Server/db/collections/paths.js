@@ -1,5 +1,5 @@
-var db = require('./config.js');
-var Path = require('./models/path.js');
+var db = require('../config.js');
+var Path = require('../models/path.js');
 
 var Paths = new db.Collection();
 
