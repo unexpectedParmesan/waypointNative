@@ -23,7 +23,7 @@ var styles = StyleSheet.create({
  creator: {
   fontSize: 13,
   lineHeight: 18,
-  color: '#839496'
+  color: '#839496',
  },
  description: {
   color: '#5b6b77',
