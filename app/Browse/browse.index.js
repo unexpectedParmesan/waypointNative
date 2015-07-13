@@ -41,7 +41,6 @@ class Browse extends React.Component {
   }
 
   renderPath(path) {
-    console.log(path);
     return (
       <TouchableHighlight style={styles.item}
         onPress={this.renderDetailView.bind(this, path)}
