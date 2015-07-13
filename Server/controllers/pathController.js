@@ -8,7 +8,7 @@ var Waypoints = require('../db/collections/waypoints');
 
 module.exports = {
 
-  get: function(req, res){
+  getPath: function(req, res){
   	var pathTitle = req.body.title;
 
   	Path.forge().where({title: pathTitle}).fetchOne()
@@ -19,9 +19,9 @@ module.exports = {
   	  });
   },
 
-  post: function(req, res){
+  makePath: function(req, res){
   	var title = req.body.title;
-
+    //Add check for existing path here when adding modify functionality later
   	var newPath = new Path({
       title: req.body.title,
       length: req.body.length,
