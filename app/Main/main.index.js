@@ -1,14 +1,15 @@
 var React = require('react-native');
-// var Icon = require('react-native-vector-icons/FontAwesome');
-var Browse = require('../Browse/browse.index.js');
-var Map = require('../Map/map.index.js');
-var Create = require('../Create/create.index.js');
 var styles = require('./main.styles.js')
 
 var {
   TabBarIOS,
   NavigatorIOS,
 } = React;
+
+// Components
+var Browse = require('../Browse/browse.index.js');
+var Map = require('../Map/map.index.js');
+var Create = require('../Create/create.index.js');
 
 class Main extends React.Component {
   constructor (props) {
@@ -20,7 +21,8 @@ class Main extends React.Component {
 
   render () {
     return (
-      <TabBarIOS
+      <TabBarIOS 
+        style={styles.tabBar}
         selectedTab={this.state.selectedTab}>
         <TabBarIOS.Item
           style={styles.description}
@@ -31,7 +33,7 @@ class Main extends React.Component {
               selectedTab: 'browse'
             });
           }}>
-          <Browse />
+          {this.renderBrowseView()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
           selected={this.state.selectedTab === 'map'}
@@ -41,7 +43,7 @@ class Main extends React.Component {
               selectedTab: 'map'
             });
           }}>
-          <Map />
+          {this.renderMapView()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
           selected={this.state.selectedTab === 'create'}
@@ -51,9 +53,42 @@ class Main extends React.Component {
               selectedTab: 'create'
             });
           }}>
-          <Create />
+          {this.renderCreateView()}
           </TabBarIOS.Item>
       </TabBarIOS>
+    )
+  }
+
+  renderBrowseView(){
+    return (
+      <NavigatorIOS 
+        style={styles.wrapper}
+        initialRoute={{
+          title: 'Browse Paths',
+          component: Browse
+        }}/>
+    )
+  }
+
+  renderMapView(){
+    return (
+      <NavigatorIOS 
+        style={styles.wrapper}
+        initialRoute={{
+        title: 'Map View',
+        component: Map,
+        }}/>
+    )
+  }
+
+  renderCreateView(){
+    return (
+      <NavigatorIOS 
+        style={styles.wrapper}
+        initialRoute={{
+          title: 'Create Path',
+          component: Create
+        }}/>
     )
   }
 
