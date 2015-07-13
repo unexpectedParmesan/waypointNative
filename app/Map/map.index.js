@@ -46,8 +46,10 @@ class Map extends React.Component {
         number: 3
       },
       distance: 0,
+      miles: 0,
+      time: 0,
       current: 0,
-      directions: {}
+      directions: {},
     };
     this.state.currentWaypoint = this.state.waypoints.annotations[0];
   } // look ma, no commas!
@@ -81,9 +83,14 @@ class Map extends React.Component {
       directions.distance = mapquestDirections.route.distance;
       directions.time = mapquestDirections.route.formattedTime;
       directions.legs = mapquestDirections.route.legs;
-      context.setState({directions});
-      console.log('Next waypoint: ', context.state.currentWaypoint);
+      context.setState({directions}, () => {
+        context.setState({miles: directions.distance});
+        context.setState({time: directions.time});
+        setTimeout(context._handleArrival.bind(context), 12000);  
+      });
+      console.log('Current waypoint: ', context.state.currentWaypoint);
       console.log('Directions in state: ', context.state.directions);
+      console.log('Current index: ', context.state.current);
      })
      .catch((error) => {
       console.warn(error);
@@ -94,7 +101,10 @@ class Map extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <MapView 
+        <Text style={styles.title}>
+          Waypoint
+        </Text>
+        <MapView
           style={styles.map}
           region={{
             latitude: this.state.position.coords.latitude,
@@ -106,7 +116,7 @@ class Map extends React.Component {
           annotations={ [this.state.currentWaypoint] }
          />
          <Text style={styles.coords}>
-           Distance: {this.state.distance}
+           Distance: {this.state.miles}, {this.state.time}
          </Text>
       </View>
     );
@@ -115,11 +125,14 @@ class Map extends React.Component {
   _onNextPress()  {
     console.log('Moving on!');
     var next = this.state.current < this.state.waypoints.number - 1 ? this.state.current + 1 : null;
-    this.setState({current: next});
-    if (next) {
-      this.setState({currentWaypoint: this.state.waypoints.annotations[next]});
-      this._getDirectionsToNextPoint();
-    } 
+    var context = this;
+    this.setState({current: next}, () => {
+      if (next) {
+        context.setState({currentWaypoint: context.state.waypoints.annotations[next]}, () => {       
+          context._getDirectionsToNextPoint();
+        });
+      }   
+    });
   }
 
   _handleArrival() {
@@ -129,13 +142,18 @@ class Map extends React.Component {
     var alertText = next ? 'Next Waypoint' : 'Done!';
     if (currentWaypoint) {
       AlertIOS.alert(
-        currentWaypoint.title,
+        'Arrived at '  + currentWaypoint.title,
         currentWaypoint.subtitle,
         [
           {text: alertText, onPress: context._onNextPress.bind(context)},
         ]
       )
     }
+  }
+
+  _initPath() {
+    // somehow handle the first leg: dist from current position to first waypoint
+    this._getDirectionsToNextPoint();
   }
 
   // this function will execute after rendering on the client occurs
@@ -156,21 +174,19 @@ class Map extends React.Component {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         context.setState({position});
-        context._getDirectionsToNextPoint();
+        context._initPath();
       },
       (error) => alert(error.message),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
     navigator.geolocation.watchPosition((position) => {
-      context.setState({position});
-      context.setState({distance: context._getDistanceToNextPoint()});
+      context.setState({position}, () => {
+        context.setState({distance: context._getDistanceToNextPoint()});  
+      });
       // if (context.state.distance <= 0.0005) {
       //   context._handleArrival();
       // }
     });
-    setTimeout(this._handleArrival.bind(this), 6000);
-    setTimeout(this._handleArrival.bind(this), 12000);
-    setTimeout(this._handleArrival.bind(this), 16000);
 
   }
 }
