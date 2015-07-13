@@ -29,7 +29,7 @@ module.exports = {
       estimated_time: req.body.estimated_time,
       number_of_waypoints: req.body.number_of_waypoints,
       //Will be an array of waypoint objects
-      waypoints: req.body.waypoints
+      waypoints: req.body.waypoints,
   	});
 
   	newPath.save().then(function(path){
