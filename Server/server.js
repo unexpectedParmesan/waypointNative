@@ -9,7 +9,7 @@ var app = express();
 app.use(bodyParser.json());
 
 app.set("port", process.env.PORT || 3000);
-console.log('Server is running');
+console.log('Server listening on port ' + app.get('port'));
 
 app.use("/", router);
 
