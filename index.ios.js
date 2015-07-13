@@ -10,11 +10,7 @@ var styles = require('./app.styles.js');
 
 var {
   AppRegistry,
-  Text,
-  View,
   Navigator,
-  MapView,
-  AppStateIOS,
 } = React;
 
 // With subclass definition syntax we extend Component instead of calling createClass
