@@ -39,9 +39,9 @@ class Browse extends React.Component {
   }
 
   renderPath(path) {
-    console.log(path);
     return (
       <TouchableHighlight style={styles.item}
+        onPress={this.renderDetailView.bind(this, path)}
         underlayColor={'#FFFFFF'}>
         <View>
           <Text style={styles.title}>{path.path.title}</Text>
@@ -50,6 +50,10 @@ class Browse extends React.Component {
         </View>
       </TouchableHighlight>
     )
+  }
+
+  renderDetailView(path) {
+    console.log(path)
   }
 }
 
