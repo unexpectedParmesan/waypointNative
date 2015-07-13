@@ -51,7 +51,6 @@ class Map extends React.Component {
     this.state.currentWaypoint = this.state.waypoints.annotations[0];
   } // look ma, no commas!
 
-<<<<<<< HEAD
 
   _getDistanceToNextPoint() {
     var pos1 = this.state.position.coords;
@@ -79,8 +78,6 @@ class Map extends React.Component {
     //  });
   }
 
-=======
->>>>>>> (feat) Display navbar and view content
   //Add title and current location to map
   render() {
     return (
