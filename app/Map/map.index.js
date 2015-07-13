@@ -1,9 +1,12 @@
 var React = require('react-native');
-var styles = require('./map.styles.js')
+var styles = require('./map.styles.js');
+var secret = require('../../secrets.js');
+
 var {
   Text,
   View,
   MapView,
+  AlertIOS,
   } = React;
 
 class Map extends React.Component {
@@ -20,19 +23,59 @@ class Map extends React.Component {
     this.state = {
       position: {
         coords: {}
-      }
+      },
+      waypoints: {
+        annotations: [{
+                       latitude: 37.783872,
+                       longitude: -122.408972,
+                       title: 'Hack Reactor',
+                       subtitle: 'Coding!',
+                      },
+                      {
+                       latitude: 37.781966,
+                       longitude: -122.411277,
+                       title: 'The Hall',
+                       subtitle: 'Hipster eatery',
+                      },
+                      {
+                       latitude: 37.781342,
+                       longitude: -122.406273,
+                       title: 'Tempest',
+                       subtitle: 'Beer!',
+                      }],
+        number: 3
+      },
+      distance: 0,
+      current: 0
     };
+    this.state.currentWaypoint = this.state.waypoints.annotations[0];
   } // look ma, no commas!
 
-  getInitialState() {
-    return {
-      annotations: [{
-        // latitude: this.state.position.coords.latitude,
-        // longitude: this.state.position.coords.longitude,
-        // title: 'Hack Reator',
-        // subtitle: 'you are here'
-      }]
-    }
+
+  _getDistanceToNextPoint() {
+    var pos1 = this.state.position.coords;
+    var pos2 = this.state.waypoints.annotations[this.state.current];
+    var latDist = pos1.latitude - pos2.latitude;
+    var longDist = pos1.longitude - pos2.longitude;
+    return Math.sqrt( Math.pow(latDist, 2) + Math.pow(longDist, 2) );
+  }
+
+  _getDirectionsToNextPoint() {
+    // var pos1 = this.state.position.coords;
+    // var pos2 = this.state.currentWaypoint;
+    // var origin = 'origin=' + pos1.latitude + ',' + pos1.longitude;
+    // var destination = 'destination=' + pos2.latitude + ',' + pos2.longitude;
+    // var key = secret.googleMaps;
+    // var url = 'https://maps.googleapis.com/maps/api/directions/json?' + origin + '&' + destination + '&key=' + key;
+    // console.log('Making google API call: ' + url);
+    // fetch(url)
+    //  .then((response) => response.text())
+    //  .then((responseText) => {
+    //   console.log(responseText);
+    //  })
+    //  .catch((error) => {
+    //   console.warn(error);
+    //  });
   }
 
   //Add title and current location to map
@@ -51,15 +94,30 @@ class Map extends React.Component {
             longitudeDelta: 0.001,
           }}
           showsUserLocation={true}
-          annotations={[{latitude: 37.783366,
-                         longitude: -122.406831,
-                         title: 'Cafe Venue',
-                         subtitle: 'quick noshes'}]}/>
+          annotations={ [this.state.currentWaypoint] }
+         />
          <Text style={styles.coords}>
-           {this.state.position.coords.latitude}, {this.state.position.coords.longitude}
+           Distance: {this.state.distance}
          </Text>
       </View>
     );
+  }
+
+  _handleArrival() {
+    var currentWaypoint = this.state.waypoints.annotations[this.state.current];
+    var next = this.state.current < this.state.waypoints.number - 1 ? this.state.current + 1 : null;
+    var alertText = next ? 'Next Waypoint' : 'Done!';
+    AlertIOS.alert(
+      currentWaypoint.title,
+      currentWaypoint.subtitle,
+      [
+        {text: alertText, onPress: () => console.log('Moving on!')},
+      ]
+    )
+    this.setState({current: next});
+    if (next) {
+      this.setState({currentWaypoint: this.state.waypoints.annotations[next]});
+    }
   }
 
   // this function will execute after rendering on the client occurs
@@ -77,13 +135,23 @@ class Map extends React.Component {
     //
     // getCurrentPosition() and watchPostion() take a success callback, error callback, and options object 
     navigator.geolocation.getCurrentPosition(
-      (position) => this.setState({position}),
+      (position) => {
+        this.setState({position});
+      },
       (error) => alert(error.message),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
     navigator.geolocation.watchPosition((position) => {
       this.setState({position});
+      this.setState({distance: this._getDistanceToNextPoint()});
+      if (this.state.distance <= 0.0005) {
+        this._handleArrival();
+      }
     });
+
+    // setTimeout(this._handleArrival.bind(this), 1200);
+    // setTimeout(this._handleArrival.bind(this), 6000);
+    // setTimeout(this._handleArrival.bind(this), 12000);
 
   }
 }

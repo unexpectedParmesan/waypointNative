@@ -27,3 +27,7 @@ iOS/AppDelegate.m
 #
 node_modules/
 npm-debug.log
+
+# secret keys
+#
+secrets.js
