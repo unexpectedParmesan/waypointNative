@@ -17,7 +17,7 @@ db.knex.schema.hasTable('paths').then(function(exists) {
 	if (!exists){
 		db.knex.schema.createTable('paths', function(path){
 			path.increments('id').primary();
-			path.string('title', 100);
+			path.string('title', 100).unique();
 			path.string('length', 100);
 			path.string('description', 100);
 			path.string('estimated_time', 100);
