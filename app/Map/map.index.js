@@ -24,25 +24,11 @@ class Map extends React.Component {
     };
   } // look ma, no commas!
 
-  getInitialState() {
-    return {
-      annotations: [{
-        // latitude: this.state.position.coords.latitude,
-        // longitude: this.state.position.coords.longitude,
-        // title: 'Hack Reator',
-        // subtitle: 'you are here'
-      }]
-    }
-  }
-
   //Add title and current location to map
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>
-          Waypoint
-        </Text>
-        <MapView
+        <MapView 
           style={styles.map}
           region={{
             latitude: this.state.position.coords.latitude,

@@ -19,9 +19,9 @@ class Browse extends React.Component {
 
   componentDidMount() {
     var paths = [
-        {path: {title: 'Seaside Bike Ride', creator: "DK", description: 'Please bike ride along oceanside in SF'}},
+        {path: {title: 'Seaside Bike Ride', creator: "DK", description: 'Pleasan bike ride along ocean beach in SF. Pray for sun or else it might not be so pleasant!'}},
         {path: {title: 'Pub Crawl', creator: "DK", description: 'Hope you\'re thirsty'}},
-        {path: {title: 'SF Tour', creator: "DK", description: 'Tour of San Francisco. Includes audio commentary.'}},
+        {path: {title: 'SF Tour', creator: "DK", description: 'Tour of San Francisco. Includes audio commentary, pleasant and gross smells, lovely and ugly views, and much, much, more.'}},
     ];
 
     this.setState({
@@ -32,22 +32,21 @@ class Browse extends React.Component {
   render() {
     return (
         <ListView
+          style={styles.list}
           dataSource={this.state.dataSource}
-          renderRow={this.renderPath.bind(this)}
-          style={styles.listView}/>
+          renderRow={this.renderPath.bind(this)}/>
     )
   }
 
   renderPath(path) {
     console.log(path);
     return (
-      <TouchableHighlight
-        activeOpacity={2}>
-        <View style={styles.itemContainer}>
-          <Text style={styles.text}>{path.path.title}</Text>
-          <Text>{path.path.creator}</Text>
-          <Text>{path.path.description}</Text>
-          <View style={styles.separator}></View>
+      <TouchableHighlight style={styles.item}
+        underlayColor={'#FFFFFF'}>
+        <View>
+          <Text style={styles.title}>{path.path.title}</Text>
+          <Text style={styles.creator}>Created by {path.path.creator}</Text>
+          <Text style={styles.description}>{path.path.description}</Text>
         </View>
       </TouchableHighlight>
     )
