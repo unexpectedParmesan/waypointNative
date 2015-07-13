@@ -1,5 +1,5 @@
-var db = require('./config.js');
-var Waypoint = require('./models/waypoints.js');
+var db = require('../config.js');
+var Waypoint = require('../models/waypoint.js');
 
 var Waypoints = new db.Collection();
 
