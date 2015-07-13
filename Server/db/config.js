@@ -21,7 +21,6 @@ db.knex.schema.hasTable('paths').then(function(exists) {
 			path.string('length', 100);
 			path.string('description', 100);
 			path.string('estimated_time', 100);
-			path.integer('number_of_waypoints');
 			//Creates created_at and updated_at columns
 			path.timestamps();
 		}).then(function(table){
