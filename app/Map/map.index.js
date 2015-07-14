@@ -46,8 +46,11 @@ class Map extends React.Component {
         number: 3
       },
       distance: 0,
+      currentDistance: 0,
       miles: 0,
+      currentMiles: 0,
       time: 0,
+      currentTime: 0,
       current: 0,
       directions: {},
     };
@@ -84,8 +87,13 @@ class Map extends React.Component {
       directions.time = mapquestDirections.route.formattedTime;
       directions.legs = mapquestDirections.route.legs;
       context.setState({directions}, () => {
-        context.setState({miles: directions.distance});
-        context.setState({time: directions.time});
+        context.setState({miles: directions.distance}, () => {
+          context.setState({currentMiles: context.state.miles});
+        });
+        context.setState({time: directions.time}, () => {
+          context.setState({currentTime: context.state.time});
+        });
+        context.setState({distance: context._getDistanceToNextPoint()});
         setTimeout(context._handleArrival.bind(context), 12000);  
       });
       console.log('Current waypoint: ', context.state.currentWaypoint);
@@ -116,7 +124,7 @@ class Map extends React.Component {
           annotations={ [this.state.currentWaypoint] }
          />
          <Text style={styles.coords}>
-           Distance: {this.state.miles}, {this.state.time}
+           Distance: {this.state.currentMiles}, {this.state.currentTime}
          </Text>
       </View>
     );
@@ -156,6 +164,13 @@ class Map extends React.Component {
     this._getDirectionsToNextPoint();
   }
 
+  _getCurrentDistanceInMiles() {
+    if (this.state.miles === 0 || this.state.currentDistance === 0 || this.state.distance === 0) {
+      return 0;
+    }
+    return this.state.miles * (this.state.currentDistance / this.state.distance);
+  }
+
   // this function will execute after rendering on the client occurs
   componentDidMount() {
    
@@ -181,9 +196,11 @@ class Map extends React.Component {
     );
     navigator.geolocation.watchPosition((position) => {
       context.setState({position}, () => {
-        context.setState({distance: context._getDistanceToNextPoint()});  
+        context.setState({currentDistance: context._getDistanceToNextPoint()}, () => {
+          context.setState({currentMiles: context._getCurrentDistanceInMiles()});
+        });  
       });
-      // if (context.state.distance <= 0.0005) {
+      // if (context.state.currentDistance <= 0.0005) {
       //   context._handleArrival();
       // }
     });
