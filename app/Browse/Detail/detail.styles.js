@@ -3,6 +3,9 @@ var React = require('react-native');
 var { StyleSheet } = React;
 
 var styles = StyleSheet.create({
+  scroll: {
+    height: 300,
+  },
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
@@ -51,6 +54,7 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#2f8d58',
     borderRadius: 3,
+    opacity: 1,
   },
   buttonText: {
     fontSize: 20,
