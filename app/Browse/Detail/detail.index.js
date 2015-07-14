@@ -6,6 +6,7 @@ var {
   Text,
   MapView,
   TouchableHighlight,
+  Navigator,
   ScrollView,
 } = React;
 
@@ -57,9 +58,8 @@ class Detail extends React.Component {
   } 
 
   renderPath (props) {
-    console.log(props);
     this.props.navigator.push({
-      title: '',
+      title: this.props.details.title,
       component: Map,
       passProps: {
         start: this.props.details.start

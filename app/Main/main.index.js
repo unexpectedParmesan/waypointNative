@@ -40,20 +40,6 @@ class Main extends React.Component {
           {this.renderBrowseView()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          selected={this.state.selectedTab === 'map'}
-          title="Map"
-          onPress={ ()=> {
-            if (this.state.selectedTab === 'map') {
-              this.refs.MapRef.popToTop();
-            } else {
-              this.setState({
-                selectedTab: 'map'
-              });
-            }
-          }}>
-          {this.renderMapView()}
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
           selected={this.state.selectedTab === 'create'}
           title="Create"
           onPress={ ()=> {
@@ -80,22 +66,23 @@ class Main extends React.Component {
           title: 'Browse Paths',
           backButtonTitle: ' ',
           component: Browse,
+          passProps: { ref: this.refs }
         }}/>
     )
   }
 
-  renderMapView(){
-    return (
-      <NavigatorIOS 
-        style={styles.wrapper}
-        ref="MapRef"
-        initialRoute={{
-        title: 'Map View',
-        backButtonTitle: ' ',
-        component: Map,
-        }}/>
-    )
-  }
+  // renderMapView(){
+  //   return (
+  //     <NavigatorIOS 
+  //       style={styles.wrapper}
+  //       ref="MapRef"
+  //       initialRoute={{
+  //       title: 'Map View',
+  //       backButtonTitle: ' ',
+  //       component: Map,
+  //       }}/>
+  //   )
+  // }
 
   renderCreateView(){
     return (
@@ -114,3 +101,19 @@ class Main extends React.Component {
 };
 
 module.exports = Main;
+
+// <TabBarIOS.Item
+//   selected={this.state.selectedTab === 'map'}
+//   title="Map"
+//   onPress={ ()=> {
+//     console.log(this.props.onTabIndex);
+//     if (this.state.selectedTab === 'map') {
+//       this.refs.MapRef.popToTop();
+//     } else {
+//       this.setState({
+//         selectedTab: 'map'
+//       });
+//     }
+//   }}>
+//   {this.renderMapView()}
+// </TabBarIOS.Item>
