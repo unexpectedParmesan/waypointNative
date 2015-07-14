@@ -14,7 +14,7 @@ class Create extends React.Component {
         <Text style={styles.description}>{this.props.test}</Text>
       </View>
     )
-  }
-}
+  } // end of render()
+} // end of Create class
 
 module.exports = Create;
