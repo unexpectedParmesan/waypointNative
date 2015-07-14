@@ -74,7 +74,7 @@ class Browse extends React.Component {
     // "push a new view"
     this.props.navigator.push({
       backButtonTitle: ' ',
-      title: path.title,
+      title: 'Path Details',
       component: Detail,
       passProps: { details: path }
     })

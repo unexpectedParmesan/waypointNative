@@ -65,7 +65,8 @@ class Main extends React.Component {
         style={styles.wrapper}
         initialRoute={{
           title: 'Browse Paths',
-          component: Browse
+          backButtonTitle: ' ',
+          component: Browse,
         }}/>
     )
   }
@@ -76,6 +77,7 @@ class Main extends React.Component {
         style={styles.wrapper}
         initialRoute={{
         title: 'Map View',
+        backButtonTitle: ' ',
         component: Map,
         }}/>
     )
@@ -87,6 +89,7 @@ class Main extends React.Component {
         style={styles.wrapper}
         initialRoute={{
           title: 'Create Path',
+          backButtonTitle: ' ',
           component: Create,
           passProps: { test: "HEYA! I'M THE CREATE VIEW!! "}
         }}/>
