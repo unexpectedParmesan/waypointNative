@@ -9,6 +9,8 @@ var {
   ScrollView,
 } = React;
 
+var Map = require('../../Map/map.index.js');
+
 class Detail extends React.Component {
   render () {
     console.log(this.props);
@@ -42,6 +44,7 @@ class Detail extends React.Component {
               <Text style={styles.description}>{this.props.details.description}</Text>
             </View>
             <TouchableHighlight 
+              onPress={this.renderPath.bind(this, this.props)}
               underlayColor={'#2f8d58'}
               style={styles.startQuestButton}>
               <Text style={styles.buttonText}>
@@ -52,6 +55,18 @@ class Detail extends React.Component {
       </ScrollView>
     )
   } 
+
+  renderPath (props) {
+    console.log(props);
+    this.props.navigator.push({
+      title: '',
+      component: Map,
+      passProps: {
+        start: this.props.details.start
+      }
+    })
+
+  }
 };
 
 module.exports = Detail;
