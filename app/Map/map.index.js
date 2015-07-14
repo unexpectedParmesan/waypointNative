@@ -125,7 +125,7 @@ class Map extends React.Component {
           annotations={ [this.state.currentWaypoint] }
          />
          <Text style={styles.coords}>
-           Distance: {this.state.currentMiles}, {this.state.currentTime}
+           Distance: {this.state.currentMiles}
          </Text>
       </View>
     );
