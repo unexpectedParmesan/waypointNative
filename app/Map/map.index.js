@@ -18,7 +18,7 @@ class Map extends React.Component {
     // super(props) creates a new instance of the superclass
     // In this case the superclass is React.Component
     // super(props) does the same thing that SuperClass.call(this, props) does in pseudoclassical style
-    // super() MUST be called beforing refering to the 'this' of the Waypoint subclass
+    // super() MUST be called before refering to the 'this' of the Waypoint subclass
     super(props); 
     this.state = {
       position: {
