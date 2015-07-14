@@ -3,7 +3,7 @@ var Path = require('./path.js');
 
 var Waypoint = db.Model.extend({
 	tableName: 'waypoints',
-	path: function() {
+	waypoint: function() {
 		return this.belongsTo('Path', 'path_id');
 	}
 });
