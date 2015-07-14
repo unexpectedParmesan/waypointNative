@@ -89,7 +89,7 @@ class Map extends React.Component {
       directions.legs = mapquestDirections.route.legs;
       context.setState({directions}, () => {
         context.setState({miles: directions.distance}, () => {
-          context.setState({currentMiles: context.state.miles});
+          context.setState({currentMiles: context._milesToEnglish(context.state.miles)});
         });
         context.setState({time: directions.time}, () => {
           context.setState({currentTime: context.state.time});
@@ -125,7 +125,7 @@ class Map extends React.Component {
           annotations={ [this.state.currentWaypoint] }
          />
          <Text style={styles.coords}>
-           Distance: {this.state.currentMiles}, {this.state.currentTime}
+           Distance: {this.state.currentMiles}
          </Text>
       </View>
     );
@@ -163,20 +163,43 @@ class Map extends React.Component {
   }
 
   _initPath() {
-    // somehow handle the first leg: dist from current position to first waypoint
     this._getDirectionsToNextPoint();
+  }
+
+  _roundMiles(miles) {
+    var leftOfDecimal = Math.trunc(miles);
+    var rightOfDecimal = (miles - leftOfDecimal + '').split('.')[1];
+    rightOfDecimal = rightOfDecimal.slice(0, 2);
+    return leftOfDecimal + '.' + rightOfDecimal;
+  }
+
+  _milesToEnglish(miles) {
+    if (miles === 0) {
+      return '0 ft';
+    }
+    if (miles > 0.18) {
+      var rounded = this._roundMiles(miles);
+      return rounded + ' mi';
+    } else {
+      var feet = miles * 5280 + '';
+      return feet.split('.')[0] + ' ft';
+    }
   }
 
   _getCurrentDistanceInMiles() {
     if (this.state.miles === 0 || this.state.currentDistance === 0 || this.state.distance === 0) {
       return 0;
     }
-    return this.state.miles * (this.state.currentDistance / this.state.distance);
+    var miles = this.state.miles * (this.state.currentDistance / this.state.distance);
+    return this._milesToEnglish(miles);
   }
 
   // this function will execute after rendering on the client occurs
   componentDidMount() {
    
+    console.log(this._milesToEnglish(0.134567));
+    console.log(this._milesToEnglish(0.74111111));
+    console.log(this._milesToEnglish(1.23456));
     // navigator is available via the Geolocation polyfill in React Native
     // http://facebook.github.io/react-native/docs/geolocation.html#content
     //
