@@ -1,6 +1,7 @@
 var express = require("express");
-var router = require("./router.js");
+// var router = require("./router.js");
 var bodyParser = require("body-parser");
+var pathController = require('./Controllers/pathController.js');
 
 
 var db = require("./db/config.js");
@@ -9,9 +10,16 @@ var app = express();
 app.use(bodyParser.json());
 
 app.set("port", process.env.PORT || 3000);
-console.log('Server listening on port ' + app.get('port'));
+var server = app.listen(app.get('port'), function() {
+  console.log('Server listening on port ' + app.get('port'));
+});
 
-app.use("/", router);
+app.get('/paths', function(req, res) {
+  pathController.getAllPaths(req, res);
+});
 
-module.exports.app = app;
 
+// WE'LL START USING A ROUTER WHEN THINGS GET MORE COMPLEX
+// app.use("/", router);
+
+module.exports = app;
