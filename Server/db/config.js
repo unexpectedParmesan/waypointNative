@@ -21,7 +21,7 @@ db.knex.schema.hasTable('paths').then(function(exists) {
 			path.string('description', 5000);
 			path.string('estimated_time', 100);
 			// Creates created_at and updated_at columns
-			// path.timestamps();
+			path.timestamps();
 		}).then(function(table){
 			console.log('Created table', table);
 		});
@@ -39,7 +39,7 @@ db.knex.schema.hasTable('waypoints').then(function(exists) {
 			waypoint.string('title', 100);
 			waypoint.string('description', 5000);
 			// Creates created_at and updated_at columns
-			// path.timestamps();
+			path.timestamps();
 		}).then(function(table){
 			console.log('Created table', table);
 		});
