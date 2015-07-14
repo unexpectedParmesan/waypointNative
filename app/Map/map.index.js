@@ -94,7 +94,7 @@ class Map extends React.Component {
           context.setState({currentTime: context.state.time});
         });
         context.setState({distance: context._getDistanceToNextPoint()});
-        setTimeout(context._handleArrival.bind(context), 12000);  
+        // setTimeout(context._handleArrival.bind(context), 12000);  
       });
       console.log('Current waypoint: ', context.state.currentWaypoint);
       console.log('Directions in state: ', context.state.directions);
@@ -200,9 +200,9 @@ class Map extends React.Component {
           context.setState({currentMiles: context._getCurrentDistanceInMiles()});
         });  
       });
-      // if (context.state.currentDistance <= 0.0005) {
-      //   context._handleArrival();
-      // }
+      if (context.state.currentDistance <= 0.0005) {
+        context._handleArrival();
+      }
     });
 
   }
