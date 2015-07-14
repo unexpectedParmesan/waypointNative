@@ -29,9 +29,13 @@ class Main extends React.Component {
           selected={this.state.selectedTab === 'browse'}
           title="Browse"
           onPress={ ()=> {
-            this.setState({
-              selectedTab: 'browse'
-            });
+            if (this.state.selectedTab === 'browse'){
+              this.refs.BrowseRef.popToTop();
+            } else {
+              this.setState({
+                selectedTab: 'browse'
+              });
+            }
           }}>
           {this.renderBrowseView()}
         </TabBarIOS.Item>
@@ -39,9 +43,13 @@ class Main extends React.Component {
           selected={this.state.selectedTab === 'map'}
           title="Map"
           onPress={ ()=> {
-            this.setState({
-              selectedTab: 'map'
-            });
+            if (this.state.selectedTab === 'map') {
+              this.refs.MapRef.popToTop();
+            } else {
+              this.setState({
+                selectedTab: 'map'
+              });
+            }
           }}>
           {this.renderMapView()}
         </TabBarIOS.Item>
@@ -49,9 +57,13 @@ class Main extends React.Component {
           selected={this.state.selectedTab === 'create'}
           title="Create"
           onPress={ ()=> {
-            this.setState({
-              selectedTab: 'create'
-            });
+            if (this.state.selectedTab === 'create') {
+              this.refs.CreateRef.popToTop();
+            } else {
+              this.setState({
+                selectedTab: 'create'
+              });
+            }
           }}>
           {this.renderCreateView()}
           </TabBarIOS.Item>
@@ -63,6 +75,7 @@ class Main extends React.Component {
     return (
       <NavigatorIOS 
         style={styles.wrapper}
+        ref="BrowseRef"
         initialRoute={{
           title: 'Browse Paths',
           backButtonTitle: ' ',
@@ -75,6 +88,7 @@ class Main extends React.Component {
     return (
       <NavigatorIOS 
         style={styles.wrapper}
+        ref="MapRef"
         initialRoute={{
         title: 'Map View',
         backButtonTitle: ' ',
@@ -87,6 +101,7 @@ class Main extends React.Component {
     return (
       <NavigatorIOS 
         style={styles.wrapper}
+        ref="CreateRef"
         initialRoute={{
           title: 'Create Path',
           backButtonTitle: ' ',
