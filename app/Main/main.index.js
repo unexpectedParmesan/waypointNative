@@ -17,7 +17,7 @@ class Main extends React.Component {
     this.state = {
       selectedTab: 'browse'
     };
-  }
+  } // end of constructor()
 
   render () {
     return (
@@ -55,7 +55,7 @@ class Main extends React.Component {
           </TabBarIOS.Item>
       </TabBarIOS>
     )
-  }
+  } // end of render()
 
   renderBrowseView(){
     return (
@@ -69,7 +69,7 @@ class Main extends React.Component {
           passProps: { ref: this.refs }
         }}/>
     )
-  }
+  } // end of renderBrowseView()
 
   // renderMapView(){
   //   return (
@@ -96,9 +96,9 @@ class Main extends React.Component {
           passProps: { test: "HEYA! I'M THE CREATE VIEW!! "}
         }}/>
     )
-  }
+  } // end of renderCreateView()
 
-};
+}; // end of Main class
 
 module.exports = Main;
 

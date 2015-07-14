@@ -14,7 +14,6 @@ var Map = require('../../Map/map.index.js');
 
 class Detail extends React.Component {
   render () {
-    console.log(this.props);
     return (
       <ScrollView 
         onScroll={() => { console.log('onScroll!'); }}
@@ -55,18 +54,18 @@ class Detail extends React.Component {
         </View>
       </ScrollView>
     )
-  } 
+  } // end of render()
 
   renderPath (props) {
     this.props.navigator.push({
       title: this.props.details.title,
       component: Map,
       passProps: {
-        start: this.props.details.start
+        numWaypoints: this.props.details.waypoints.length,
+        path: this.props.details 
       }
-    })
-
-  }
-};
+    }) // end of props.navigator.push()
+  } // end of renderPath()
+}; // end of Detail class
 
 module.exports = Detail;
