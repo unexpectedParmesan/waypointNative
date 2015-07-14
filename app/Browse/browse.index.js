@@ -23,7 +23,7 @@ class Browse extends React.Component {
     var paths = [
         {title: 'Seaside Bike Ride', numWaypoints: '0', length: '23 miles', estimated_time: '45 minutes', creator: "DK", description: 'Pleasant bike ride along ocean beach in SF. Pray for sun or else it might not be so pleasant!'},
         {title: 'Pub Crawl', numWaypoints: '5', length: '1.25 miles', estimated_time: '4 hours', creator: "DK", description: 'Hope you\'re thirsty'},
-        {title: 'SF Tour', numWaypoints: '9', length: '8 miles', estimated_time: '3 hours', creator: "DK", description: 'Tour of San Francisco. Includes audio commentary, pleasant and gross smells, lovely and ugly views, and much, much, more.'},
+        {title: 'SF Tour', numWaypoints: '9', length: '8 miles', estimated_time: '3 hours', creator: "DK", description: 'Tour of San Francisco. Includes audio commentary, pleasant and gross smells, lovely and ugly views, and much, much, more. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed posuere consectetur est at lobortis. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.'},
     ];
 
     this.setState({
