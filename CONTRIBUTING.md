@@ -1,5 +1,17 @@
 # Contributing
 
+## Testing on an iOS Device
+
+If these steps are confusing, see the [official React Native guide](https://facebook.github.io/react-native/docs/runningondevice.html#content)
+
+1. Have a valid developer profile loaded (Xcode > Preferences > Accounts)
+1. Plug in your phone via USB
+1. In Xcode, select Product > Destination > Your iPhone
+1. In `iOS/AppDelegate.m`, comment out line 34, uncomment line 46
+1. From the repo root do `react-native bundle` and wait for the build to complete
+1. With your phone unlocked and on the home screen, click the play button (or CMD + R) in Xcode
+
+
 ## General Workflow
 
 1. Fork the repo
@@ -22,7 +34,7 @@
    reviews is to help keep the codebase clean and of high quality and, equally
    as important, to help you grow as a programmer. If your code reviewer
    requests you make a change you don't understand, ask them why.
-1. Fix any issues raised by your code reviwer, and push your fixes as a single
+1. Fix any issues raised by your code reviewer, and push your fixes as a single
    new commit.
 1. Once the pull request has been reviewed, it will be merged by another member of the team. Do not merge your own commits.
 
@@ -53,7 +65,7 @@ These commands will help you do this:
 git checkout -b `your-branch-name`
 ```
 
-### Make commits to your feature branch. 
+### Make commits to your feature branch.
 
 Prefix each commit like so
   - (feat) Added a new feature
