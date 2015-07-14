@@ -42,6 +42,13 @@ class Browse extends React.Component {
 
   renderPath(path) {
     console.log(path);
+    var description = '';
+    if (path.description.length >= 100) {
+      description = path.description.substring(0, 105) + '...';
+    } else {
+      description = path.description;
+    }
+
     return (
       <TouchableHighlight style={styles.item}
         onPress={this.renderDetailView.bind(this, path)}
@@ -53,7 +60,9 @@ class Browse extends React.Component {
             {path.numWaypoints} stops - {path.length} - {path.estimated_time}</Text>
           </View>
           <View>  
-            <Text style={styles.description}>{path.description}</Text>
+            <Text style={styles.description}> 
+              {description}
+            </Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -65,7 +74,7 @@ class Browse extends React.Component {
     // "push a new view"
     this.props.navigator.push({
       backButtonTitle: ' ',
-      title: path.title,
+      title: 'Path Details',
       component: Detail,
       passProps: { details: path }
     })
