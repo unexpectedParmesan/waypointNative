@@ -53,6 +53,7 @@ class Map extends React.Component {
       currentTime: 0,
       current: 0,
       directions: {},
+      alertShowing: false
     };
     this.state.currentWaypoint = this.state.waypoints.annotations[0];
   } // look ma, no commas!
@@ -134,6 +135,7 @@ class Map extends React.Component {
     console.log('Moving on!');
     var next = this.state.current < this.state.waypoints.number - 1 ? this.state.current + 1 : null;
     var context = this;
+    this.state.alertShowing = false;
     this.setState({current: next}, () => {
       if (next) {
         context.setState({currentWaypoint: context.state.waypoints.annotations[next]}, () => {       
@@ -149,6 +151,7 @@ class Map extends React.Component {
     var next = this.state.current < this.state.waypoints.number - 1 ? this.state.current + 1 : null;
     var alertText = next ? 'Next Waypoint' : 'Done!';
     if (currentWaypoint) {
+      this.state.alertShowing = true;
       AlertIOS.alert(
         'Arrived at '  + currentWaypoint.title,
         currentWaypoint.subtitle,
@@ -196,13 +199,15 @@ class Map extends React.Component {
     );
     navigator.geolocation.watchPosition((position) => {
       context.setState({position}, () => {
-        context.setState({currentDistance: context._getDistanceToNextPoint()}, () => {
-          context.setState({currentMiles: context._getCurrentDistanceInMiles()});
-        });  
+        if (context.state.current !== null) {
+          context.setState({currentDistance: context._getDistanceToNextPoint()}, () => {
+            context.setState({currentMiles: context._getCurrentDistanceInMiles()});
+            if (context.state.currentDistance <= 0.0005 && !context.state.alertShowing) {
+              context._handleArrival();
+            }
+          });  
+        }
       });
-      if (context.state.currentDistance <= 0.0005) {
-        context._handleArrival();
-      }
     });
 
   }
