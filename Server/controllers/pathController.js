@@ -1,4 +1,4 @@
-var db = require('../db/config.js');
+// var db = require('../db/config.js');
 var url = require('url');
 
 var Path = require('../db/models/path.js');
@@ -8,15 +8,26 @@ var Waypoints = require('../db/collections/waypoints');
 
 module.exports = {
 
-  getPath: function(req, res){
-  	var pathTitle = req.body.title;
 
-  	Path.forge().where({title: pathTitle}).fetchOne()
-  	  .then(function(model){
-  	  	//Log path to console for testing - remove for production
-  	  	console.log(model);
-  	  	res.status(200).send(model);
-  	  });
+  // USE LATER IF NECESSARY
+
+  // getPath: function(req, res){
+  // 	var pathTitle = req.body.title;
+  //
+  // 	Path.forge().where({title: pathTitle}).fetchOne()
+  // 	  .then(function(model){
+  // 	  	//Log path to console for testing - remove for production
+  // 	  	console.log(model);
+  // 	  	res.status(200).send(model);
+  // 	  });
+  // },
+
+  getAllPaths: function(req, res) {
+    new Path().fetchAll({
+      withRelated: 'waypoints'
+    }).then(function(collection) {
+      res.status(200).send(collection);
+    });
   },
 
   makePath: function(req, res){
