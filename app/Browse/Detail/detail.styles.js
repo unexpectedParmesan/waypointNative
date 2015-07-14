@@ -56,12 +56,6 @@ var styles = StyleSheet.create({
     fontSize: 20,
     color: '#FFFFFF',
     textAlign: 'center',
-    // shadowOffset: {
-    //   width: 10,
-    //   height: 10
-    // },
-    // shadowRadius: 1,
-    // shadowColor: '#000000',
     borderBottomWidth: 1,
     borderRightWidth: 1,
     borderBottomColor: '#000000',
