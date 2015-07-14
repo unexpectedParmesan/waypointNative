@@ -1,6 +1,6 @@
 var React = require('react-native');
 var styles = require('./map.styles.js');
-var secrets = require('../../secrets.js');
+var secrets = require('../../secrets.js'); // for access to .gitignored API keys
 
 var {
   Text,
@@ -22,9 +22,9 @@ class Map extends React.Component {
     super(props); 
     this.state = {
       position: {
-        coords: {}
+        coords: {} // initializes geolocation coordinates to be populated by navigator
       },
-      waypoints: {
+      waypoints: { // hard-coded path: this will soon be passed in as props
         annotations: [{
                        latitude: 37.783872,
                        longitude: -122.408972,
@@ -43,30 +43,39 @@ class Map extends React.Component {
                        title: 'Tempest',
                        subtitle: 'Beer!',
                       }],
-        number: 3
+        number: 3 // number of waypoints in the path. this will also be passed in as props
       },
-      distance: 0,
-      currentDistance: 0,
-      miles: 0,
-      currentMiles: 0,
-      time: 0,
-      currentTime: 0,
-      current: 0,
-      directions: {},
-      alertShowing: false
+      /*  coordinate distance between waypoints (computed using pythygorean theorem) --
+          used for live-updating distance in miles via proportion to coordinate distance
+       */
+      distance: 0, // coordinate distance between waypoints (computed using pythygorean theorem)
+      currentDistance: 0, // current distance from next waypoint
+      miles: 0, // distance in miles between waypoints (fetched via one API call)
+      currentMiles: 0, // human-readable distance in miles from next waypoint
+      // time: 0,  // uncomment if we want to track estimated time
+      // currentTime: 0, // uncomment if we want to track estimated time
+      currentIndex: 0, // index of current waypoint; may be made obsolete after db integration
+      directions: {}, // initialized object to hold MapQuest data
+      alertShowing: false // tells whether an IOSAlert is currently showing: prevents 
     };
-    this.state.currentWaypoint = this.state.waypoints.annotations[0];
+    this.state.currentWaypoint = this.state.waypoints.annotations[0]; // initializes current waypoint
   } // look ma, no commas!
 
 
+  /* Returns distance in coordinates (calculated using the pythygorean theorem) between the user's current position and
+   * the next waypoint.
+  */
   _getDistanceToNextPoint() {
     var pos1 = this.state.position.coords;
-    var pos2 = this.state.waypoints.annotations[this.state.current];
+    var pos2 = this.state.currentWaypoint;
     var latDist = pos1.latitude - pos2.latitude;
     var longDist = pos1.longitude - pos2.longitude;
     return Math.sqrt( Math.pow(latDist, 2) + Math.pow(longDist, 2) );
   }
 
+   /* Returns the url required for a MapQuest directions API call that returns distance in miles, along with
+    * a good deal of unused information.
+   */
   _getDirectionsUrl() {
     var pos1 = this.state.position.coords;
     var pos2 = this.state.currentWaypoint;
@@ -81,48 +90,41 @@ class Map extends React.Component {
     var context = this;
     fetch(url)
      .then((response) => {
-      console.log('response from server: ', response);
       var mapquestDirections = JSON.parse(response._bodyText);
       var directions = {};
       directions.distance = mapquestDirections.route.distance;
-      directions.time = mapquestDirections.route.formattedTime;
-      directions.legs = mapquestDirections.route.legs;
+      // directions.time = mapquestDirections.route.formattedTime; // useful only if we want to display est. time info
+      // directions.legs = mapquestDirections.route.legs; // useful only if we want to give explicit directions
       context.setState({directions}, () => {
         context.setState({miles: directions.distance}, () => {
           context.setState({currentMiles: context._milesToEnglish(context.state.miles)});
         });
-        context.setState({time: directions.time}, () => {
-          context.setState({currentTime: context.state.time});
-        });
+        // context.setState({time: directions.time}, () => {
+        //   context.setState({currentTime: context.state.time}); // uncomment if we want to display estimated time
+        // });
         context.setState({distance: context._getDistanceToNextPoint()});
-        // setTimeout(context._handleArrival.bind(context), 12000);  
+        // setTimeout(context._handleArrival.bind(context), 12000); // desktop debugging code for simulating arrival
       });
-      console.log('Current waypoint: ', context.state.currentWaypoint);
-      console.log('Directions in state: ', context.state.directions);
-      console.log('Current index: ', context.state.current);
      })
      .catch((error) => {
       console.warn(error);
      });
   }
 
-  //Add title and current location to map
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>
-          Waypoint
-        </Text>
+        <Text style={styles.title}></Text> // title: displays above map; passed in as a property
         <MapView
           style={styles.map}
           region={{
-            latitude: this.state.position.coords.latitude,
-            latitudeDelta: 0.001,
-            longitude: this.state.position.coords.longitude,
-            longitudeDelta: 0.001,
+            latitude: this.state.position.coords.latitude || 37.785834, // latitude of map center
+            latitudeDelta: 0.001, // governs map height
+            longitude: this.state.position.coords.longitude || -122.406417, // longitude of map center
+            longitudeDelta: 0.001, // governs map width
           }}
-          showsUserLocation={true}
-          annotations={ [this.state.currentWaypoint] }
+          showsUserLocation={true} // displays blue dot for current user location
+          annotations={ [this.state.currentWaypoint] } // pins shown on map; needs to be an array
          />
          <Text style={styles.coords}>
            Distance: {this.state.currentMiles}
@@ -131,9 +133,11 @@ class Map extends React.Component {
     );
   }
 
+  /* Invoked when the user presses "next" in an alert.
+   * Updates the state as the user moves on to the next waypoint.
+  */
   _onNextPress()  {
-    console.log('Moving on!');
-    var next = this.state.current < this.state.waypoints.number - 1 ? this.state.current + 1 : null;
+    var next = this.state.currentIndex < this.state.waypoints.number - 1 ? this.state.currentIndex + 1 : null;
     var context = this;
     this.state.alertShowing = false;
     this.setState({current: next}, () => {
@@ -148,7 +152,7 @@ class Map extends React.Component {
   _handleArrival() {
     var context = this;
     var currentWaypoint = this.state.waypoints.annotations[this.state.current];
-    var next = this.state.current < this.state.waypoints.number - 1 ? this.state.current + 1 : null;
+    var next = this.state.currentIndex < this.state.waypoints.number - 1 ? this.state.currentIndex + 1 : null;
     var alertText = next ? 'Next Waypoint' : 'Done!';
     if (currentWaypoint) {
       this.state.alertShowing = true;
@@ -197,9 +201,6 @@ class Map extends React.Component {
   // this function will execute after rendering on the client occurs
   componentDidMount() {
    
-    console.log(this._milesToEnglish(0.134567));
-    console.log(this._milesToEnglish(0.74111111));
-    console.log(this._milesToEnglish(1.23456));
     // navigator is available via the Geolocation polyfill in React Native
     // http://facebook.github.io/react-native/docs/geolocation.html#content
     //
@@ -222,7 +223,7 @@ class Map extends React.Component {
     );
     navigator.geolocation.watchPosition((position) => {
       context.setState({position}, () => {
-        if (context.state.current !== null) {
+        if (context.state.currentIndex !== null) {
           context.setState({currentDistance: context._getDistanceToNextPoint()}, () => {
             context.setState({currentMiles: context._getCurrentDistanceInMiles()});
             if (context.state.currentDistance <= 0.0005 && !context.state.alertShowing) {
