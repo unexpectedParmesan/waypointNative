@@ -37,7 +37,7 @@ class Browse extends React.Component {
        .done();
   } // end of componentWillMount()
 
-  // In ListView render each path using renderRow()
+
   render() {
     return (
         <ListView

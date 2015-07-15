@@ -182,7 +182,6 @@ class Map extends React.Component {
     //
     // getCurrentPosition() and watchPostion() take a success callback, error callback, and options object 
     var context = this;
-
     navigator.geolocation.getCurrentPosition(
       (position) => { // success callback: sets initial position and initializes first waypoint
         context.setState({position}, () => {
