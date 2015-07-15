@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react-native');
 var styles = require('./detail.styles.js');
 
@@ -13,6 +15,7 @@ var {
 var Map = require('../../Map/map.index.js');
 
 class Detail extends React.Component {
+  // When 'Start Quest' button is pressed, renderPath() is called
   render () {
     return (
       <ScrollView 
@@ -56,6 +59,8 @@ class Detail extends React.Component {
     )
   } // end of render()
 
+  // Renders the path on the Map component
+  // Passes the path's details to the Map component
   renderPath (props) {
     this.props.navigator.push({
       title: this.props.details.title,
