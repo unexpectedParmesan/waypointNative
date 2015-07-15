@@ -8,12 +8,12 @@ var {
   NavigatorIOS,
 } = React;
 
-var Browse = require('../Browse/browse.index.js');
+var Play = require('../Play/play.index.js');
 var Map = require('../Map/map.index.js');
 var Create = require('../Create/create.index.js');
 
 class Main extends React.Component {
-  // Default view is 'browse'
+  // Default view is 'play'
   constructor (props) {
     super(props);
     this.state = {
@@ -24,23 +24,23 @@ class Main extends React.Component {
   // - When a tab is clicked on the TabBar, the tab calls the corresponding function which will render that scene.
   render () {
     return (
-      <TabBarIOS 
+      <TabBarIOS
         style={styles.tabBar}
         selectedTab={this.state.selectedTab}>
         <TabBarIOS.Item
           style={styles.description}
-          selected={this.state.selectedTab === 'browse'}
-          title="Browse"
+          selected={this.state.selectedTab === 'play'}
+          title="Play"
           onPress={ ()=> {
-            if (this.state.selectedTab === 'browse'){
-              this.refs.BrowseRef.popToTop();
+            if (this.state.selectedTab === 'play'){
+              this.refs.PlayRef.popToTop();
             } else {
               this.setState({
-                selectedTab: 'browse'
+                selectedTab: 'play'
               });
             }
           }}>
-          {this.renderBrowseView()}
+          {this.renderPlayView()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
           selected={this.state.selectedTab === 'create'}
@@ -60,29 +60,29 @@ class Main extends React.Component {
     )
   } // end of render()
 
-  // renders the Browse Paths list
-  renderBrowseView(){
+  // renders the Play Quests list
+  renderPlayView(){
     return (
-      <NavigatorIOS 
+      <NavigatorIOS
         style={styles.wrapper}
-        ref="BrowseRef"
+        ref="PlayRef"
         initialRoute={{
-          title: 'Browse Paths',
+          title: 'Play Quests',
           backButtonTitle: ' ',
-          component: Browse,
+          component: Play,
           passProps: { ref: this.refs }
         }}/>
     )
-  } // end of renderBrowseView()
+  } // end of renderPlayView()
 
   // renders the Create view
   renderCreateView(){
     return (
-      <NavigatorIOS 
+      <NavigatorIOS
         style={styles.wrapper}
         ref="CreateRef"
         initialRoute={{
-          title: 'Create Path',
+          title: 'Create Quest',
           backButtonTitle: ' ',
           component: Create,
           passProps: { test: "HEYA! I'M THE CREATE VIEW!! "}

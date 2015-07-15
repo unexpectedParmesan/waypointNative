@@ -15,7 +15,7 @@ var {
 var Map = require('../../Map/map.index.js');
 
 class Detail extends React.Component {
-  // When 'Start Quest' button is pressed, renderPath() is called
+  // When 'Start Quest' button is pressed, renderQuest() is called
   render () {
     return (
       <ScrollView 
@@ -47,7 +47,7 @@ class Detail extends React.Component {
               <Text style={styles.description}>{this.props.details.description}</Text>
             </View>
             <TouchableHighlight 
-              onPress={this.renderPath.bind(this, this.props)}
+              onPress={this.renderQuest.bind(this, this.props)}
               underlayColor={'#2f8d58'}
               style={styles.startQuestButton}>
               <Text style={styles.buttonText}>
@@ -59,18 +59,18 @@ class Detail extends React.Component {
     )
   } // end of render()
 
-  // Renders the path on the Map component
-  // Passes the path's details to the Map component
-  renderPath (props) {
+  // Renders the quest on the Map component
+  // Passes the quest's details to the Map component
+  renderQuest (props) {
     this.props.navigator.push({
       title: this.props.details.title,
       component: Map,
       passProps: {
         numWaypoints: this.props.details.waypoints.length,
-        path: this.props.details 
+        quest: this.props.details 
       }
     }) // end of props.navigator.push()
-  } // end of renderPath()
+  } // end of renderQuest()
 }; // end of Detail class
 
 module.exports = Detail;

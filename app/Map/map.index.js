@@ -20,8 +20,8 @@ class Map extends React.Component {
         coords: {} // initializes geolocation coordinates to be populated by navigator
       },
       waypoints: {
-        annotations: props.path.waypoints, //array of waypoints
-        number: props.numWaypoints // number of waypoints in the path
+        annotations: props.quest.waypoints, //array of waypoints
+        number: props.numWaypoints // number of waypoints in the quest
       },
       /*  coordinate distance between waypoints (computed using pythygorean theorem) --
           used for live-updating distance in miles via proportion to coordinate distance
@@ -115,7 +115,7 @@ class Map extends React.Component {
    * Updates the state as the user moves on to the next waypoint.
   */
   _onNextPress()  {
-    // checks whether we have reached the end of the path. if so, does not move on.
+    // checks whether we have reached the end of the quest. if so, does not move on.
     var next = this.state.currentIndex < this.state.waypoints.number - 1 ? this.state.currentIndex + 1 : null;
     var context = this;
     this.state.alertShowing = false; // hack to avoid buggy alert behavior
@@ -149,10 +149,10 @@ class Map extends React.Component {
     }
   }
 
-  /* Called at initialization to start the user along the path. (Needed because the rest of the logic is kicked off by
+  /* Called at initialization to start the user along the quest. (Needed because the rest of the logic is kicked off by
    * arrival at successive waypoints)
   */
-  _initPath() {
+  _initQuest() {
     this._getDirectionsToNextPoint();
   }
 
@@ -176,7 +176,7 @@ class Map extends React.Component {
     // navigator is the object through which you interact with the Geolocation interface
     //
     // *** Polyfill definition needs to be verified
-    // React Native allows for polyfills--code that provides functionality available in the browser, but
+    // React Native allows for polyfills--code that provides functionality available in the playr, but
     // that is not currently available in the runtime environment on mobile devices ***
     // Geolocation is enabled by default when you create a project with react-native init.
     //
@@ -186,7 +186,7 @@ class Map extends React.Component {
     navigator.geolocation.getCurrentPosition(
       (position) => { // success callback: sets initial position and initializes first waypoint
         context.setState({position}, () => {
-          context._initPath();     
+          context._initQuest();     
         });
       },
       (error) => alert(error.message),
