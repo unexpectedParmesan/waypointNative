@@ -9,7 +9,7 @@
       return '0 ft';
     }
     if (miles > 0.18) {
-      var rounded = this._roundMiles(miles);
+      var rounded = roundMiles(miles);
       return rounded + ' mi';
     } else {
       var feet = miles * 5280 + '';

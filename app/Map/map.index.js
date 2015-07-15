@@ -13,38 +13,24 @@ var {
 
 class Map extends React.Component {
   constructor(props) {
-    super(props); 
+    super(props);
+    console.log('props: ', props);
     this.state = {
       position: {
         coords: {} // initializes geolocation coordinates to be populated by navigator
       },
-      waypoints: { // hard-coded path: this will soon be passed in as props
-        annotations: [{
-                       latitude: 37.781966,
-                       longitude: -122.411277,
-                       title: 'The Hall',
-                       subtitle: 'Hipster eatery',
-                      },
-                      {
-                       latitude: 37.783872,
-                       longitude: -122.408972,
-                       title: 'Hack Reactor',
-                       subtitle: 'Coding!',
-                      },
-                      {
-                       latitude: 37.781342,
-                       longitude: -122.406273,
-                       title: 'Tempest',
-                       subtitle: 'Beer!',
-                      }],
-        number: 3 // number of waypoints in the path. this will also be passed in as props
+      waypoints: {
+        annotations: props.path.waypoints, //array of waypoints
+        number: props.numWaypoints // number of waypoints in the path
       },
       /*  coordinate distance between waypoints (computed using pythygorean theorem) --
           used for live-updating distance in miles via proportion to coordinate distance
        */
       distance: 0, // coordinate distance between waypoints (computed using pythygorean theorem)
       currentDistance: 0, // current distance from next waypoint
-      miles: 0, // distance in miles between waypoints (fetched via one API call)
+      latitudeDelta: 0.001,
+      longitudeDelta: 0.001,
+      miles: 0, // distance in miles between waypoints (fetched via one API call per point)
       currentMiles: 'loading...', // human-readable distance in miles from next waypoint
       // time: 0,  // uncomment if we want to track estimated time
       // currentTime: 0, // uncomment if we want to track estimated time
@@ -84,6 +70,18 @@ class Map extends React.Component {
      });
   }
 
+  /* Returns the height or width that the map should have to accomodate both the user's current location and the
+   * current waypoint.
+   * axis must be either "longitude" or "latitude".
+  */
+  _getCoordinateDelta(axis) {
+    if (!this.state.position.coords[axis] || !this.state.currentWaypoint[axis]) {
+      return 0.001;
+    }
+    return Math.max(0.001, Math.abs(this.state.position.coords[axis] - this.state.currentWaypoint[axis]) * 2.5);
+  }
+
+
   /* Renders title, map, and distance from next waypoint.
   * The title is passed in as a property and appears in the first Text component.
   * In MapView, latitude/longitude appear at the center of the map;
@@ -99,9 +97,9 @@ class Map extends React.Component {
           style={styles.map}
           region={{
             latitude: this.state.position.coords.latitude || 37.785834,
-            latitudeDelta: 0.001,
+            latitudeDelta: this.state.latitudeDelta,
             longitude: this.state.position.coords.longitude || -122.406417,
-            longitudeDelta: 0.001,
+            longitudeDelta: this.state.longitudeDelta
           }}
           showsUserLocation={true}
           annotations={ [this.state.currentWaypoint] }
@@ -143,7 +141,7 @@ class Map extends React.Component {
       this.state.alertShowing = true;
       AlertIOS.alert(
         'Arrived at ' + this.state.currentWaypoint.title,
-        context.state.currentWaypoint.subtitle,
+        context.state.currentWaypoint.description,
         [
           {text: alertText, onPress: context._onNextPress.bind(context)}, // registers callback for alert press
         ]
@@ -206,6 +204,8 @@ class Map extends React.Component {
             // updates current-distance-related state variables
             context.setState({
               currentDistance: utils.coordinateDistance(context.state.position.coords, context.state.currentWaypoint)}, () => {
+              context.setState({latitudeDelta: context._getCoordinateDelta('latitude'), // updates region for map display
+                                longitudeDelta: context._getCoordinateDelta('longitude')});
               context.setState({currentMiles: context._getCurrentDistanceInMiles()});
               // sets off arrival logic if we're close enough to waypoint
               if (context.state.currentDistance <= 0.0005 && !context.state.alertShowing) {
