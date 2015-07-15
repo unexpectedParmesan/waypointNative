@@ -13,6 +13,7 @@
     "mysql": "^2.7.0",
     "react-native": "^0.6.0",
     "react-native-keyboardevents": "^0.4.4",
+    "react-native-facebook-login": "^0.5.0",
     "react-native-vector-icons": "^0.6.3"
   },
   "devDependencies": {
