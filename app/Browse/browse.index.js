@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react-native');
 var styles = require('./browse.styles.js');
 
@@ -19,8 +21,10 @@ class Browse extends React.Component {
     };
   } // end of constructor()
 
+  // Before the scene is mounted, fetch all paths from /paths API endpoint
+  // Update this.state.dataSource using fetched data
   componentWillMount() {
-    fetch('http://localhost:3000/paths')
+    fetch('https://waypointserver.herokuapp.com/paths')
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
@@ -33,6 +37,7 @@ class Browse extends React.Component {
        .done();
   } // end of componentWillMount()
 
+  // In ListView render each path using renderRow()
   render() {
     return (
         <ListView
@@ -42,7 +47,9 @@ class Browse extends React.Component {
     )
   } // end of render()
 
+  // Render each path in the list
   renderPath(path) {
+    // If the path is longer than 100 characters, show a portion of description and add ellipses
     var description = '';
     if (path.description.length >= 100) {
       description = path.description.substring(0, 105) + '...';
@@ -50,6 +57,7 @@ class Browse extends React.Component {
       description = path.description;
     }
 
+    // The onPress event will call the renderDetailView() function to render the Detail View for the path
     return (
       <TouchableHighlight style={styles.item}
         onPress={this.renderDetailView.bind(this, path)}
@@ -70,6 +78,7 @@ class Browse extends React.Component {
     ) 
   } // end of renderPath()
 
+  // Renders the path's Detail View
   renderDetailView(path) {
     // "push a new view"
     this.props.navigator.push({
