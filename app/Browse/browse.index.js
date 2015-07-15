@@ -81,19 +81,19 @@ class Browse extends React.Component {
             <Text style={styles.details}>
             {path.waypoints.length} stops - {path.length} - {path.estimated_time}</Text>
           </View>
-          <View>  
-            <Text style={styles.description}> 
+          <View>
+            <Text style={styles.description}>
               {description}
             </Text>
           </View>
         </View>
       </TouchableHighlight>
-    ) 
+    )
   } // end of renderPath()
 
-  // Renders the quest's Detail View 
+  // Renders the quest's Detail View
   renderDetailView(path) {
-    // render the scene with the navigator object to allow 
+    // render the scene with the navigator object to allow
     // the user to navigate back to the main ListView from the Detail View
     this.props.navigator.push({
       backButtonTitle: ' ',
