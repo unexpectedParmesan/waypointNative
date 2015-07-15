@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react-native');
 var styles = require('./main.styles.js')
 
@@ -6,12 +8,12 @@ var {
   NavigatorIOS,
 } = React;
 
-// Components
 var Browse = require('../Browse/browse.index.js');
 var Map = require('../Map/map.index.js');
 var Create = require('../Create/create.index.js');
 
 class Main extends React.Component {
+  // Default view is 'browse'
   constructor (props) {
     super(props);
     this.state = {
@@ -19,6 +21,7 @@ class Main extends React.Component {
     };
   } // end of constructor()
 
+  // - When a tab is clicked on the TabBar, the tab calls the corresponding function which will render that scene.
   render () {
     return (
       <TabBarIOS 
@@ -57,6 +60,7 @@ class Main extends React.Component {
     )
   } // end of render()
 
+  // renders the Browse Paths list
   renderBrowseView(){
     return (
       <NavigatorIOS 
@@ -71,19 +75,7 @@ class Main extends React.Component {
     )
   } // end of renderBrowseView()
 
-  // renderMapView(){
-  //   return (
-  //     <NavigatorIOS 
-  //       style={styles.wrapper}
-  //       ref="MapRef"
-  //       initialRoute={{
-  //       title: 'Map View',
-  //       backButtonTitle: ' ',
-  //       component: Map,
-  //       }}/>
-  //   )
-  // }
-
+  // renders the Create view
   renderCreateView(){
     return (
       <NavigatorIOS 
@@ -101,19 +93,3 @@ class Main extends React.Component {
 }; // end of Main class
 
 module.exports = Main;
-
-// <TabBarIOS.Item
-//   selected={this.state.selectedTab === 'map'}
-//   title="Map"
-//   onPress={ ()=> {
-//     console.log(this.props.onTabIndex);
-//     if (this.state.selectedTab === 'map') {
-//       this.refs.MapRef.popToTop();
-//     } else {
-//       this.setState({
-//         selectedTab: 'map'
-//       });
-//     }
-//   }}>
-//   {this.renderMapView()}
-// </TabBarIOS.Item>
