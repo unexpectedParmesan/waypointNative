@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var styles = require('./browse.styles.js');
+var styles = require('./play.styles.js');
 
 var {
   Text,
@@ -12,7 +12,7 @@ var {
 
 var Detail = require('./Detail/detail.index.js');
 
-class Browse extends React.Component {
+class Play extends React.Component {
 
   constructor(props){
     super(props);
@@ -21,7 +21,7 @@ class Browse extends React.Component {
     };
   } // end of constructor()
 
-  // Before the scene is mounted, fetch all paths from /paths API endpoint
+  // Before the scene is mounted, fetch all quests from /quests API endpoint
   // Update this.state.dataSource using fetched data
   componentWillMount() {
     fetch('https://waypointserver.herokuapp.com/paths')
@@ -37,57 +37,57 @@ class Browse extends React.Component {
        .done();
   } // end of componentWillMount()
 
-  // In ListView render each path using renderRow()
+  // In ListView render each quest using renderRow()
   render() {
     return (
         <ListView
           style={styles.list}
           dataSource={this.state.dataSource}
-          renderRow={this.renderPath.bind(this)}/>
+          renderRow={this.renderQuest.bind(this)}/>
     )
   } // end of render()
 
-  // Render each path in the list
-  renderPath(path) {
-    // If the path is longer than 100 characters, show a portion of description and add ellipses
+  // Render each quest in the list
+  renderQuest(quest) {
+    // If the quest is longer than 100 characters, show a portion of description and add ellipses
     var description = '';
-    if (path.description.length >= 100) {
-      description = path.description.substring(0, 105) + '...';
+    if (quest.description.length >= 100) {
+      description = quest.description.substring(0, 105) + '...';
     } else {
-      description = path.description;
+      description = quest.description;
     }
 
-    // The onPress event will call the renderDetailView() function to render the Detail View for the path
+    // The onPress event will call the renderDetailView() function to render the Detail View for the quest
     return (
       <TouchableHighlight style={styles.item}
-        onPress={this.renderDetailView.bind(this, path)}
+        onPress={this.renderDetailView.bind(this, quest)}
         underlayColor={'#FFFFFF'}>
         <View>
-          <Text style={styles.title}>{path.title}</Text>
+          <Text style={styles.title}>{quest.title}</Text>
           <View style={styles.detailsContainer}>
             <Text style={styles.details}>
-            {path.waypoints.length} stops - {path.length} - {path.estimated_time}</Text>
+            {quest.waypoints.length} stops - {quest.length} - {quest.estimated_time}</Text>
           </View>
-          <View>  
-            <Text style={styles.description}> 
+          <View>
+            <Text style={styles.description}>
               {description}
             </Text>
           </View>
         </View>
       </TouchableHighlight>
-    ) 
-  } // end of renderPath()
+    )
+  } // end of renderQuest()
 
-  // Renders the path's Detail View
-  renderDetailView(path) {
+  // Renders the quest's Detail View
+  renderDetailView(quest) {
     // "push a new view"
     this.props.navigator.push({
       backButtonTitle: ' ',
-      title: 'Path Details',
+      title: 'Quest Details',
       component: Detail,
-      passProps: { details: path }
+      passProps: { details: quest }
     }) // end of props.navigator.push()
   } // end of renderDetailView()
-} // end of Browse class
+} // end of Play class
 
-module.exports = Browse;
+module.exports = Play;
