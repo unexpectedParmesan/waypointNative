@@ -14,6 +14,7 @@ class Browse extends React.Component {
 
   constructor(props){
     super(props);
+    console.log('props passed to browse: ', props);
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2 }),
       loading: true, // loading animation property

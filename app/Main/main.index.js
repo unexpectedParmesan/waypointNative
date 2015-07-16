@@ -16,6 +16,7 @@ class Main extends React.Component {
   // Default view is 'browse'
   constructor (props) {
     super(props);
+    console.log('props passed into main: ', props);
     this.state = {
       selectedTab: 'browse'
     };
@@ -62,6 +63,7 @@ class Main extends React.Component {
 
   // renders the Browse Paths list
   renderBrowseView(){
+    console.log('user in renderBrowseView: ', this.props.user);
     return (
       <NavigatorIOS 
         style={styles.wrapper}
@@ -70,7 +72,7 @@ class Main extends React.Component {
           title: 'Browse Paths',
           backButtonTitle: ' ',
           component: Browse,
-          passProps: { ref: this.refs }
+          passProps: { ref: this.refs, user: this.props.user }
         }}/>
     )
   } // end of renderBrowseView()
