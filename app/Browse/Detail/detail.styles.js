@@ -49,10 +49,10 @@ var styles = StyleSheet.create({
   },
   startQuestButton: {
     marginTop: 20,
-    backgroundColor: '#38A668',
+    backgroundColor: '#106CC8',
     padding: 15,
     borderWidth: 1,
-    borderColor: '#2f8d58',
+    borderColor: '#0d5ba9',
     borderRadius: 3,
     opacity: 1,
   },

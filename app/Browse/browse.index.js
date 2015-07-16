@@ -24,7 +24,7 @@ class Browse extends React.Component {
   // Before the scene is mounted, fetch all paths from /paths API endpoint
   // Update this.state.dataSource using fetched data
   componentWillMount() {
-    fetch('https://waypointserver.herokuapp.com/paths')
+    fetch('https://waypointserver.herokuapp.com/quests')
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
