@@ -4,9 +4,13 @@ var React = require('react-native');
 var Main = require('./app/Main/main.index.js');
 var styles = require('./app.styles.js');
 
+var FBLogin = require('react-native-facebook-login');
+var FBLoginManager = require('NativeModules').FBLoginManager;
+
 var {
   AppRegistry,
   Navigator,
+  View,
 } = React;
 
 // With subclass definition syntax we extend Component instead of calling createClass
@@ -20,24 +24,128 @@ class Waypoint extends React.Component {
     // super(props) does the same thing that SuperClass.call(this, props) does in pseudoclassical style
     // super() MUST be called before refering to the 'this' of the Waypoint subclass
     super(props);
-    this.state = {}
+    this.state = {
+      user: null
+    }
+  }
+
+  handleLogout() {
+    var _this = this;
+    FBLoginManager.logout(function(error, data){
+      console.log('logging out');
+      console.log('data');
+      if (error) {
+        console.log('error: ', error);
+      } else {
+        _this.setState({user: null});
+      }
+    });
+  }
+
+  renderLogin() {
+    console.log('calling renderLogin');
+    var _this = this;
+    return (
+      <View style={styles.container}>
+        <FBLogin
+          style={{ marginBottom: 10 }}
+          permissions={["email", "user_friends"]}
+          onLogin={function(data) {
+            console.log('Logged in!');
+            console.log(data);
+            _this.setState({user: data.credentials});
+          }}
+          onLoginFound={function(data) {
+            console.log('Existing login found');
+            console.log(data);
+            _this.setState({user: data.credentials});
+          }}
+          onLoginNotFound={function(data) {
+            console.log('No user logged in');
+            _this.setState({user: null});
+          }}
+          onLogout={function(data) {
+            _this.setState({user: null});
+            _this.handleLogout();
+            console.log('logging out');
+          }}
+          onError={function(data) {
+            console.log('ERROR');
+            console.log(data);
+          }}
+          onCancel={function() {
+            console.log('user cancelled');
+          }}
+          onPermissionsMissing={function(data) {
+            console.log('Permissions missing.');
+            console.log(data);
+          }}
+        />
+      </View>
+    );
+  }
+
+  renderIntro() {
+    console.log('calling renderIntro');
+    var _this = this;
+    return (
+      <View>
+        <Navigator
+          style={styles.wrapper}
+          initialRoute={{
+            component: Main
+          }}
+          renderScene={(route, navigator) =>
+            <Main
+              name={route.name}
+              navigator={navigator}/>
+        }/>
+        <FBLogin
+          style={{ marginBottom: 10 }}
+          permissions={["email", "user_friends"]}
+          onLogin={function(data) {
+            console.log('Logged in!');
+            console.log(data);
+            _this.setState({user: data.credentials});
+          }}
+          onLoginFound={function(data) {
+            console.log('Existing login found');
+            console.log(data);
+            _this.setState({user: data.credentials});
+          }}
+          onLoginNotFound={function(data) {
+            console.log('No user logged in');
+            _this.setState({user: null});
+          }}
+          onLogout={function(data) {
+            _this.setState({user: null});
+            _this.handleLogout();
+            console.log('logging out');
+          }}
+          onError={function(data) {
+            console.log('ERROR');
+            console.log(data);
+          }}
+          onCancel={function() {
+            console.log('user cancelled');
+          }}
+          onPermissionsMissing={function(data) {
+            console.log('Permissions missing.');
+            console.log(data);
+          }}
+        />
+      </View>
+    ) 
   }
   // - Waypoint renders a Navigator to render the main app scene
   // - The Navigator component defines Main as its initialRoute
   // - renderScene() renders Main
   render() {
-    return (
-      <Navigator
-        style={styles.wrapper}
-        initialRoute={{
-          component: Main
-        }}
-        renderScene={(route, navigator) =>
-          <Main
-            name={route.name}
-            navigator={navigator}/>
-        }/>
-    )
+    if (this.state.user) {
+      return this.renderIntro();
+    } else {
+      return this.renderLogin();
+    }
   } // end of render()
 } // end of Waypoint
 
