@@ -29,6 +29,18 @@ class Waypoint extends React.Component {
     }
   }
 
+  handleLogout() {
+    var _this = this;
+    FBLoginManager.logout(function(error, data){
+      console.log('logging out');
+      // if (!error) {
+      //   _this.setState({ user : null});
+      // } else {
+      //   console.log(error, data);
+      // }
+    });
+  }
+
   renderLogin() {
     var _this = this;
     return (
@@ -49,6 +61,11 @@ class Waypoint extends React.Component {
           onLoginNotFound={function(data) {
             console.log('No user logged in');
             _this.setState({user: null});
+          }}
+          onLogout={function(data) {
+            _this.setState({user: null});
+            _this.handleLogout();
+            console.log('logging out');
           }}
           onError={function(data) {
             console.log('ERROR');
@@ -84,11 +101,11 @@ class Waypoint extends React.Component {
   // - The Navigator component defines Main as its initialRoute
   // - renderScene() renders Main
   render() {
-    if (this.state.user) {
-      return this.renderIntro();
-    } else {
+    // if (this.state.user) {
+    //   return this.renderIntro();
+    // } else {
       return this.renderLogin();
-    }
+    // }
   } // end of render()
 } // end of Waypoint
 
