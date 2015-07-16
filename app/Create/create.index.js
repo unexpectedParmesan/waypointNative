@@ -1,7 +1,6 @@
 'use strict';
 var React = require('react-native');
 var styles = require('./create.styles.js');
-var Stop = require('./Stop/stop.index.js');
 
 var {
   Text,
@@ -100,7 +99,6 @@ class Create extends React.Component {
       body: JSON.stringify(data)
     })
       .then((responseData) => {
-        
         responseData = JSON.parse(responseData._bodyInit)
         this.saveWaypoints(responseData.id);
       })
