@@ -33,15 +33,17 @@ class Waypoint extends React.Component {
     var _this = this;
     FBLoginManager.logout(function(error, data){
       console.log('logging out');
-      // if (!error) {
-      //   _this.setState({ user : null});
-      // } else {
-      //   console.log(error, data);
-      // }
+      console.log('data');
+      if (error) {
+        console.log('error: ', error);
+      } else {
+        _this.setState({user: null});
+      }
     });
   }
 
   renderLogin() {
+    console.log('calling renderLogin');
     var _this = this;
     return (
       <View style={styles.container}>
@@ -84,43 +86,69 @@ class Waypoint extends React.Component {
   }
 
   renderIntro() {
+    console.log('calling renderIntro');
+    var _this = this;
     return (
-      <Navigator
-        style={styles.wrapper}
-        initialRoute={{
-          component: Main
-        }}
-        renderScene={(route, navigator) =>
-          <Main
-            name={route.name}
-            navigator={navigator}/>
+      <View>
+        <Navigator
+          style={styles.wrapper}
+          initialRoute={{
+            component: Main
+          }}
+          renderScene={(route, navigator) =>
+            <Main
+              name={route.name}
+              navigator={navigator}/>
         }/>
+        <FBLogin
+          style={{ marginBottom: 10 }}
+          permissions={["email", "user_friends"]}
+          onLogin={function(data) {
+            console.log('Logged in!');
+            console.log(data);
+            _this.setState({user: data.credentials});
+          }}
+          onLoginFound={function(data) {
+            console.log('Existing login found');
+            console.log(data);
+            _this.setState({user: data.credentials});
+          }}
+          onLoginNotFound={function(data) {
+            console.log('No user logged in');
+            _this.setState({user: null});
+          }}
+          onLogout={function(data) {
+            _this.setState({user: null});
+            _this.handleLogout();
+            console.log('logging out');
+          }}
+          onError={function(data) {
+            console.log('ERROR');
+            console.log(data);
+          }}
+          onCancel={function() {
+            console.log('user cancelled');
+          }}
+          onPermissionsMissing={function(data) {
+            console.log('Permissions missing.');
+            console.log(data);
+          }}
+        />
+      </View>
     ) 
   }
   // - Waypoint renders a Navigator to render the main app scene
   // - The Navigator component defines Main as its initialRoute
   // - renderScene() renders Main
   render() {
-    // if (this.state.user) {
-    //   return this.renderIntro();
-    // } else {
+    if (this.state.user) {
+      return this.renderIntro();
+    } else {
       return this.renderLogin();
-    // }
+    }
   } // end of render()
 } // end of Waypoint
 
 AppRegistry.registerComponent('Waypoint', () => Waypoint);
 
 module.exports = 'Waypoint';
-    // return (
-    //   <Navigator
-    //     style={styles.wrapper}
-    //     initialRoute={{
-    //       component: Main
-    //     }}
-    //     renderScene={(route, navigator) =>
-    //       <Main
-    //         name={route.name}
-    //         navigator={navigator}/>
-    //     }/>
-    // )
