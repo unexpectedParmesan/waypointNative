@@ -5,35 +5,62 @@ var { StyleSheet } = React;
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15, 
+    padding: 10, 
     paddingTop: 64,
   },
   scroll: {
     height: 300,
   },
   label: {
-    color: '#000000',
+    color: '#4d5a63',
+    fontWeight: '400',
     marginBottom: 5,
+    fontSize: 12,
+    marginRight: 5,
+    marginLeft: 5,
   },
-  textInputShort: {
-    height: 26,
-    borderWidth: 0.5,
-    borderColor: '#C0C0C0',
+  waypointGroup: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  input: {
+    height: 30,
+    lineHeight: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: '#b5bfc6',
     flex: 1,
     flexDirection: 'row',
     fontSize: 13,
     padding: 4,
-    borderRadius: 3,
-    marginBottom: 10,
+    marginBottom: 20,
+    marginRight: 5,
+    marginLeft: 5,
   },
-  textInputLong: {
-    height: 70,
-    borderWidth: 0.5,
-    borderColor: '#C0C0C0',
+  waypointInput: {
+    height: 30,
+    lineHeight: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: '#b5bfc6',
     flex: 1,
+    flexDirection: 'row',
+    fontSize: 13,
+    padding: 5,
+    marginBottom: 20,
+    marginRight: 5,
+    marginLeft: 5,
+  },
+  inputLong: {
+    height: 60,
+    lineHeight: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: '#b5bfc6',
+    flex: 1,
+    flexDirection: 'row',
     fontSize: 13,
     padding: 4,
-    borderRadius: 3,
+    marginBottom: 20,
+    marginRight: 5,
+    marginLeft: 5,
   },
   addWaypointButton: {
     marginTop: 15,
@@ -42,7 +69,19 @@ var styles = StyleSheet.create({
     color: '#196EEE',
     textAlign: 'right',
   },
+  savePathButton: {
+    marginTop: 20,
+    backgroundColor: '#106CC8',
+    padding: 15,
+    borderWidth: 1,
+    borderColor: '#0d5ba9',
+    borderRadius: 3,
+    opacity: 1,
+  },
+  savePathText: {
+    color: '#FFFFFF',
+    textAlign: 'center',
+  },
 });
 
 module.exports = styles;
-

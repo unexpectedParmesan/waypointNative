@@ -17,7 +17,7 @@ class Main extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      selectedTab: 'create'
+      selectedTab: 'browse'
     };
   } // end of constructor()
 
