@@ -1,51 +1,64 @@
 'use strict';
-
 var React = require('react-native');
+var Detail = require('./Detail/detail.index.js');
 var styles = require('./browse.styles.js');
-
 var {
   Text,
   View,
   ListView,
   TouchableHighlight,
+  ActivityIndicatorIOS,
   } = React;
-
-var Detail = require('./Detail/detail.index.js');
 
 class Browse extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
-      dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2 })
+      dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2 }),
+      loading: true, // loading animation property
     };
   } // end of constructor()
 
-  // Before the scene is mounted, fetch all paths from /paths API endpoint
-  // Update this.state.dataSource using fetched data
-  componentWillMount() {
+  // - After the scene is mounted, fetch all paths from /quests API endpoint
+  // - Update this.state.dataSource API responseData
+  // - Stop loading animation on success
+  componentDidMount() {
     fetch('https://waypointserver.herokuapp.com/quests')
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData)
+          dataSource: this.state.dataSource.cloneWithRows(responseData),
+          loading: false,
         });
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       })
        .done();
+
   } // end of componentWillMount()
 
-  // In ListView render each path using renderRow()
-  render() {
+  // Renders loading view while data is fetched from API
+  renderLoading(){
+    return (
+      <ActivityIndicatorIOS
+        color='#ED4519'
+        animating={this.state.loading}
+        style={[styles.centering, {height: 80}]}
+        size="large" />
+    );
+  }
+
+  // Renders the list of quests retrieved from the API
+  renderList(){
     return (
         <ListView
           style={styles.list}
           dataSource={this.state.dataSource}
-          renderRow={this.renderPath.bind(this)}/>
+          renderRow={this.renderPath.bind(this)} />
     )
-  } // end of render()
+  }
 
   // Render each path in the list
   renderPath(path) {
@@ -78,9 +91,10 @@ class Browse extends React.Component {
     ) 
   } // end of renderPath()
 
-  // Renders the path's Detail View
+  // Renders the quest's Detail View 
   renderDetailView(path) {
-    // "push a new view"
+    // render the scene with the navigator object to allow 
+    // the user to navigate back to the main ListView from the Detail View
     this.props.navigator.push({
       backButtonTitle: ' ',
       title: 'Path Details',
@@ -88,6 +102,17 @@ class Browse extends React.Component {
       passProps: { details: path }
     }) // end of props.navigator.push()
   } // end of renderDetailView()
+
+  render() {
+    if (this.state.loading) {
+      console.log("state is loading")
+      return this.renderLoading();
+    } else {
+      console.log('state is loaded')
+      return this.renderList();
+    }
+  } // end of render()
+
 } // end of Browse class
 
 module.exports = Browse;
