@@ -18,7 +18,6 @@ class Main extends React.Component {
   // Default view is 'browse'
   constructor (props) {
     super(props);
-    console.log('props passed into main: ', props);
     this.state = {
       selectedTab: 'browse',
       user: props.user,
@@ -27,9 +26,7 @@ class Main extends React.Component {
   } // end of constructor()
 
   handleLogout () {
-    console.log('trying to log out now');
     this.props.onLogout();
-    console.log('state: ', this.state);
   }
 
   // - When a tab is clicked on the TabBar, the tab calls the corresponding function which will render that scene.
@@ -74,14 +71,10 @@ class Main extends React.Component {
           selected={this.state.selectedTab === 'logout'}
           title="Logout"
           onPress={ ()=> {
-            if (this.state.selectedTab === 'logout') {
-              this.refs.LogoutRef.popToTop();
-            } else {
-              this.setState({
-                selectedTab: 'logout'
-              });
-              this.handleLogout();
-            }
+            this.setState({
+              selectedTab: 'logout'
+            });
+            this.handleLogout();
           }}>
           {this.renderLogoutView()}
         </TabBarIOS.Item>
@@ -91,7 +84,6 @@ class Main extends React.Component {
   } // end of render()
 
   renderLogoutView() {
-    console.log('rendering logout view...');
     return (
       <View>
       </View>
@@ -100,7 +92,6 @@ class Main extends React.Component {
 
   // renders the Browse Paths list
   renderBrowseView(){
-    console.log('user in renderBrowseView: ', this.props.user);
     return (
       <NavigatorIOS 
         style={styles.wrapper}
