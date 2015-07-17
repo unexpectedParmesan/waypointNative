@@ -38,6 +38,11 @@ var styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 18,
   },
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 module.exports = styles;
