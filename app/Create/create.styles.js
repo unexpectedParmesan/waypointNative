@@ -9,11 +9,11 @@ var styles = StyleSheet.create({
     paddingTop: 64,
   },
   scroll: {
-    height: 300,
+    height: 500,
   },
   label: {
     color: '#4d5a63',
-    fontWeight: '400',
+    fontWeight: '500',
     marginBottom: 5,
     fontSize: 12,
     marginRight: 5,

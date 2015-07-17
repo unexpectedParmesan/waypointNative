@@ -2,89 +2,63 @@
 var React = require('react-native');
 var _ = require('underscore');
 var styles = require('./create.styles.js');
-
 var {
   Text,
   View,
   TextInput,
   ScrollView,
   TouchableHighlight,
-  ListView,
   } = React;
 
 class Create extends React.Component {
   constructor(props){
     super(props);
- 
     this.state = {
       title: '',
       description: '',
       waypoints: [[37.7837235, -122.4089778], [37.7832885,-122.4074516], [37.7832885,-122.4074516], [37.7955138,-122.3933047]],
       waypointInputCount: 2
     };
-
   }
-
-  updateTitle(text){
-    console.log(text);
-    this.setState({
-      title: text,
-    }, () => {
-      console.log(this.state);
-    });
-  }
-
-  updateDescription(text){
-    console.log(text);
-    this.setState({
-      description: text,
-    }, () => {
-      console.log(this.state);
-    });
-  }
-
-  // quest_id: req.params.questId,
-  // index_in_quest: req.body.indexInQuest,
-  // latitude: req.body.latitude,
-  // longitude: req.body.longitude,
-  // title: req.body.title,
-  // description: req.body.description,
 
   saveWaypoints(id){
+    console.log(this.state);
 
-    this.state.waypoints.forEach(function(waypointArray, index){
-      var data = {
-        quest_id: id,
-        index_in_quest: index,
-        latitude: waypointArray[0],
-        longitude: waypointArray[1],
-        title: '',
-        description: '',
-      };
+    // this.state.waypoints.forEach(function(waypointArray, index){
+      
+    //   var data = {
+    //     quest_id: id,
+    //     index_in_quest: index,
+    //     latitude: waypointArray[0],
+    //     longitude: waypointArray[1],
+    //     title: ,
+    //     description: '',
+    //   };
 
-      fetch('https://waypointserver.herokuapp.com/quests/' + id + '/waypoints' , {
-        method: 'POST',
-        headers: {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data) 
-      })
-        .then((responseData) => {
-          console.log(responseData);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .done();
-    });
+    //   fetch('https://waypointserver.herokuapp.com/quests/' + id + '/waypoints' , {
+    //     method: 'POST',
+    //     headers: {
+    //      'Accept': 'application/json',
+    //      'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(data) 
+    //   })
+    //     .then((responseData) => {
+    //       console.log(responseData);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     })
+    //     .done();
+    // });
 
   }
 
   // POST path data to server
   savePath(){
-    console.log('saving path');
-    console.log(this.state);
+    console.log('in savePath!')
+    console.log(this.refs.questTitle);
+
     var data = {
       title: this.state.title,
       description: this.state.description,
@@ -180,20 +154,8 @@ class Create extends React.Component {
         alwaysBounceVertical={true}
         style={styles.scroll}>
         <View style={styles.container}>
-          <Text style={styles.label}>Title</Text>
-          <TextInput 
-            style={styles.input}
-            autoFocus={true}
-            autoCapitalize="none"
-            autoCorrect={false} 
-            returnKeyType="next"
-            multiline={true} 
-            onChange={(event) => { 
-              this.updateTitle(event.nativeEvent.text);
-            }}
-            onEndEditing={(event) => { 
-              this.updateTitle(event.nativeEvent.text);
-            }} />
+          <QuestTitle 
+            ref={'questTitle'} />
           <Text style={styles.label}>Description</Text>
           <TextInput 
             style={styles.inputLong}
@@ -202,10 +164,58 @@ class Create extends React.Component {
             multiline={true} 
             returnKeyType="next"
             onChange={(event) => { 
-              this.updateDescription(event.nativeEvent.text);
+              this.setState({
+                description: event.nativeEvent.text,
+              });
             }}
             onEndEditing={(event) => { 
-              this.updateDescription(event.nativeEvent.text);
+              this.setState({
+                description: event.nativeEvent.text,
+              });
+            }} />
+            {this.renderWaypointI}
+          <Text style={styles.label}>Waypoint 1</Text>
+          <TextInput 
+            style={styles.input}
+            autoCapitalize="none" 
+            autoCorrect={false}
+            multiline={true} 
+            placeholder={'Waypoint Title'}
+            returnKeyType="next" 
+            onChange={(event) => { 
+              this.setState({
+                waypoint1: {
+                  title: event.nativeEvent.text
+                },
+              });
+            }}
+            onEndEditing={(event) => { 
+              this.setState({
+                waypoint1: {
+                  title: event.nativeEvent.text
+                },
+              });
+            }} />
+          <TextInput 
+            style={styles.inputLong}
+            autoCapitalize="none" 
+            autoCorrect={false}
+            multiline={true} 
+            placeholder={'Waypoint Description'}
+            returnKeyType="next" 
+            onChange={(event) => { 
+              this.setState({
+                waypoint1: {
+                  description: event.nativeEvent.text
+                },
+              });
+            }}
+            onEndEditing={(event) => { 
+              this.setState({
+                waypoint1: {
+                  description: event.nativeEvent.text
+                },
+              });
             }} />
           { this.renderWaypointInputs() }
           <TouchableHighlight
