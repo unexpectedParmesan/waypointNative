@@ -8,6 +8,8 @@ var styles = require('./app.styles.js');
 var FBLogin = require('react-native-facebook-login');
 var FBLoginManager = require('NativeModules').FBLoginManager;
 
+var FBUrl = 'https://graph.facebook.com/v2.2/';
+
 var {
   AppRegistry,
   Navigator,
@@ -46,18 +48,61 @@ class Waypoint extends React.Component {
   }
 
   handleLogin(data) {
-    this.setState({user: data}, () => {
-      this.setState({ entry: <Begin {...this.state} onLogout={this.handleLogout.bind(this)} />});
-    });
+    // this.setState({user: data}, () => {
+    //   this.setState({ entry: <Begin {...this.state} onLogout={this.handleLogout.bind(this)} />});
+    // });
+    this._getUserProfile(data);
   }
+
+  _getNameUrl(data) {
+    var token = data.credentials.token;
+    var userId = data.credentials.userId;
+    var url = FBUrl + userId + '/?' + 'access_token=' + token;
+    return url;
+  }
+
+  _getPhotoUrl(data) {
+    var token = data.credentials.token;
+    var userId = data.credentials.userId;
+    var url = FBUrl + userId + '/picture/?access_token=' + token + '&redirect=false';
+    return url;
+  }
+
+  _getUserProfile(data) {
+    var userData = {};
+    userData.userId = data.credentials.userId;
+    var nameUrl = this._getNameUrl(data);
+
+    fetch(nameUrl)
+     .then((response) => {
+        userData.name = JSON.parse(response._bodyText).name;
+        var photoUrl = this._getPhotoUrl(data);
+
+        fetch(photoUrl)
+         .then((response) => {
+           var photoUrl = JSON.parse(response._bodyText).data.url;
+           userData.photoUrl = photoUrl;
+           console.log('photo response from FB: ', photoUrl);
+           this.setState( {user: userData}, () => {
+             console.log('State after response from FB: ', this.state);
+             this.setState({ entry: <Begin {...this.state} onLogout={this.handleLogout.bind(this)} />});
+           })
+         })
+         .catch((error) => {
+          console.warn(error);
+         });
+     })
+     .catch((error) => {
+      console.warn(error);
+     });
+  }
+
 
   componentWillMount() {
     var _this = this;
     FBLoginManager.getCredentials(function(error, data){
       if (!error) {
-        _this.setState({ user : data}, () => {
-          _this.setState({ entry: <Begin {..._this.state} onLogout={_this.handleLogout.bind(_this)} />});
-        });
+        _this._getUserProfile(data);
       }
     });
   }
