@@ -28,18 +28,9 @@ class Login extends React.Component {
     }
   }
 
-  // handleLogout() {
-  //   var _this = this;
-  //   FBLoginManager.logout(function(error, data){
-  //     console.log('logging out');
-  //     console.log('data');
-  //     if (error) {
-  //       console.log('error: ', error);
-  //     } else {
-  //       _this.setState({user: null});
-  //     }
-  //   });
-  // }
+  handleLogout() {
+    this.setState({user: null});
+  }
 
   render() {
     var _this = this;
@@ -51,6 +42,7 @@ class Login extends React.Component {
             console.log('Logged in!');
             console.log(data);
             _this.setState({user: data.credentials});
+            _this.props.onLogin(data.credentials);
           }}
           onLoginFound={function(data) {
             console.log('Existing login found');
@@ -62,8 +54,9 @@ class Login extends React.Component {
             _this.setState({user: null});
           }}
           onLogout={function(data) {
-            _this.setState({user: null});
+            // _this.setState({user: null});
             // _this.handleLogout();
+            console.log('_this.handleLogout error goes here');
             console.log('logging out');
           }}
           onError={function(data) {
@@ -93,8 +86,19 @@ class WaypointBegin extends React.Component {
     // super(props) does the same thing that SuperClass.call(this, props) does in pseudoclassical style
     // super() MUST be called before refering to the 'this' of the Waypoint subclass
     super(props);
-    console.log('props passed from entry: ', props);
-    this.state = {}
+    this.state = {
+      user: props.user,
+      onLogout: function() {
+        console.log('onLogout function in WaypointBegin state');
+        this.handleLogout();
+      }
+    }
+  }
+
+  handleLogout() {
+    console.log('calling handleLogout at the WaypointBegin level');
+    this.setState({user: null});
+    this.props.onLogout();
   }
 
   // - Waypoint renders a Navigator to render the main app scene
@@ -108,7 +112,8 @@ class WaypointBegin extends React.Component {
           component: Main
         }}
         renderScene={(route, navigator) =>
-          <Main {...this.props}
+          <Main {...this.state}
+            onLogout={this.handleLogout.bind(this)}
             name={route.name}
             navigator={navigator}/>
         }/>
@@ -128,15 +133,38 @@ class Waypoint extends React.Component {
     // super() MUST be called before refering to the 'this' of the Waypoint subclass
     super(props);
     this.state = {
-      user: null
+      user: null,
+      entry: <Login onLogin={this.handleLogin.bind(this)}/>
     }
+  }
+
+  handleLogout() {
+    this.setState({user: null});
+    console.log('We have made it all the way to Waypoint.');
+    var _this = this;
+    FBLoginManager.logout(function(error, data){
+      if (!error) {
+        _this.setState({ user : null});
+        _this.setState({entry: <Login onLogin={_this.handleLogin.bind(_this)}/>});
+      } else {
+        console.log(error, data);
+      }
+    });
+  }
+
+  handleLogin(data) {
+    this.setState({user: data}, () => {
+      this.setState({ entry: <WaypointBegin {...this.state} onLogout={this.handleLogout.bind(this)} />});
+    });
   }
 
   componentWillMount() {
     var _this = this;
     FBLoginManager.getCredentials(function(error, data){
       if (!error) {
-        _this.setState({ user : data});
+        _this.setState({ user : data}, () => {
+          _this.setState({ entry: <WaypointBegin {..._this.state} onLogout={_this.handleLogout.bind(_this)} />});
+        });
       }
     });
   }
@@ -145,14 +173,8 @@ class Waypoint extends React.Component {
   // - The Navigator component defines Main as its initialRoute
   // - renderScene() renders Main
   render() {
-    var entry;
-    if (this.state.user) {
-      entry = <WaypointBegin {...this.state}/>;
-    } else {
-      entry = <Login />;
-    }
     return (
-      entry
+      this.state.entry
     )
   } // end of render()
 } // end of Waypoint

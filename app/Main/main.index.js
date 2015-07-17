@@ -2,10 +2,12 @@
 
 var React = require('react-native');
 var styles = require('./main.styles.js')
+var FBLoginManager = require('NativeModules').FBLoginManager
 
 var {
   TabBarIOS,
   NavigatorIOS,
+  View,
 } = React;
 
 var Browse = require('../Browse/browse.index.js');
@@ -18,9 +20,17 @@ class Main extends React.Component {
     super(props);
     console.log('props passed into main: ', props);
     this.state = {
-      selectedTab: 'browse'
+      selectedTab: 'browse',
+      user: props.user,
+      handleLogout: props.handleLogout,
     };
   } // end of constructor()
+
+  handleLogout () {
+    console.log('trying to log out now');
+    this.props.onLogout();
+    console.log('state: ', this.state);
+  }
 
   // - When a tab is clicked on the TabBar, the tab calls the corresponding function which will render that scene.
   render () {
@@ -28,6 +38,7 @@ class Main extends React.Component {
       <TabBarIOS 
         style={styles.tabBar}
         selectedTab={this.state.selectedTab}>
+
         <TabBarIOS.Item
           style={styles.description}
           selected={this.state.selectedTab === 'browse'}
@@ -43,6 +54,7 @@ class Main extends React.Component {
           }}>
           {this.renderBrowseView()}
         </TabBarIOS.Item>
+
         <TabBarIOS.Item
           selected={this.state.selectedTab === 'create'}
           title="Create"
@@ -56,10 +68,35 @@ class Main extends React.Component {
             }
           }}>
           {this.renderCreateView()}
-          </TabBarIOS.Item>
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          selected={this.state.selectedTab === 'logout'}
+          title="Logout"
+          onPress={ ()=> {
+            if (this.state.selectedTab === 'logout') {
+              this.refs.LogoutRef.popToTop();
+            } else {
+              this.setState({
+                selectedTab: 'logout'
+              });
+              this.handleLogout();
+            }
+          }}>
+          {this.renderLogoutView()}
+        </TabBarIOS.Item>
+
       </TabBarIOS>
     )
   } // end of render()
+
+  renderLogoutView() {
+    console.log('rendering logout view...');
+    return (
+      <View>
+      </View>
+    )
+  }
 
   // renders the Browse Paths list
   renderBrowseView(){
