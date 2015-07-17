@@ -1,5 +1,6 @@
 'use strict';
 var React = require('react-native');
+var _ = require('underscore');
 var styles = require('./create.styles.js');
 
 var {
@@ -18,7 +19,8 @@ class Create extends React.Component {
     this.state = {
       title: '',
       description: '',
-      waypoints: [[37.7837235, -122.4089778], [37.7832885,-122.4074516], [37.7832885,-122.4074516], [37.7955138,-122.3933047]]
+      waypoints: [[37.7837235, -122.4089778], [37.7832885,-122.4074516], [37.7832885,-122.4074516], [37.7955138,-122.3933047]],
+      waypointInputCount: 2
     };
 
   }
@@ -108,6 +110,67 @@ class Create extends React.Component {
        .done();
   }// end of savePath()
 
+  renderWaypointInputs(){
+    var results = [], remove;
+    for (var i = 0; i < this.state.waypointInputCount; i++) {
+      if (i > 1) {
+        remove = <TouchableHighlight
+          underlayColor={'#0d5ba9'}
+          style={styles.removeWaypointButton}
+          onPress={ () => {
+            this.setState({
+              waypointInputCount: this.state.waypointInputCount - 1
+            }, () => {
+              console.log('waypoint Count', this.state.waypointInputCount);
+            });
+          }}>
+          <Text
+          style={styles.removeWaypointText}>
+            Remove this waypoint
+        </Text>
+        </TouchableHighlight>;
+      }
+
+      results.push(
+        <View>
+          <Text style={styles.label}>Waypoint {i + 1}</Text>
+          <TextInput 
+            style={styles.input}
+            autoCapitalize="none" 
+            autoCorrect={false}
+            multiline={true} 
+            placeholder={'Title'}
+            returnKeyType="next"  />
+          <TextInput 
+            style={styles.inputLong}
+            autoCapitalize="none" 
+            autoCorrect={false}
+            multiline={true} 
+            placeholder={'Description'}
+            returnKeyType="next"  />
+          <View style={styles.waypointGroup}>
+            <TextInput 
+              style={styles.waypointInput}
+              autoCapitalize="none" 
+              autoCorrect={false}
+              multiline={true} 
+              placeholder={'Latitude'}
+              returnKeyType="next"  />
+            <TextInput 
+              style={styles.waypointInput}
+              autoCapitalize="none" 
+              autoCorrect={false}
+              multiline={true} 
+              placeholder={'Longitude'}
+              returnKeyType="done"  />
+          </View>
+          {remove}
+        </View>
+      )
+    }
+    return results;
+  }
+
   render() {
     return (
       <ScrollView 
@@ -144,74 +207,22 @@ class Create extends React.Component {
             onEndEditing={(event) => { 
               this.updateDescription(event.nativeEvent.text);
             }} />
-          <Text style={styles.label}>Waypoint 1</Text>
-          <View style={styles.waypointGroup}>
-            <TextInput 
-              style={styles.waypointInput}
-              autoCapitalize="none" 
-              autoCorrect={false}
-              multiline={true} 
-              placeholder={'Latitude'}
-              returnKeyType="next"  />
-            <TextInput 
-              style={styles.waypointInput}
-              autoCapitalize="none" 
-              autoCorrect={false}
-              multiline={true} 
-              placeholder={'Longitude'}
-              returnKeyType="next"  />
-          </View>
-          <Text style={styles.label}>Waypoint 2</Text>
-          <View style={styles.waypointGroup}>
-            <TextInput 
-              style={styles.waypointInput}
-              autoCapitalize="none" 
-              autoCorrect={false}
-              multiline={true} 
-              placeholder={'Latitude'}
-              returnKeyType="next"  />
-            <TextInput 
-              style={styles.waypointInput}
-              autoCapitalize="none" 
-              autoCorrect={false}
-              multiline={true} 
-              placeholder={'Longitude'}
-              returnKeyType="next"  />
-          </View>
-          <Text style={styles.label}>Waypoint 3</Text>
-          <View style={styles.waypointGroup}>
-            <TextInput 
-              style={styles.waypointInput}
-              autoCapitalize="none" 
-              autoCorrect={false}
-              multiline={true} 
-              placeholder={'Latitude'}
-              returnKeyType="next"  />
-            <TextInput 
-              style={styles.waypointInput}
-              autoCapitalize="none" 
-              autoCorrect={false}
-              multiline={true} 
-              placeholder={'Longitude'}
-              returnKeyType="next"  />
-          </View>
-          <Text style={styles.label}>Waypoint 4</Text>
-          <View style={styles.waypointGroup}>
-            <TextInput 
-              style={styles.waypointInput}
-              autoCapitalize="none" 
-              autoCorrect={false}
-              multiline={true} 
-              placeholder={'Latitude'}
-              returnKeyType="next"  />
-            <TextInput 
-              style={styles.waypointInput}
-              autoCapitalize="none" 
-              autoCorrect={false}
-              multiline={true} 
-              placeholder={'Longitude'}
-              returnKeyType="done"  />
-          </View>
+          { this.renderWaypointInputs() }
+          <TouchableHighlight
+            underlayColor={'rgba(0,0,0,.0)'}
+            style={styles.addWaypointButton}
+            onPress={() => {
+                console.log('button clicked')
+                this.setState({
+                  waypointInputCount: this.state.waypointInputCount + 1
+                }, () => {
+                  console.log('waypoints', this.state.waypointInputCount);
+                });
+            }} >
+            <Text style={styles.addWaypointText}>
+              Add Waypoint
+            </Text>
+          </TouchableHighlight>
           <TouchableHighlight 
             underlayColor={'#0d5ba9'}
             style={styles.savePathButton}

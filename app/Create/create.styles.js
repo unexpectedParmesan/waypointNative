@@ -63,14 +63,22 @@ var styles = StyleSheet.create({
     marginLeft: 5,
   },
   addWaypointButton: {
-    marginTop: 15,
+    marginTop: 30,
   },
   addWaypointText: {
     color: '#196EEE',
     textAlign: 'right',
   },
+  removeWaypointButton: {
+    marginTop: 5,
+  },
+  removeWaypointText: {
+    color: '#DA3435',
+    textAlign: 'right',
+    fontSize: 12,
+  },
   savePathButton: {
-    marginTop: 20,
+    marginTop: 40,
     backgroundColor: '#106CC8',
     padding: 15,
     borderWidth: 1,
@@ -78,6 +86,7 @@ var styles = StyleSheet.create({
     borderRadius: 3,
     opacity: 1,
   },
+
   savePathText: {
     color: '#FFFFFF',
     textAlign: 'center',
