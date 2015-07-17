@@ -2,10 +2,12 @@
 
 var React = require('react-native');
 var styles = require('./main.styles.js')
+var FBLoginManager = require('NativeModules').FBLoginManager
 
 var {
   TabBarIOS,
   NavigatorIOS,
+  View,
 } = React;
 
 var Browse = require('../Browse/browse.index.js');
@@ -15,11 +17,18 @@ var Create = require('../Create/create.index.js');
 class Main extends React.Component {
   // Default view is 'browse'
   constructor (props) {
+    console.log('user passed into main: ', props.user);
     super(props);
     this.state = {
-      selectedTab: 'browse'
+      selectedTab: 'browse',
+      user: props.user,
+      handleLogout: props.handleLogout,
     };
   } // end of constructor()
+
+  handleLogout () {
+    this.props.onLogout();
+  }
 
   // - When a tab is clicked on the TabBar, the tab calls the corresponding function which will render that scene.
   render () {
@@ -27,6 +36,7 @@ class Main extends React.Component {
       <TabBarIOS 
         style={styles.tabBar}
         selectedTab={this.state.selectedTab}>
+
         <TabBarIOS.Item
           style={styles.description}
           selected={this.state.selectedTab === 'browse'}
@@ -42,6 +52,7 @@ class Main extends React.Component {
           }}>
           {this.renderBrowseView()}
         </TabBarIOS.Item>
+
         <TabBarIOS.Item
           selected={this.state.selectedTab === 'create'}
           title="Create"
@@ -55,10 +66,30 @@ class Main extends React.Component {
             }
           }}>
           {this.renderCreateView()}
-          </TabBarIOS.Item>
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          selected={this.state.selectedTab === 'logout'}
+          title="Logout"
+          onPress={ ()=> {
+            this.setState({
+              selectedTab: 'logout'
+            });
+            this.handleLogout();
+          }}>
+          {this.renderLogoutView()}
+        </TabBarIOS.Item>
+
       </TabBarIOS>
     )
   } // end of render()
+
+  renderLogoutView() {
+    return (
+      <View>
+      </View>
+    )
+  }
 
   // renders the Browse Paths list
   renderBrowseView(){
@@ -70,7 +101,7 @@ class Main extends React.Component {
           title: 'Browse Paths',
           backButtonTitle: ' ',
           component: Browse,
-          passProps: { ref: this.refs }
+          passProps: { ref: this.refs, user: this.props.user }
         }}/>
     )
   } // end of renderBrowseView()
