@@ -7,7 +7,6 @@ var styles = require('./begin.styles.js');
 var {
   AppRegistry,
   Navigator,
-  View,
 } = React;
 
 
@@ -17,9 +16,6 @@ class Begin extends React.Component {
     super(props);
     this.state = {
       user: props.user,
-      onLogout: function() {
-        this.handleLogout();
-      }
     }
   }
 
@@ -28,9 +24,7 @@ class Begin extends React.Component {
     this.props.onLogout();
   }
 
-  // - Waypoint renders a Navigator to render the main app scene
-  // - The Navigator component defines Main as its initialRoute
-  // - renderScene() renders Main
+
   render() {
     return (
       <Navigator
@@ -46,7 +40,8 @@ class Begin extends React.Component {
         }/>
     ) 
   } // end of render()
-}; // end of Waypoint
+
+}; // end of Begin
 
 
 module.exports = Begin;

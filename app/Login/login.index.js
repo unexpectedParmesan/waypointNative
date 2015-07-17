@@ -3,6 +3,7 @@ var React = require('react-native');
 
 var FBLogin = require('react-native-facebook-login');
 var FBLoginManager = require('NativeModules').FBLoginManager;
+var styles = require('./begin.styles.js');
 
 var {
   AppRegistry,
@@ -26,8 +27,8 @@ class Login extends React.Component {
   render() {
     var _this = this;
     return (
-      <View>
-        <FBLogin style={{ marginBottom: 10 }}
+      <View style={styles.loginContainer} >
+        <FBLogin style={styles.login}
           permissions={["email", "user_friends"]}
           onLogin={function(data) {
             console.log('Logged in!');

@@ -17,6 +17,14 @@ var styles = StyleSheet.create({
     padding: 30,
     marginTop: 65,
     alignItems: 'center'
+  },
+  loginContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  login: {
+    padding: 10,
   }
 });
 

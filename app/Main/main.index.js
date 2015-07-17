@@ -17,6 +17,7 @@ var Create = require('../Create/create.index.js');
 class Main extends React.Component {
   // Default view is 'browse'
   constructor (props) {
+    console.log('user passed into main: ', props.user);
     super(props);
     this.state = {
       selectedTab: 'browse',
