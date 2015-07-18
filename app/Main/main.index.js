@@ -147,7 +147,7 @@ class Main extends React.Component {
           title: 'Profile',
           backButtonTitle: ' ',
           component: Profile,
-          passProps: { user: this.props.user }
+          passProps: { user: this.props.user, onLogout: this.props.onLogout}
         }}/>
     )
   } // end of renderCreateView()

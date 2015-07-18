@@ -64,7 +64,7 @@ class Waypoint extends React.Component {
   _getPhotoUrl(data) {
     var token = data.credentials.token;
     var userId = data.credentials.userId;
-    var url = FBUrl + userId + '/picture/?access_token=' + token + '&redirect=false';
+    var url = FBUrl + userId + '/picture/?access_token=' + token + '&redirect=false&width=200&height=200';
     return url;
   }
 
