@@ -6,7 +6,8 @@ var {
   Text,
   View,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  NavigatorIOS
   } = React;
 
 class Profile extends React.Component {

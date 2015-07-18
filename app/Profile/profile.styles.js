@@ -5,10 +5,10 @@ var { StyleSheet } = React;
 var styles = StyleSheet.create({
 
   container: {
-    flex: 1,
+    flexDirection: 'column',
     padding: 30,
     marginTop: 65,
-    alignItems: 'flex-start',
+    alignItems: 'stretch',
     backgroundColor: '#FFFFFF',
     position: 'relative',
   },
@@ -17,7 +17,6 @@ var styles = StyleSheet.create({
    flexDirection: 'row',
    justifyContent: 'space-around',
    height: 100,
-   width: 309,
   },
 
   name: {
@@ -36,14 +35,13 @@ var styles = StyleSheet.create({
   },
 
   questsContainer: {
-   marginTop: 30,
-   flex: 1,
-   width: 309,
+   marginTop: 20,
    flexDirection: 'column',
-   alignItems: 'stretch',
   },
 
   questButton: {
+    flex: 1,
+    borderWidth: 1,
     marginTop: 10,
     alignItems: 'center',
     backgroundColor: '#106CC8',
@@ -53,7 +51,7 @@ var styles = StyleSheet.create({
   },
 
   questButtonText: {
-    padding: 30,
+    padding: 20,
     fontSize: 20,
     color: '#FFFFFF',
     textAlign: 'center',
@@ -65,7 +63,6 @@ var styles = StyleSheet.create({
 
   logoutButtonContainer: {
     flex: 1,
-    width: 309,
     marginTop: 20,
     alignItems: 'center',
   },
