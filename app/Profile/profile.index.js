@@ -4,6 +4,8 @@ var styles = require('./profile.styles.js');
 
 var Browse = require('../Browse/browse.index.js');
 
+var baseUrl = 'https://waypointserver.herokuapp.com';
+
 var {
   Text,
   View,
@@ -29,7 +31,7 @@ class Profile extends React.Component {
       backButtonTitle: ' ',
       title: 'Active Quests',
       component: Browse,
-      passProps: { ref: this.refs, user: this.props.user }
+      passProps: { ref: this.refs, user: this.props.user, url: baseUrl + '/quests' }
     });
   }
 
@@ -39,7 +41,7 @@ class Profile extends React.Component {
       backButtonTitle: ' ',
       title: 'Created Quests',
       component: Browse,
-      passProps: { ref: this.refs, user: this.props.user }
+      passProps: { ref: this.refs, user: this.props.user, url: baseUrl + '/quests' }
     });
   }
 
