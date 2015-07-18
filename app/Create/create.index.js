@@ -81,9 +81,9 @@ class Create extends React.Component {
 
   }
 
-  // POST path data to server
-  savePath(){
-    console.log('saving path');
+  // POST quest data to server
+  saveQuest(){
+    console.log('saving quest');
     console.log(this.state);
     var data = {
       title: this.state.title,
@@ -108,7 +108,7 @@ class Create extends React.Component {
         console.log(error)
       })
        .done();
-  }// end of savePath()
+  }// end of saveQuest()
 
   renderWaypointInputs(){
     var results = [], remove;
@@ -225,9 +225,9 @@ class Create extends React.Component {
           </TouchableHighlight>
           <TouchableHighlight 
             underlayColor={'#0d5ba9'}
-            style={styles.savePathButton}
-            onPress={this.savePath.bind(this, this.state)} >
-            <Text style={styles.savePathText}>
+            style={styles.saveQuestButton}
+            onPress={this.saveQuest.bind(this, this.state)} >
+            <Text style={styles.saveQuestText}>
               Save Quest
             </Text>
           </TouchableHighlight>

@@ -20,7 +20,7 @@ class Browse extends React.Component {
     };
   } // end of constructor()
 
-  // - After the scene is mounted, fetch all paths from /quests API endpoint
+  // - After the scene is mounted, fetch all quests from /quests API endpoint
   // - Update this.state.dataSource API responseData
   // - Stop loading animation on success
   componentDidMount() {
@@ -56,30 +56,30 @@ class Browse extends React.Component {
         <ListView
           style={styles.list}
           dataSource={this.state.dataSource}
-          renderRow={this.renderPath.bind(this)} />
+          renderRow={this.renderQuest.bind(this)} />
     )
   }
 
-  // Render each path in the list
-  renderPath(path) {
-    // If the path is longer than 100 characters, show a portion of description and add ellipses
+  // Render each quest in the list
+  renderQuest(quest) {
+    // If the quest is longer than 100 characters, show a portion of description and add ellipses
     var description = '';
-    if (path.description.length >= 100) {
-      description = path.description.substring(0, 105) + '...';
+    if (quest.description.length >= 100) {
+      description = quest.description.substring(0, 105) + '...';
     } else {
-      description = path.description;
+      description = quest.description;
     }
 
-    // The onPress event will call the renderDetailView() function to render the Detail View for the path
+    // The onPress event will call the renderDetailView() function to render the Detail View for the quest
     return (
       <TouchableHighlight style={styles.item}
-        onPress={this.renderDetailView.bind(this, path)}
+        onPress={this.renderDetailView.bind(this, quest)}
         underlayColor={'#FFFFFF'}>
         <View>
-          <Text style={styles.title}>{path.title}</Text>
+          <Text style={styles.title}>{quest.title}</Text>
           <View style={styles.detailsContainer}>
             <Text style={styles.details}>
-            {path.waypoints.length} stops - {path.length} - {path.estimated_time}</Text>
+            {quest.waypoints.length} stops - {quest.length} - {quest.estimated_time}</Text>
           </View>
           <View>
             <Text style={styles.description}>
@@ -89,17 +89,17 @@ class Browse extends React.Component {
         </View>
       </TouchableHighlight>
     )
-  } // end of renderPath()
+  } // end of renderQuest()
 
   // Renders the quest's Detail View
-  renderDetailView(path) {
+  renderDetailView(quest) {
     // render the scene with the navigator object to allow
     // the user to navigate back to the main ListView from the Detail View
     this.props.navigator.push({
       backButtonTitle: ' ',
-      title: 'Path Details',
+      title: 'Quest Details',
       component: Detail,
-      passProps: { details: path }
+      passProps: { details: quest }
     }) // end of props.navigator.push()
   } // end of renderDetailView()
 

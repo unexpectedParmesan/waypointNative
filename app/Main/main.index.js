@@ -34,7 +34,7 @@ class Main extends React.Component {
   // - When a tab is clicked on the TabBar, the tab calls the corresponding function which will render that scene.
   render () {
     return (
-      <TabBarIOS 
+      <TabBarIOS
         style={styles.tabBar}
         selectedTab={this.state.selectedTab}>
 
@@ -107,14 +107,14 @@ class Main extends React.Component {
     )
   }
 
-  // renders the Browse Paths list
+  // renders the Browse Quests list
   renderBrowseView(){
     return (
-      <NavigatorIOS 
+      <NavigatorIOS
         style={styles.wrapper}
         ref="BrowseRef"
         initialRoute={{
-          title: 'Browse Paths',
+          title: 'Browse Quests',
           backButtonTitle: ' ',
           component: Browse,
           passProps: { ref: this.refs, user: this.props.user }
@@ -125,11 +125,11 @@ class Main extends React.Component {
   // renders the Create view
   renderCreateView(){
     return (
-      <NavigatorIOS 
+      <NavigatorIOS
         style={styles.wrapper}
         ref="CreateRef"
         initialRoute={{
-          title: 'Create Path',
+          title: 'Create Quest',
           backButtonTitle: ' ',
           component: Create,
           passProps: { test: "HEYA! I'M THE CREATE VIEW!! "}
@@ -140,7 +140,7 @@ class Main extends React.Component {
   // renders the Profile view
   renderProfileView(){
     return (
-      <NavigatorIOS 
+      <NavigatorIOS
         style={styles.wrapper}
         ref="ProfileRef"
         initialRoute={{

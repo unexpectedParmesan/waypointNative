@@ -77,7 +77,7 @@ var styles = StyleSheet.create({
     textAlign: 'right',
     fontSize: 12,
   },
-  savePathButton: {
+  saveQuestButton: {
     marginTop: 40,
     backgroundColor: '#106CC8',
     padding: 15,
@@ -87,7 +87,7 @@ var styles = StyleSheet.create({
     opacity: 1,
   },
 
-  savePathText: {
+  saveQuestText: {
     color: '#FFFFFF',
     textAlign: 'center',
   },
