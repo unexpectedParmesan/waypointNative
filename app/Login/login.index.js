@@ -34,7 +34,7 @@ class Login extends React.Component {
             console.log('Logged in!');
             console.log(data);
             _this.setState({user: data.credentials});
-            _this.props.onLogin(data.credentials);
+            _this.props.onLogin(data);
           }}
           onLoginFound={function(data) {
             console.log('Existing login found');

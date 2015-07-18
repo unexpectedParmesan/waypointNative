@@ -13,6 +13,7 @@ var {
 var Browse = require('../Browse/browse.index.js');
 var Map = require('../Map/map.index.js');
 var Create = require('../Create/create.index.js');
+var Profile = require('../Profile/profile.index.js');
 
 class Main extends React.Component {
   // Default view is 'browse'
@@ -69,6 +70,21 @@ class Main extends React.Component {
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
+          selected={this.state.selectedTab === 'profile'}
+          title="Profile"
+          onPress={ ()=> {
+            if (this.state.selectedTab === 'profile') {
+              this.refs.ProfileRef.popToTop();
+            } else {
+              this.setState({
+                selectedTab: 'profile'
+              });
+            }
+          }}>
+          {this.renderProfileView()}
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
           selected={this.state.selectedTab === 'logout'}
           title="Logout"
           onPress={ ()=> {
@@ -117,6 +133,21 @@ class Main extends React.Component {
           backButtonTitle: ' ',
           component: Create,
           passProps: { test: "HEYA! I'M THE CREATE VIEW!! "}
+        }}/>
+    )
+  } // end of renderCreateView()
+
+  // renders the Profile view
+  renderProfileView(){
+    return (
+      <NavigatorIOS 
+        style={styles.wrapper}
+        ref="ProfileRef"
+        initialRoute={{
+          title: 'Profile',
+          backButtonTitle: ' ',
+          component: Profile,
+          passProps: { user: this.props.user, onLogout: this.props.onLogout}
         }}/>
     )
   } // end of renderCreateView()
