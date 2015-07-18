@@ -3,6 +3,9 @@ var React = require('react-native');
 var { StyleSheet } = React;
 
 var styles = StyleSheet.create({
+  wrapper: {
+    flex: 1
+  },
 
   container: {
     flexDirection: 'column',
