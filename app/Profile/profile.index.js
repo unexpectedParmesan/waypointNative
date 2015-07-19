@@ -2,11 +2,16 @@
 var React = require('react-native');
 var styles = require('./profile.styles.js');
 
+var Browse = require('../Browse/browse.index.js');
+
+var baseUrl = 'https://waypointserver.herokuapp.com';
+
 var {
   Text,
   View,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  NavigatorIOS
   } = React;
 
 class Profile extends React.Component {
@@ -21,10 +26,23 @@ class Profile extends React.Component {
 
   renderActiveQuests() {
     console.log('rendering active quests');
+    console.log('props: ', this.props);
+    this.props.navigator.push({
+      backButtonTitle: ' ',
+      title: 'Active Quests',
+      component: Browse,
+      passProps: { ref: this.refs, user: this.props.user, url: baseUrl + '/quests' }
+    });
   }
 
   renderCreatedQuests() {
     console.log('rendering created quests');
+    this.props.navigator.push({
+      backButtonTitle: ' ',
+      title: 'Created Quests',
+      component: Browse,
+      passProps: { ref: this.refs, user: this.props.user, url: baseUrl + '/quests' }
+    });
   }
 
   onLogout() {
@@ -46,7 +64,7 @@ class Profile extends React.Component {
       <View style={ styles.questsContainer } >
         <TouchableHighlight
           style={ styles.questButton }
-          onPress={this.renderActiveQuests}
+          onPress={this.renderActiveQuests.bind(this)}
           underlayColor={'#2f8d58'}>
           <Text style={ styles.questButtonText } >
             Active Quests
@@ -54,7 +72,7 @@ class Profile extends React.Component {
         </TouchableHighlight>
           <TouchableHighlight
           style={ styles.questButton}
-          onPress={this.renderCreatedQuests}
+          onPress={this.renderCreatedQuests.bind(this)}
           underlayColor={'#2f8d58'}>
           <Text style={ styles.questButtonText }>
             Created Quests

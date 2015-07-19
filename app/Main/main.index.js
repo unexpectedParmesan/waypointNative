@@ -15,6 +15,8 @@ var Map = require('../Map/map.index.js');
 var Create = require('../Create/create.index.js');
 var Profile = require('../Profile/profile.index.js');
 
+var baseUrl = 'https://waypointserver.herokuapp.com';
+
 class Main extends React.Component {
   // Default view is 'browse'
   constructor (props) {
@@ -117,7 +119,7 @@ class Main extends React.Component {
           title: 'Browse Quests',
           backButtonTitle: ' ',
           component: Browse,
-          passProps: { ref: this.refs, user: this.props.user }
+          passProps: { ref: this.refs, user: this.props.user, url: baseUrl + '/quests' }
         }}/>
     )
   } // end of renderBrowseView()
@@ -147,7 +149,7 @@ class Main extends React.Component {
           title: 'Profile',
           backButtonTitle: ' ',
           component: Profile,
-          passProps: { user: this.props.user, onLogout: this.props.onLogout}
+          passProps: { user: this.props.user, onLogout: this.props.onLogout, ref: this.refs}
         }}/>
     )
   } // end of renderCreateView()

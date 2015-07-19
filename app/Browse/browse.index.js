@@ -24,7 +24,7 @@ class Browse extends React.Component {
   // - Update this.state.dataSource API responseData
   // - Stop loading animation on success
   componentDidMount() {
-    fetch('https://waypointserver.herokuapp.com/quests')
+    fetch(this.props.url)
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
