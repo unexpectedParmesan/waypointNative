@@ -8,7 +8,7 @@ var styles = require('./app.styles.js');
 var FBLogin = require('react-native-facebook-login');
 var FBLoginManager = require('NativeModules').FBLoginManager;
 
-var FBUrl = 'https://graph.facebook.com/v2.2/';
+var FBUrl = 'https://graph.facebook.com/v2.2/'; // root url for FB API
 
 var {
   AppRegistry,
@@ -29,31 +29,38 @@ class Waypoint extends React.Component {
     super(props);
     this.state = {
       user: null,
+      // "Entry" defines what view is rendered.
+      // It needs to be in the state because render() is only called once.
+      // Because "entry" is a state variable, it auto-updates depending whether user is logged in.
+      // handleLogin is passed as a property to the Login view so that when the user logs in,
+      // the user data is loaded into the state at the index level.
       entry: <Login onLogin={this.handleLogin.bind(this)}/>
     }
   }
 
-  handleLogout() {
-    this.setState({user: null});
-    console.log('We have made it all the way to Waypoint.');
-    var _this = this;
-    FBLoginManager.logout(function(error, data){
+    // handles logout both through Facebook and by setting the relevant state variables.
+    // when user logs out, user becomes null and we reset the view variable ("entry")
+    // to display the FB login button.
+  handleLogout(data) {
+    var context = this;
+    FBLoginManager.logout(function(error, data) {
       if (!error) {
-        _this.setState({ user : null});
-        _this.setState({entry: <Login onLogin={_this.handleLogin.bind(_this)}/>});
+        context.setState({ user : null});
+        context.setState({entry: <Login onLogin={ context.handleLogin.bind(context) }/>});
       } else {
         console.log(error, data);
       }
     });
   }
 
+
+  // on login, user data gets loaded into the state and passed to child views.
   handleLogin(data) {
-    // this.setState({user: data}, () => {
-    //   this.setState({ entry: <Begin {...this.state} onLogout={this.handleLogout.bind(this)} />});
-    // });
     this._getUserProfile(data);
   }
 
+  // returns endpoint to get name from FB API.
+  // the access token is provided by the FBLoginManager on login or verification of credentials.
   _getNameUrl(data) {
     var token = data.credentials.token;
     var userId = data.credentials.userId;
@@ -61,6 +68,7 @@ class Waypoint extends React.Component {
     return url;
   }
 
+  // returns endpoint to get a photo url from FB API
   _getPhotoUrl(data) {
     var token = data.credentials.token;
     var userId = data.credentials.userId;
@@ -68,6 +76,8 @@ class Waypoint extends React.Component {
     return url;
   }
 
+  // builds up an object of user data by successive fetch calls to the Facebook API,
+  // then sets the relevant state variables.
   _getUserProfile(data) {
     var userData = {};
     userData.userId = data.credentials.userId;
@@ -75,21 +85,22 @@ class Waypoint extends React.Component {
 
     fetch(nameUrl)
      .then((response) => {
-        userData.name = JSON.parse(response._bodyText).name;
+        userData.name = JSON.parse(response._bodyText).name; // collects name from API
         var photoUrl = this._getPhotoUrl(data);
 
         fetch(photoUrl)
          .then((response) => {
-           var photoUrl = JSON.parse(response._bodyText).data.url;
-           userData.photoUrl = photoUrl;
-           console.log('photo response from FB: ', photoUrl);
+           userData.photoUrl = JSON.parse(response._bodyText).data.url; // collects photo URL from API
+
+           // once we have all user data we want, we set the user and the current view to reflect logged-in status.
+           // we pass handleLogout as a prop to the child view so that the logout view is rendered should the
+           // user log out at any time.
            this.setState( {user: userData}, () => {
-             console.log('State after response from FB: ', this.state);
-             this.setState({ entry: <Begin {...this.state} onLogout={this.handleLogout.bind(this)} />});
+             this.setState({ entry: <Begin {...this.state} onLogout={ this.handleLogout.bind(this) } />});
            })
          })
          .catch((error) => {
-          console.warn(error);
+           console.warn(error);
          });
      })
      .catch((error) => {
@@ -98,21 +109,19 @@ class Waypoint extends React.Component {
   }
 
 
+  // before component mounts, get user credentials. if they exist, load them into user profile (same as on login)
   componentWillMount() {
-    var _this = this;
+    var context = this;
     FBLoginManager.getCredentials(function(error, data){
       if (!error) {
-        _this._getUserProfile(data);
+        context._getUserProfile(data);
       }
     });
   }
 
-  // - Waypoint renders a Navigator to render the main app scene
-  // - The Navigator component defines Main as its initialRoute
-  // - renderScene() renders Main
   render() {
     return (
-      this.state.entry
+      this.state.entry // user's entry into Waypoint differs depending on whether logged in or not
     )
   } // end of render()
 } // end of Waypoint

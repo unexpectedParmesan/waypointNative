@@ -152,7 +152,7 @@ class Main extends React.Component {
           passProps: { user: this.props.user, onLogout: this.props.onLogout, ref: this.refs}
         }}/>
     )
-  } // end of renderCreateView()
+  } // end of renderProfileView()
 
 }; // end of Main class
 

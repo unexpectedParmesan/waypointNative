@@ -20,13 +20,19 @@ class Browse extends React.Component {
     };
   } // end of constructor()
 
-  // - After the scene is mounted, fetch all quests from /quests API endpoint
+  // - After the scene is mounted, fetch relevant quests.
   // - Update this.state.dataSource API responseData
   // - Stop loading animation on success
   componentDidMount() {
-    fetch(this.props.url)
-      .then((response) => response.json())
+    console.log('fetching this url: ', this.props.url);
+    fetch(this.props.url) // assumes parent has passed in a quest url
+      .then((response) => {
+        var result = response.json();
+        console.log(result);
+        return result;
+      })
       .then((responseData) => {
+        console.log('response data: ', responseData);
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData),
           loading: false,
