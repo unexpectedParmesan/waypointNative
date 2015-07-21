@@ -29,7 +29,8 @@ class Waypoint extends React.Component {
     super(props);
     this.state = {
       user: null,
-      baseUrl: 'https://waypointserver.herokuapp.com/',
+      // baseUrl: 'https://waypointserver.herokuapp.com/',
+      baseUrl: 'http://127.0.0.1:3000/',
       // "Entry" defines what view is rendered.
       // It needs to be in the state because render() is only called once.
       // Because "entry" is a state variable, it auto-updates depending whether user is logged in.
@@ -92,18 +93,22 @@ class Waypoint extends React.Component {
 
     var userUrl = this.state.baseUrl + 'users/' + data.credentials.userId;
 
+    console.log('this url: ', userUrl);
     // check that user is in db; if not, sends a POST request
     fetch(userUrl)
       .then((response) => {
-
+         console.log('response to GET request to users endpoint: ', response);
          var userData = {};
           userData.userId = data.credentials.userId;
 
          if (response.status === 404) {
+
           var nameUrl = this._getNameUrl(data);
           fetch(nameUrl)
            .then((response) => {
+              console.log('Got name from FB: ', response);
               userData.name = JSON.parse(response._bodyText).name; // collects name from API
+
               var photoUrl = this._getPhotoUrl(data);
 
               fetch(photoUrl)
@@ -111,8 +116,9 @@ class Waypoint extends React.Component {
                  userData.photoUrl = JSON.parse(response._bodyText).data.url; // collects photo URL from API
 
                  fetch(userUrl, {
-                  method: 'post',
-                  body: { facebookId: userData.userId, name: userData.name, profilePic: userData.photoUrl }
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ facebookId: userData.userId, name: userData.name, profilePic: userData.photoUrl })
                  })
                   .then((response) => {
                    this._setUserData(userData);
@@ -131,7 +137,7 @@ class Waypoint extends React.Component {
            var responseBody = JSON.parse(response._bodyText);
            console.log('response body from server: ', responseBody);
            userData.name = responseBody.name;
-           userData.photoUrl = responseBody.photoUrl;
+           userData.photoUrl = responseBody.profile_pic;
            this._setUserData(userData);
          }
       }).catch((error) => {

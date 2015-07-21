@@ -15,17 +15,18 @@ var Map = require('../Map/map.index.js');
 var Create = require('../Create/create.index.js');
 var Profile = require('../Profile/profile.index.js');
 
-var baseUrl = 'https://waypointserver.herokuapp.com';
+// var baseUrl = 'https://waypointserver.herokuapp.com';
 
 class Main extends React.Component {
   // Default view is 'browse'
   constructor (props) {
-    console.log('user passed into main: ', props.user);
+    console.log('props passed into main: ', props);
     super(props);
     this.state = {
       selectedTab: 'browse',
       user: props.user,
       handleLogout: props.handleLogout,
+      // baseUrl: 'http://127.0.0.1:3000'
     };
   } // end of constructor()
 
@@ -111,6 +112,8 @@ class Main extends React.Component {
 
   // renders the Browse Quests list
   renderBrowseView(){
+    console.log('rendering browse view');
+    console.log('baseUrl: ', this.props.baseUrl);
     return (
       <NavigatorIOS
         style={styles.wrapper}
@@ -119,7 +122,7 @@ class Main extends React.Component {
           title: 'Browse Quests',
           backButtonTitle: ' ',
           component: Browse,
-          passProps: { ref: this.refs, user: this.props.user, url: baseUrl + '/quests' }
+          passProps: { ref: this.refs, user: this.props.user, url: this.props.baseUrl + 'quests' }
         }}/>
     )
   } // end of renderBrowseView()
@@ -149,7 +152,7 @@ class Main extends React.Component {
           title: 'Profile',
           backButtonTitle: ' ',
           component: Profile,
-          passProps: { user: this.props.user, onLogout: this.props.onLogout, ref: this.refs}
+          passProps: { user: this.props.user, onLogout: this.props.onLogout, ref: this.refs, url: this.props.baseUrl}
         }}/>
     )
   } // end of renderProfileView()

@@ -5,7 +5,8 @@ var styles = require('./profile.styles.js');
 
 var Browse = require('../Browse/browse.index.js');
 
-var baseUrl = 'https://waypointserver.herokuapp.com';
+// var baseUrl = 'https://waypointserver.herokuapp.com';
+var baseUrl: 'http://127.0.0.1:3000/'
 
 var {
   Text,
@@ -26,7 +27,7 @@ class Profile extends React.Component {
   // After clicking on active or created quests, user can then navigate back to the profile page.
   // Reuses browse component from the nav bar.
   renderActiveQuests() {
-    var url = baseUrl + '/users/' + this.props.user.userId + '/activeQuests';
+    var url = this.props.url + 'users/' + this.props.user.userId + '/activeQuests';
     console.log('making this query: ', url);
     this.props.navigator.push({
       backButtonTitle: ' ',
@@ -37,7 +38,7 @@ class Profile extends React.Component {
   }
 
   renderCreatedQuests() {
-    var url = baseUrl + '/users/' + this.props.user.userId + '/createdQuests';
+    var url = this.props.url + 'users/' + this.props.user.userId + '/createdQuests';
     console.log('making this query: ', url);
     this.props.navigator.push({
       backButtonTitle: ' ',
