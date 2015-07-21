@@ -17,23 +17,36 @@ class Browse extends React.Component {
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2 }),
       loading: true, // loading animation property
+      empty: false
     };
   } // end of constructor()
 
-  // - After the scene is mounted, fetch all quests from /quests API endpoint
+  // - After the scene is mounted, fetch relevant quests.
   // - Update this.state.dataSource API responseData
   // - Stop loading animation on success
   componentDidMount() {
-    fetch(this.props.url)
-      .then((response) => response.json())
+    console.log('fetching this url: ', this.props.url);
+
+    fetch(this.props.url) // assumes parent has passed in a quest url
+      .then((response) => {
+        console.log('response from server: ', response);
+        if (response.status === 404) {
+          this.setState({ empty: true });
+          return [];
+        } else {
+          var result = response.json();
+          return result;  
+        }
+      })
       .then((responseData) => {
+        console.log('response data: ', responseData);
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData),
           loading: false,
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log('The server has thrown an error: ', error);
       })
        .done();
 
@@ -47,6 +60,15 @@ class Browse extends React.Component {
         animating={this.state.loading}
         style={[styles.centering, {height: 80}]}
         size="large" />
+    );
+  }
+
+  renderError() {
+    console.log('rendering error');
+    return (
+      <View style={styles.centering}>
+       <Text>Sorry, no quests match.</Text>
+      </View>
     );
   }
 
@@ -107,9 +129,11 @@ class Browse extends React.Component {
     if (this.state.loading) {
       console.log("state is loading")
       return this.renderLoading();
-    } else {
+    } else if (!this.state.empty) {
       console.log('state is loaded')
       return this.renderList();
+    } else {
+      return this.renderError();
     }
   } // end of render()
 

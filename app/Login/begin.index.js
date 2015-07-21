@@ -9,22 +9,17 @@ var {
   Navigator,
 } = React;
 
-
+// If we have gotten this far, it means the user is logged in.
+// This component just sets off the logic that renders the child views.
 class Begin extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {
-      user: props.user,
-    }
   }
 
-  handleLogout() {
-    this.setState({user: null});
-    this.props.onLogout();
-  }
-
-
+  // - Renders a Navigator to render the main app scene
+  // - The Navigator component defines Main as its initialRoute
+  // - renderScene() renders Main
   render() {
     return (
       <Navigator
@@ -33,8 +28,7 @@ class Begin extends React.Component {
           component: Main
         }}
         renderScene={(route, navigator) =>
-          <Main {...this.state}
-            onLogout={this.handleLogout.bind(this)}
+          <Main {...this.props} // passes user data and logout function through to child views
             name={route.name}
             navigator={navigator}/>
         }/>
