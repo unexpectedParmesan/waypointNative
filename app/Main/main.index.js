@@ -122,7 +122,7 @@ class Main extends React.Component {
           title: 'Browse Quests',
           backButtonTitle: ' ',
           component: Browse,
-          passProps: { ref: this.refs, user: this.props.user, url: this.props.baseUrl + 'quests' }
+          passProps: { ref: this.refs, user: this.props.user, url: this.props.baseUrl + 'quests', baseUrl: this.props.baseUrl, type: 'browse' }
         }}/>
     )
   } // end of renderBrowseView()
@@ -137,7 +137,7 @@ class Main extends React.Component {
           title: 'Create Quest',
           backButtonTitle: ' ',
           component: Create,
-          passProps: { test: "HEYA! I'M THE CREATE VIEW!! "}
+          passProps: { user: this.props.user }
         }}/>
     )
   } // end of renderCreateView()
@@ -152,7 +152,7 @@ class Main extends React.Component {
           title: 'Profile',
           backButtonTitle: ' ',
           component: Profile,
-          passProps: { user: this.props.user, onLogout: this.props.onLogout, ref: this.refs, url: this.props.baseUrl}
+          passProps: { user: this.props.user, onLogout: this.props.onLogout, ref: this.refs, url: this.props.baseUrl }
         }}/>
     )
   } // end of renderProfileView()

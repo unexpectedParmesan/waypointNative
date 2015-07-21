@@ -51,7 +51,7 @@ class Detail extends React.Component {
               underlayColor={'#2f8d58'}
               style={styles.startQuestButton}>
               <Text style={styles.buttonText}>
-                Start Quest
+                { this.props.details.current_waypoint_index || this.props.type === 'active' ? 'Resume Quest' : 'Start Quest' }
               </Text>
             </TouchableHighlight>
         </View>
@@ -59,15 +59,38 @@ class Detail extends React.Component {
     )
   } // end of render()
 
+  _addActiveQuest() {
+   var url = this.props.baseUrl + 'users/' + this.props.user.userId + '/activeQuests/' + this.props.details.id;
+   fetch(url, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' }
+   })
+    .then((response) => {
+     console.log('adding active quest or acknowledging its existence: ', response);
+    })
+   .catch((error) => {
+     console.warn(error);
+   });
+  }
+
   // Renders the quest on the Map component
   // Passes the quest's details to the Map component
   renderQuest (props) {
+
+    if (this.props.type === 'browse' || this.props.type === 'created') {
+      this._addActiveQuest();
+    }
+
     this.props.navigator.push({
       title: this.props.details.title,
       component: Map,
       passProps: {
         numWaypoints: this.props.details.waypoints.length,
-        quest: this.props.details
+        quest: this.props.details,
+        type: this.props.type,
+        user: this.props.user,
+        currentIndex: this.props.details.current_waypoint_index || 0,
+        url: this.props.baseUrl
       }
     }) // end of props.navigator.push()
   } // end of renderQuest()

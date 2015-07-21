@@ -14,7 +14,6 @@ var {
 class Map extends React.Component {
   constructor(props) {
     super(props);
-    console.log('props: ', props);
     this.state = {
       position: {
         coords: {} // initializes geolocation coordinates to be populated by navigator
@@ -34,11 +33,12 @@ class Map extends React.Component {
       currentMiles: 'loading...', // human-readable distance in miles from next waypoint
       // time: 0,  // uncomment if we want to track estimated time
       // currentTime: 0, // uncomment if we want to track estimated time
-      currentIndex: 0, // index of current waypoint; may be made obsolete after db integration
+      currentIndex: this.props.currentIndex, // index of current waypoint; may be made obsolete after db integration
       directions: {}, // initialized object to hold MapQuest data
       alertShowing: false // tells whether an IOSAlert is currently showing: prevents 
     };
-    this.state.currentWaypoint = this.state.waypoints.annotations[0]; // initializes current waypoint
+    this.state.currentWaypoint = this.state.waypoints.annotations[this.props.currentIndex]; // initializes current waypoint
+    console.log('props passed into map view: ', props);
   } // look ma, no commas!
 
    /* This function makes an API call to calculate the distance to the next waypoint, then updates all
@@ -130,6 +130,46 @@ class Map extends React.Component {
     });
   }
 
+  _finishQuest(url) {
+     console.log('striking quest from active quests: ', url);
+     fetch(url, {
+        method: 'delete',
+        headers: { 'Content-Type': 'application/json' },
+     })
+      .then((response) => {
+       console.log('DELETE request sent to server. Here is the response: ', response);    
+      })
+     .catch((error) => {
+      console.warn('Server error trying to delete: ', error);
+     });
+  }
+
+  _updateQuestIndex(url, newIndex) {
+     console.log('updating active quest to database: ', url);
+     fetch(url, {
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ current_waypoint_index: newIndex})
+     })
+      .then((response) => {
+       console.log('PUT request sent to server. Here is the response: ', response);    
+      })
+     .catch((error) => {
+      console.warn('Server error trying to update current index: ', error);
+     });
+  }
+
+  _updateQuestStatus(next) {
+    // if you finished, DELETE quest from userActiveQuests table
+    // else, PUT new index (this.state.currentIndex) into table
+    var url = this.props.url + 'users/' + this.props.user.userId + '/activeQuests/' + this.props.quest.id;
+    if (!next) {
+      this._finishQuest(url);
+    } else {
+      this._updateQuestIndex(url, next);
+    }
+  }
+
  /* Called by the navigator.geolocation.watchPosition function when user is close enough to destination/current waypoint.
  * Sets off a chain of events that eventually results in progression to the next waypoint.
  */
@@ -138,6 +178,8 @@ class Map extends React.Component {
     var next = this.state.currentIndex < this.state.waypoints.number - 1 ? this.state.currentIndex + 1 : null;
     var alertText = next ? 'Next Waypoint' : 'Done!';
     if (this.state.currentWaypoint) {
+
+      this._updateQuestStatus(next);
       this.state.alertShowing = true;
       AlertIOS.alert(
         'Arrived at ' + this.state.currentWaypoint.title,
