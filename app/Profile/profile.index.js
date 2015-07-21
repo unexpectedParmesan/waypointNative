@@ -1,4 +1,5 @@
 'use strict';
+
 var React = require('react-native');
 var styles = require('./profile.styles.js');
 
@@ -17,6 +18,7 @@ class Profile extends React.Component {
 
   constructor(props){
     super(props);
+    console.log('props passed into profile: ', props)
   } // end of constructor()
 
   // This works the same as it does in the browse view.

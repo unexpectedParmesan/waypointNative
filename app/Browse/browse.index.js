@@ -27,6 +27,7 @@ class Browse extends React.Component {
     console.log('fetching this url: ', this.props.url);
     fetch(this.props.url) // assumes parent has passed in a quest url
       .then((response) => {
+        console.log('response from server: ', response);
         var result = response.json();
         console.log(result);
         return result;
@@ -39,7 +40,7 @@ class Browse extends React.Component {
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log('The server has thrown an error: ', error);
       })
        .done();
 

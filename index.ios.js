@@ -29,6 +29,7 @@ class Waypoint extends React.Component {
     super(props);
     this.state = {
       user: null,
+      baseUrl: 'https://waypointserver.herokuapp.com/',
       // "Entry" defines what view is rendered.
       // It needs to be in the state because render() is only called once.
       // Because "entry" is a state variable, it auto-updates depending whether user is logged in.
@@ -76,36 +77,69 @@ class Waypoint extends React.Component {
     return url;
   }
 
+   // once we have all user data we want, we set the user and the current view to reflect logged-in status.
+   // we pass handleLogout as a prop to the child view so that the logout view is rendered should the
+   // user log out at any time.
+  _setUserData(userData) {
+    this.setState( {user: userData}, () => {
+      this.setState({ entry: <Begin {...this.state} onLogout={ this.handleLogout.bind(this) } />});    
+    })
+  }
+
   // builds up an object of user data by successive fetch calls to the Facebook API,
   // then sets the relevant state variables.
   _getUserProfile(data) {
-    var userData = {};
-    userData.userId = data.credentials.userId;
-    var nameUrl = this._getNameUrl(data);
 
-    fetch(nameUrl)
-     .then((response) => {
-        userData.name = JSON.parse(response._bodyText).name; // collects name from API
-        var photoUrl = this._getPhotoUrl(data);
+    var userUrl = this.state.baseUrl + 'users/' + data.credentials.userId;
 
-        fetch(photoUrl)
-         .then((response) => {
-           userData.photoUrl = JSON.parse(response._bodyText).data.url; // collects photo URL from API
+    // check that user is in db; if not, sends a POST request
+    fetch(userUrl)
+      .then((response) => {
 
-           // once we have all user data we want, we set the user and the current view to reflect logged-in status.
-           // we pass handleLogout as a prop to the child view so that the logout view is rendered should the
-           // user log out at any time.
-           this.setState( {user: userData}, () => {
-             this.setState({ entry: <Begin {...this.state} onLogout={ this.handleLogout.bind(this) } />});
+         var userData = {};
+          userData.userId = data.credentials.userId;
+
+         if (response.status === 404) {
+          var nameUrl = this._getNameUrl(data);
+          fetch(nameUrl)
+           .then((response) => {
+              userData.name = JSON.parse(response._bodyText).name; // collects name from API
+              var photoUrl = this._getPhotoUrl(data);
+
+              fetch(photoUrl)
+               .then((response) => {
+                 userData.photoUrl = JSON.parse(response._bodyText).data.url; // collects photo URL from API
+
+                 fetch(userUrl, {
+                  method: 'post',
+                  body: { facebookId: userData.userId, name: userData.name, profilePic: userData.photoUrl }
+                 })
+                  .then((response) => {
+                   this._setUserData(userData);
+                   console.log('POST request sent to server. Here is the response: ', response);    
+                  })
+
+               })
+               .catch((error) => {
+                 console.warn(error);
+               });
            })
-         })
-         .catch((error) => {
-           console.warn(error);
-         });
-     })
-     .catch((error) => {
-      console.warn(error);
-     });
+           .catch((error) => {
+            console.warn(error);
+           });
+         } else {
+           var responseBody = JSON.parse(response._bodyText);
+           console.log('response body from server: ', responseBody);
+           userData.name = responseBody.name;
+           userData.photoUrl = responseBody.photoUrl;
+           this._setUserData(userData);
+         }
+      }).catch((error) => {
+        console.warn('server error: ', error);
+      });
+
+
+
   }
 
 
