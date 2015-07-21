@@ -121,7 +121,7 @@ class Browse extends React.Component {
       backButtonTitle: ' ',
       title: 'Quest Details',
       component: Detail,
-      passProps: { details: quest }
+      passProps: { details: quest, type: this.props.type, baseUrl: this.props.baseUrl, user: this.props.user }
     }) // end of props.navigator.push()
   } // end of renderDetailView()
 
