@@ -9,6 +9,8 @@ var {
   View,
   MapView,
   AlertIOS,
+  TouchableHighlight,
+  ScrollView,
   } = React;
 
 class Map extends React.Component {
@@ -18,6 +20,8 @@ class Map extends React.Component {
       position: {
         coords: {} // initializes geolocation coordinates to be populated by navigator
       },
+      expanded: false,
+      arrived: false,
       waypoints: {
         annotations: props.quest.waypoints, //array of waypoints
         number: props.numWaypoints // number of waypoints in the quest
@@ -35,7 +39,7 @@ class Map extends React.Component {
       // currentTime: 0, // uncomment if we want to track estimated time
       currentIndex: this.props.currentIndex, // index of current waypoint; may be made obsolete after db integration
       directions: {}, // initialized object to hold MapQuest data
-      alertShowing: false // tells whether an IOSAlert is currently showing: prevents 
+      alertShowing: false // tells whether an IOSAlert is currently showing: prevents
     };
     this.state.currentWaypoint = this.state.waypoints.annotations[this.props.currentIndex]; // initializes current waypoint
     console.log('props passed into map view: ', props);
@@ -90,6 +94,52 @@ class Map extends React.Component {
   * annotations are the pins shown on the map and must be an array of objects.
   */
   render() {
+
+    console.log('this.props.quest.waypoints =============> ', this.props.quest.waypoints);
+
+    var nextWaypointButton;
+    if (this.state.arrived && this.state.currentIndex < this.props.quest.waypoints.length - 1) {
+      nextWaypointButton = (
+        <TouchableHighlight
+          style={styles.nextWaypointButton}
+          onPress={() => {
+            this.state.expanded = false;
+            this.state.arrived = false;
+            this._onNextPress();
+          }}>
+          <Text style={styles.nextWaypointButtonText}>{'Next Waypoint'}</Text>
+        </TouchableHighlight>
+      )
+    } else if (this.state.arrived && this.state.currentIndex === this.props.quest.waypoints.length - 1) {
+      nextWaypointButton = (
+        <TouchableHighlight
+          style={styles.nextWaypointButton}
+          onPress={() => {
+            this.state.expanded = false;
+            this.state.arrived = false;
+            this._updateQuestStatus();
+            this.props.navigator.popToTop();
+          }}>
+          <Text style={styles.nextWaypointButtonText}>{'Exit Quest'}</Text>
+        </TouchableHighlight>
+      )
+    } else {
+      nextWaypointButton = <View />
+    }
+
+    var description;
+    if (this.state.expanded) {
+      description = (
+        <View>
+          <ScrollView style={styles.scrollView} centerContent={false}>
+            <Text style={styles.description}>{this.props.quest.waypoints[this.state.currentIndex].description}</Text>
+          </ScrollView>
+          {nextWaypointButton}
+        </View>
+      )
+    } else {
+      description = <View />;
+    }
     return (
       <View style={styles.container}>
         <Text style={styles.title}></Text>
@@ -104,9 +154,22 @@ class Map extends React.Component {
           showsUserLocation={true}
           annotations={ [this.state.currentWaypoint] }
          />
-         <Text style={styles.coords}>
-           Distance: {this.state.currentMiles}
-         </Text>
+        <View style={styles.statusContainer}>
+          <TouchableHighlight
+            onPress={() => {
+              this.state.expanded = !this.state.expanded;
+            }}>
+            <View style={styles.statusHeader}>
+              <Text style={styles.statusHeaderText}>
+                {this.state.currentMiles}
+              </Text>
+              <Text style={styles.statusHeaderText}>
+                {this.props.quest.waypoints[this.state.currentIndex].title}
+              </Text>
+            </View>
+          </TouchableHighlight>
+          {description}
+        </View>
       </View>
     );
   }
@@ -114,19 +177,19 @@ class Map extends React.Component {
   /* Invoked when the user presses "next" in an alert.
    * Updates the state as the user moves on to the next waypoint.
   */
-  _onNextPress()  {
+  _onNextPress() {
     // checks whether we have reached the end of the quest. if so, does not move on.
     var next = this.state.currentIndex < this.state.waypoints.number - 1 ? this.state.currentIndex + 1 : null;
     var context = this;
     this.state.alertShowing = false; // hack to avoid buggy alert behavior
     this.setState({currentIndex: next}, () => {
       if (next) {
-        context.setState({currentWaypoint: context.state.waypoints.annotations[next]}, () => {       
+        context.setState({currentWaypoint: context.state.waypoints.annotations[next]}, () => {
           context._getDirectionsToNextPoint(); // results in one distance API call as next waypoint is queued up
         });
       } else {
         context.setState({currentWaypoint: null}); // if there are no more waypoints, currentWaypoint is null
-      }  
+      }
     });
   }
 
@@ -137,7 +200,7 @@ class Map extends React.Component {
         headers: { 'Content-Type': 'application/json' },
      })
       .then((response) => {
-       console.log('DELETE request sent to server. Here is the response: ', response);    
+       console.log('DELETE request sent to server. Here is the response: ', response);
       })
      .catch((error) => {
       console.warn('Server error trying to delete: ', error);
@@ -152,7 +215,7 @@ class Map extends React.Component {
         body: JSON.stringify({ current_waypoint_index: newIndex})
      })
       .then((response) => {
-       console.log('PUT request sent to server. Here is the response: ', response);    
+       console.log('PUT request sent to server. Here is the response: ', response);
       })
      .catch((error) => {
       console.warn('Server error trying to update current index: ', error);
@@ -176,18 +239,20 @@ class Map extends React.Component {
   _handleArrival() {
     var context = this;
     var next = this.state.currentIndex < this.state.waypoints.number - 1 ? this.state.currentIndex + 1 : null;
-    var alertText = next ? 'Next Waypoint' : 'Done!';
+    // var alertText = next ? 'Next Waypoint' : 'Done!';
     if (this.state.currentWaypoint) {
 
       this._updateQuestStatus(next);
-      this.state.alertShowing = true;
-      AlertIOS.alert(
-        'Arrived at ' + this.state.currentWaypoint.title,
-        context.state.currentWaypoint.description,
-        [
-          {text: alertText, onPress: context._onNextPress.bind(context)}, // registers callback for alert press
-        ]
-      )
+      this.state.arrived = true;
+      this.state.expanded = true;
+      // this.state.alertShowing = true;
+      // AlertIOS.alert(
+      //   'Arrived at ' + this.state.currentWaypoint.title,
+      //   context.state.currentWaypoint.description,
+      //   [
+      //     {text: alertText, onPress: context._onNextPress.bind(context)}, // registers callback for alert press
+      //   ]
+      // )
     }
   }
 
@@ -211,7 +276,7 @@ class Map extends React.Component {
 
   // this function will execute after rendering on the client occurs
   componentDidMount() {
-   
+
     // navigator is available via the Geolocation polyfill in React Native
     // http://facebook.github.io/react-native/docs/geolocation.html#content
     //
@@ -222,19 +287,19 @@ class Map extends React.Component {
     // that is not currently available in the runtime environment on mobile devices ***
     // Geolocation is enabled by default when you create a project with react-native init.
     //
-    // getCurrentPosition() and watchPostion() take a success callback, error callback, and options object 
+    // getCurrentPosition() and watchPostion() take a success callback, error callback, and options object
     var context = this;
     navigator.geolocation.getCurrentPosition(
       (position) => { // success callback: sets initial position and initializes first waypoint
         context.setState({position}, () => {
-          context._initQuest();     
+          context._initQuest();
         });
       },
       (error) => alert(error.message),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
 
-    /* watchPosition() is called every fraction of a second and continually updates 
+    /* watchPosition() is called every fraction of a second and continually updates
     * the app with current location information.
     * (Note that in an xcode simulator environment, "position" is not equivalent to the placement of the blue dot.)
     */
@@ -249,10 +314,10 @@ class Map extends React.Component {
                                 longitudeDelta: context._getCoordinateDelta('longitude')});
               context.setState({currentMiles: context._getCurrentDistanceInMiles()});
               // sets off arrival logic if we're close enough to waypoint
-              if (context.state.currentDistance <= 0.0005 && !context.state.alertShowing) {
+              if (context.state.currentDistance <= 0.0003 && !context.state.alertShowing) {
                 context._handleArrival();
               }
-            });  
+            });
           }
         })
        },

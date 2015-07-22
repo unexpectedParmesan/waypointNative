@@ -24,6 +24,7 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   login: {
+    // fontSize: 45,
     padding: 10,
   }
 });
