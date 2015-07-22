@@ -54,13 +54,48 @@ class Detail extends React.Component {
                 { this.props.details.current_waypoint_index || this.props.type === 'active' ? 'Resume Quest' : 'Start Quest' }
               </Text>
             </TouchableHighlight>
+            { this.props.type === 'browse' ? <View></View> : this._renderDeleteButton() }
         </View>
       </ScrollView>
     )
   } // end of render()
 
+  _getQuestUrl() {
+    return this.props.baseUrl + 'users/' + this.props.user.userId + '/activeQuests/' + this.props.details.id;
+  }
+
+  _deleteQuest() {
+    console.log('deleting quest!');
+    var url = this.props.type === 'active' ? this._getQuestUrl() : this.props.baseUrl + 'quests/' + this.props.details.id; // fix this
+    fetch(url, {
+      method: 'delete',
+      headers: { 'Content-Type': 'application/json' }
+    })
+     .then( (response) => {
+       console.log('successfully deleted from the database! ', response);
+       this.props.callback();
+       this.props.navigator.pop();
+     })
+     .catch( (error) => {
+       console.warn('There was an error deleting the quest: ', error);
+     })
+  }
+
+  _renderDeleteButton() {
+    return (
+      <TouchableHighlight
+        onPress={this._deleteQuest.bind(this)}
+        underlayColor={'#2f8d58'}
+        style={styles.deleteQuestButton}>
+        <Text style={styles.buttonText}>
+          { this.props.type === 'active' ? 'Quit' : 'Delete' }
+        </Text>
+      </TouchableHighlight>
+    )
+  }
+
   _addActiveQuest() {
-   var url = this.props.baseUrl + 'users/' + this.props.user.userId + '/activeQuests/' + this.props.details.id;
+   var url = this._getQuestUrl();
    fetch(url, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' }

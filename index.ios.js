@@ -159,6 +159,10 @@ class Waypoint extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    console.log('calling componentWillUnmount');
+  }
+
   render() {
     return (
       this.state.entry // user's entry into Waypoint differs depending on whether logged in or not

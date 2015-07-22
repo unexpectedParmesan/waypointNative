@@ -56,6 +56,16 @@ var styles = StyleSheet.create({
     borderRadius: 3,
     opacity: 1,
   },
+  deleteQuestButton: {
+    marginTop: 30,
+    backgroundColor: '#BA5C5C',
+    padding: 15,
+    borderWidth: 1,
+    borderColor: '#7E5555',
+    borderRadius: 3,
+    opacity: 1,
+    alignItems: 'center'
+  },
   buttonText: {
     fontSize: 20,
     color: '#FFFFFF',
