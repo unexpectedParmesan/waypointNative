@@ -21,10 +21,8 @@ class Browse extends React.Component {
     };
   } // end of constructor()
 
-  // - After the scene is mounted, fetch relevant quests.
-  // - Update this.state.dataSource API responseData
-  // - Stop loading animation on success
-  componentDidMount() {
+
+  _fetchQuests() {
     console.log('fetching this url: ', this.props.url);
 
     fetch(this.props.url) // assumes parent has passed in a quest url
@@ -49,7 +47,13 @@ class Browse extends React.Component {
         console.log('The server has thrown an error: ', error);
       })
        .done();
+  }
 
+  // - After the scene is mounted, fetch relevant quests.
+  // - Update this.state.dataSource API responseData
+  // - Stop loading animation on success
+  componentDidMount() {
+    this._fetchQuests();
   } // end of componentWillMount()
 
   // Renders loading view while data is fetched from API
@@ -121,7 +125,7 @@ class Browse extends React.Component {
       backButtonTitle: ' ',
       title: 'Quest Details',
       component: Detail,
-      passProps: { details: quest, type: this.props.type, baseUrl: this.props.baseUrl, user: this.props.user }
+      passProps: { details: quest, type: this.props.type, baseUrl: this.props.baseUrl, user: this.props.user, callback: this._fetchQuests.bind(this) }
     }) // end of props.navigator.push()
   } // end of renderDetailView()
 
