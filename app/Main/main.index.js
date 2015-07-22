@@ -14,6 +14,7 @@ var Browse = require('../Browse/browse.index.js');
 var Map = require('../Map/map.index.js');
 var Create = require('../Create/create.index.js');
 var Profile = require('../Profile/profile.index.js');
+var CurrentQuest = require('../CurrentQuest/currentQuest.index.js');
 
 // var baseUrl = 'https://waypointserver.herokuapp.com';
 
@@ -21,10 +22,12 @@ class Main extends React.Component {
   // Default view is 'browse'
   constructor (props) {
     console.log('props passed into main: ', props);
+    // console.log('user passed into main: ', props.user);
     super(props);
     this.state = {
-      selectedTab: 'browse',
+      selectedTab: props.selectedTab,
       user: props.user,
+      currentQuest: props.currentQuest || {title: "currentQuest", waypoints: [{ latitude: 1.111111, longitude: 2.222222 }]},
       handleLogout: props.handleLogout,
       // baseUrl: 'http://127.0.0.1:3000'
     };
@@ -58,19 +61,17 @@ class Main extends React.Component {
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
-          selected={this.state.selectedTab === 'create'}
-          title="Create"
+          style={styles.description}
+          selected={this.state.selectedTab === 'quest'}
+          title="Quest"
           onPress={ ()=> {
-            if (this.state.selectedTab === 'create') {
-              this.refs.CreateRef.popToTop();
-            } else {
-              this.setState({
-                selectedTab: 'create'
-              });
-            }
+            this.setState({
+              selectedTab: 'quest'
+            });
           }}>
-          {this.renderCreateView()}
+          {this.renderQuestView()}
         </TabBarIOS.Item>
+
 
         <TabBarIOS.Item
           selected={this.state.selectedTab === 'profile'}
@@ -87,28 +88,28 @@ class Main extends React.Component {
           {this.renderProfileView()}
         </TabBarIOS.Item>
 
-        <TabBarIOS.Item
-          selected={this.state.selectedTab === 'logout'}
-          title="Logout"
-          onPress={ ()=> {
-            this.setState({
-              selectedTab: 'logout'
-            });
-            this.handleLogout();
-          }}>
-          {this.renderLogoutView()}
-        </TabBarIOS.Item>
-
       </TabBarIOS>
     )
   } // end of render()
 
-  renderLogoutView() {
-    return (
-      <View>
-      </View>
-    )
-  }
+        // MOVING THIS ASIDE FOR NOW
+
+        // <TabBarIOS.Item
+        //   selected={this.state.selectedTab === 'create'}
+        //   title="Create"
+        //   onPress={ ()=> {
+        //     if (this.state.selectedTab === 'create') {
+        //       this.refs.CreateRef.popToTop();
+        //     } else {
+        //       this.setState({
+        //         selectedTab: 'create'
+        //       });
+        //     }
+        //   }}>
+        //   {this.renderCreateView()}
+        // </TabBarIOS.Item>
+
+
 
   // renders the Browse Quests list
   renderBrowseView(){
@@ -127,20 +128,30 @@ class Main extends React.Component {
     )
   } // end of renderBrowseView()
 
-  // renders the Create view
-  renderCreateView(){
+  // // renders the Create view
+  // renderCreateView(){
+  //   return (
+  //     <NavigatorIOS
+  //       style={styles.wrapper}
+  //       ref="CreateRef"
+  //       initialRoute={{
+  //         title: 'Create Quest',
+  //         backButtonTitle: ' ',
+  //         component: Create,
+  //         passProps: { test: "HEYA! I'M THE CREATE VIEW!! "}
+  //       }}/>
+  //   )
+  // } // end of renderCreateView()
+
+  renderQuestView() {
     return (
-      <NavigatorIOS
-        style={styles.wrapper}
-        ref="CreateRef"
-        initialRoute={{
-          title: 'Create Quest',
-          backButtonTitle: ' ',
-          component: Create,
-          passProps: { user: this.props.user }
-        }}/>
+      <View style={styles.wrapper}>
+        <CurrentQuest
+         quest={this.state.currentQuest}>
+        </CurrentQuest>
+      </View>
     )
-  } // end of renderCreateView()
+  }
 
   // renders the Profile view
   renderProfileView(){

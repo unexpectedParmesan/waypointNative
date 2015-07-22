@@ -30,9 +30,10 @@ class Begin extends React.Component {
         renderScene={(route, navigator) =>
           <Main {...this.props} // passes user data and logout function through to child views
             name={route.name}
+            selectedTab="browse"
             navigator={navigator}/>
         }/>
-    ) 
+    )
   } // end of render()
 
 }; // end of Begin

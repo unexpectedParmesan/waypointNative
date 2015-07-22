@@ -131,4 +131,16 @@ class Detail extends React.Component {
   } // end of renderQuest()
 }; // end of Detail class
 
+    // ATTEMPTING TO SWITCH TABS TO CURRENT QUEST
+    // I THINK WE MIGHT NEED TO USE NAVIGATOR
+
+    // var Main = require('../../Main/main.index.js');
+    // console.log('$$$$$$$ passing props to main and selecting the quest tab');
+    // return (
+    //   <Main
+    //     currentQuest={this.props.details}
+    //     selectedTab='quest'
+    //   />
+    // )
+
 module.exports = Detail;

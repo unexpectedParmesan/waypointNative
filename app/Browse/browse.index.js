@@ -12,7 +12,7 @@ var {
 
 class Browse extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2 }),
@@ -33,7 +33,7 @@ class Browse extends React.Component {
           return [];
         } else {
           var result = response.json();
-          return result;  
+          return result;
         }
       })
       .then((responseData) => {
@@ -57,7 +57,7 @@ class Browse extends React.Component {
   } // end of componentWillMount()
 
   // Renders loading view while data is fetched from API
-  renderLoading(){
+  renderLoading() {
     return (
       <ActivityIndicatorIOS
         color='#ED4519'
@@ -77,7 +77,7 @@ class Browse extends React.Component {
   }
 
   // Renders the list of quests retrieved from the API
-  renderList(){
+  renderList() {
     return (
         <ListView
           style={styles.list}
