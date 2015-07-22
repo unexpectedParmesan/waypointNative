@@ -21,6 +21,7 @@ class Map extends React.Component {
         coords: {} // initializes geolocation coordinates to be populated by navigator
       },
       expanded: false,
+      arrived: false,
       waypoints: {
         annotations: props.quest.waypoints, //array of waypoints
         number: props.numWaypoints // number of waypoints in the quest
@@ -93,7 +94,39 @@ class Map extends React.Component {
   * annotations are the pins shown on the map and must be an array of objects.
   */
   render() {
-    console.log();
+
+    console.log('this.props.quest.waypoints =============> ', this.props.quest.waypoints);
+
+    var nextWaypointButton;
+    if (this.state.arrived && this.state.currentIndex < this.props.quest.waypoints.length - 1) {
+      nextWaypointButton = (
+        <TouchableHighlight
+          style={styles.nextWaypointButton}
+          onPress={() => {
+            this.state.expanded = false;
+            this.state.arrived = false;
+            this._onNextPress();
+          }}>
+          <Text style={styles.nextWaypointButtonText}>{'Next Waypoint'}</Text>
+        </TouchableHighlight>
+      )
+    } else if (this.state.arrived && this.state.currentIndex === this.props.quest.waypoints.length - 1) {
+      nextWaypointButton = (
+        <TouchableHighlight
+          style={styles.nextWaypointButton}
+          onPress={() => {
+            this.state.expanded = false;
+            this.state.arrived = false;
+            this._updateQuestStatus();
+            this.props.navigator.popToTop();
+          }}>
+          <Text style={styles.nextWaypointButtonText}>{'Exit Quest'}</Text>
+        </TouchableHighlight>
+      )
+    } else {
+      nextWaypointButton = <View />
+    }
+
     var description;
     if (this.state.expanded) {
       description = (
@@ -101,14 +134,7 @@ class Map extends React.Component {
           <ScrollView style={styles.scrollView} centerContent={false}>
             <Text style={styles.description}>{this.props.quest.waypoints[this.state.currentIndex].description}</Text>
           </ScrollView>
-          <TouchableHighlight
-            style={styles.nextWaypointButton}
-            onPress={() => {
-              this.state.expanded = false;
-              this._onNextPress();
-            }}>
-            <Text style={styles.nextWaypointButtonText}>{'Next Waypoint'}</Text>
-          </TouchableHighlight>
+          {nextWaypointButton}
         </View>
       )
     } else {
@@ -217,8 +243,8 @@ class Map extends React.Component {
     if (this.state.currentWaypoint) {
 
       this._updateQuestStatus(next);
+      this.state.arrived = true;
       this.state.expanded = true;
-
       // this.state.alertShowing = true;
       // AlertIOS.alert(
       //   'Arrived at ' + this.state.currentWaypoint.title,
