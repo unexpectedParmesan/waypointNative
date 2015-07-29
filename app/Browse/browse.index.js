@@ -1,7 +1,9 @@
 'use strict';
 var React = require('react-native');
 var Detail = require('./Detail/detail.index.js');
+var Message = require('../Message/message.index.js');
 var styles = require('./browse.styles.js');
+
 var {
   Text,
   View,
@@ -37,7 +39,9 @@ class Browse extends React.Component {
         }
       })
       .then((responseData) => {
-        console.log('response data: ', responseData);
+        if (!responseData.length) {
+          this.setState( { empty: true });
+        }
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData),
           loading: false,
@@ -68,11 +72,8 @@ class Browse extends React.Component {
   }
 
   renderError() {
-    console.log('rendering error');
     return (
-      <View style={styles.centering}>
-       <Text>Sorry, no quests match.</Text>
-      </View>
+      <Message message="Sorry, no quests match." />
     );
   }
 
