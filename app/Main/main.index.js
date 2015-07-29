@@ -179,7 +179,7 @@ class Main extends React.Component {
     var component = this.state.currentQuest ? Map : Message;
     var currentIndex = this.state.currentQuest ? this.state.currentQuest.current_waypoint_index : null;
     var numWaypoints = this.state.currentQuest ? this.state.currentQuest.waypoints.length : null;
-    var message = "You do not have a current quest. Click Browse or Profile to start or resume a quest."
+    var message = "You do not have a current quest. Click Browse or Profile to get started."
     return (
       <NavigatorIOS
         style={styles.wrapper}
@@ -199,6 +199,9 @@ class Main extends React.Component {
 
   // renders the Profile view
   renderProfileView(){
+    if (this.refs.ProfileRef) {
+      this.refs.ProfileRef.popToTop();
+    }
     return (
       <NavigatorIOS
         style={styles.wrapper}
