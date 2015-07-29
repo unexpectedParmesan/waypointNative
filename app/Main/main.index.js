@@ -27,7 +27,7 @@ class Main extends React.Component {
     this.state = {
       selectedTab: props.selectedTab,
       user: props.user,
-      currentQuest: props.currentQuest || {title: "currentQuest", waypoints: [{ latitude: 1.111111, longitude: 2.222222 }]},
+      currentQuest: null,
       handleLogout: props.handleLogout,
       // baseUrl: 'http://127.0.0.1:3000'
     };
@@ -109,7 +109,12 @@ class Main extends React.Component {
         //   {this.renderCreateView()}
         // </TabBarIOS.Item>
 
-
+  // Passed into child components so that clicking on Start Quest or Resume Quest in detail view
+  // sets that chosen quest to be the user's current quest.
+  setCurrentQuest(questData) {
+    console.log('setting current quest: ', questData);
+    this.setState({ currentQuest: questData });
+  }
 
   // renders the Browse Quests list
   renderBrowseView(){
@@ -123,7 +128,12 @@ class Main extends React.Component {
           title: 'Browse Quests',
           backButtonTitle: ' ',
           component: Browse,
-          passProps: { ref: this.refs, user: this.props.user, url: this.props.baseUrl + 'quests', baseUrl: this.props.baseUrl, type: 'browse' }
+          passProps: { ref: this.refs, 
+                       user: this.props.user, 
+                       url: this.props.baseUrl + 'quests', 
+                       baseUrl: this.props.baseUrl, 
+                       type: 'browse',
+                       setCurrentQuest: this.setCurrentQuest.bind(this) }
         }}/>
     )
   } // end of renderBrowseView()
@@ -144,12 +154,39 @@ class Main extends React.Component {
   // } // end of renderCreateView()
 
   renderQuestView() {
+    // return (
+    //   <View style={styles.wrapper}>
+    //     <CurrentQuest
+    //      quest={this.state.currentQuest}>
+    //     </CurrentQuest>
+    //   </View>
+    // )
+    // if (this.state.currentQuest) {
+
+    // } else {
+    //   return (
+    //     <View style={styles.centering}>
+    //      <Text>Go to Profile or Browse to start or resume a quest.</Text>
+    //     </View>
+    //   );
+    // }
+    var component = this.state.currentQuest ? Map : View;
+    var currentIndex = this.state.currentQuest ? this.state.currentQuest.current_waypoint_index : null;
+    var numWaypoints = this.state.currentQuest ? this.state.currentQuest.waypoints.length : null;
+
     return (
-      <View style={styles.wrapper}>
-        <CurrentQuest
-         quest={this.state.currentQuest}>
-        </CurrentQuest>
-      </View>
+      <NavigatorIOS
+        style={styles.wrapper}
+        ref="QuestRef"
+        initialRoute={{
+          title: 'Current Quest',
+          backButtonTitle: ' ',
+          component: Map,
+          passProps: { quest: this.state.currentQuest, 
+                       numWaypoints: numWaypoints,
+                       currentIndex: currentIndex || 0,
+                       url: this.props.baseUrl }
+        }}/>
     )
   }
 
@@ -163,7 +200,11 @@ class Main extends React.Component {
           title: 'Profile',
           backButtonTitle: ' ',
           component: Profile,
-          passProps: { user: this.props.user, onLogout: this.props.onLogout, ref: this.refs, url: this.props.baseUrl }
+          passProps: { user: this.props.user, 
+                       onLogout: this.props.onLogout, 
+                       ref: this.refs, 
+                       url: this.props.baseUrl,
+                       setCurrentQuest: this.setCurrentQuest.bind(this) }
         }}/>
     )
   } // end of renderProfileView()

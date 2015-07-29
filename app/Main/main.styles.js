@@ -17,6 +17,11 @@ var styles = StyleSheet.create({
     padding: 30,
     marginTop: 65,
     alignItems: 'center'
+  },
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
 

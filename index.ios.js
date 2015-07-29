@@ -29,8 +29,8 @@ class Waypoint extends React.Component {
     super(props);
     this.state = {
       user: null,
-      baseUrl: 'https://waypointserver.herokuapp.com/',
-      // baseUrl: 'http://127.0.0.1:3000/',
+      // baseUrl: 'https://waypointbeta.herokuapp.com/',
+      baseUrl: 'http://127.0.0.1:3000/',
       // "Entry" defines what view is rendered.
       // It needs to be in the state because render() is only called once.
       // Because "entry" is a state variable, it auto-updates depending whether user is logged in.

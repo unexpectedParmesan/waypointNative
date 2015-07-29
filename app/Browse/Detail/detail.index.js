@@ -101,7 +101,9 @@ class Detail extends React.Component {
       headers: { 'Content-Type': 'application/json' }
    })
     .then((response) => {
-     console.log('adding active quest or acknowledging its existence: ', response);
+     var quest = this.props.details;
+     quest.current_waypoint_index = JSON.parse(response._bodyText).current_waypoint_index;
+     this.props.setCurrentQuest(quest);
     })
    .catch((error) => {
      console.warn(error);
@@ -114,7 +116,10 @@ class Detail extends React.Component {
 
     if (this.props.type === 'browse' || this.props.type === 'created') {
       this._addActiveQuest();
+    } else {
+      this.props.setCurrentQuest(this.props.details);
     }
+
 
     this.props.navigator.push({
       title: this.props.details.title,
