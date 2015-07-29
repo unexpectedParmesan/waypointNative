@@ -8,6 +8,8 @@ var styles = require('./begin.styles.js');
 var {
   Navigator,
   View,
+  Image,
+  Text
 } = React;
 
 class Login extends React.Component {
@@ -23,7 +25,12 @@ class Login extends React.Component {
     // onLogin is called if user clicks that button.
     return (
       <View style={styles.loginContainer} >
-        <FBLogin style={styles.login}
+        <View style={styles.headingContainer}>
+          <Image source={require('./assets/waypoint_icon_2.png')} style={styles.icon} />
+          <Text style={styles.heading}>Waypoint Beta</Text>
+        </View>
+        <Image source={require('./assets/waypoint_map.png')} style={styles.mapIllustration} />
+        <FBLogin 
           permissions={["email", "user_friends"]}
           onLogin={function(data) {
             console.log('Logged in!');

@@ -156,6 +156,7 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		832BCA6B1B50A0EE00BD9F5A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		83B8D1921B6861C400E6CFFD /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		83EF86031B51A06D0004CBA9 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		83EF86051B51A08B0004CBA9 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		C32B046C1B51CAB9000D875B /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -336,6 +337,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				83B8D1921B6861C400E6CFFD /* libxml2.2.dylib */,
 				1124D8131B5716AD00DC5A2A /* FBSDKShareKit.framework */,
 				1124D8111B57168B00DC5A2A /* FBSDKLoginKit.framework */,
 				1124D80F1B57166A00DC5A2A /* FBSDKCoreKit.framework */,
