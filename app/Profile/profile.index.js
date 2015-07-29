@@ -33,7 +33,12 @@ class Profile extends React.Component {
       backButtonTitle: ' ',
       title: 'Active Quests',
       component: Browse,
-      passProps: { ref: this.refs, user: this.props.user, url: url, type: 'active', baseUrl: this.props.url }
+      passProps: { ref: this.refs, 
+                   user: this.props.user, 
+                   url: url, type: 'active', 
+                   baseUrl: this.props.url,
+                   setCurrentQuest: this.props.setCurrentQuest,
+                   setSelectedTab: this.props.setSelectedTab }
     });
   }
 
@@ -44,7 +49,12 @@ class Profile extends React.Component {
       backButtonTitle: ' ',
       title: 'Created Quests',
       component: Browse,
-      passProps: { ref: this.refs, user: this.props.user, url: url, type: 'created', baseUrl: this.props.url }
+      passProps: { ref: this.refs, 
+                   user: this.props.user, 
+                   url: url, type: 'created', 
+                   baseUrl: this.props.url,
+                   setCurrentQuest: this.props.setCurrentQuest,
+                   setSelectedTab: this.props.setSelectedTab }
     });
   }
 

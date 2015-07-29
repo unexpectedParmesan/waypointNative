@@ -96,6 +96,11 @@ class Browse extends React.Component {
       description = quest.description;
     }
 
+    // ensures that quests with 0 waypoints don't render
+    if (!quest.waypoints.length) {
+      return ( <View></View> );
+    }
+
     // The onPress event will call the renderDetailView() function to render the Detail View for the quest
     return (
       <TouchableHighlight style={styles.item}
@@ -119,13 +124,20 @@ class Browse extends React.Component {
 
   // Renders the quest's Detail View
   renderDetailView(quest) {
+
     // render the scene with the navigator object to allow
     // the user to navigate back to the main ListView from the Detail View
     this.props.navigator.push({
       backButtonTitle: ' ',
       title: 'Quest Details',
       component: Detail,
-      passProps: { details: quest, type: this.props.type, baseUrl: this.props.baseUrl, user: this.props.user, callback: this._fetchQuests.bind(this) }
+      passProps: { details: quest, 
+                   type: this.props.type, 
+                   baseUrl: this.props.baseUrl, 
+                   user: this.props.user, 
+                   callback: this._fetchQuests.bind(this),
+                   setCurrentQuest: this.props.setCurrentQuest,
+                   setSelectedTab: this.props.setSelectedTab }
     }) // end of props.navigator.push()
   } // end of renderDetailView()
 
