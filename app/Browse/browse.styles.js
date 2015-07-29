@@ -4,7 +4,7 @@ var { StyleSheet } = React;
 
 var styles = StyleSheet.create({
   list: {
-    backgroundColor: '#c9d0d5',
+    backgroundColor: '#f3f3f3',
   },
   item: {
     flex: 1,
@@ -12,7 +12,7 @@ var styles = StyleSheet.create({
     padding: 15,
     backgroundColor: '#FFFFFF',
     marginTop: 10,
-    borderBottomColor: '#b5bfc6',
+    borderBottomColor: '#d1d1d1',
     borderBottomWidth: 1,
   },
   title: {
@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
     lineHeight: 20,
-    color: '#196EEE',
+    color: '#348F38',
   },
   detailsContainer: {
     flex: 1,
@@ -31,10 +31,10 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 13,
     lineHeight: 18,
-    color: '#839496',
+    color: '#8d8d8d',
   },
   description: {
-    color: '#5b6b77',
+    color: '#606060',
     fontSize: 13,
     lineHeight: 18,
   },
