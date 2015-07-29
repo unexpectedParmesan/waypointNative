@@ -122,7 +122,7 @@ class Detail extends React.Component {
       this.props.setSelectedTab('quest');
     }
 
-    // this.props.setSelectedTab('quest');
+    this.props.navigator.pop();
     this.props.navigator.push({
       title: this.props.details.title,
       component: Map,

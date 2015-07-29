@@ -37,7 +37,8 @@ class Profile extends React.Component {
                    user: this.props.user, 
                    url: url, type: 'active', 
                    baseUrl: this.props.url,
-                   setCurrentQuest: this.props.setCurrentQuest }
+                   setCurrentQuest: this.props.setCurrentQuest,
+                   setSelectedTab: this.props.setSelectedTab }
     });
   }
 
@@ -52,7 +53,8 @@ class Profile extends React.Component {
                    user: this.props.user, 
                    url: url, type: 'created', 
                    baseUrl: this.props.url,
-                   setCurrentQuest: this.props.setCurrentQuest }
+                   setCurrentQuest: this.props.setCurrentQuest,
+                   setSelectedTab: this.props.setSelectedTab }
     });
   }
 
