@@ -14,6 +14,7 @@ var Browse = require('../Browse/browse.index.js');
 var Map = require('../Map/map.index.js');
 var Create = require('../Create/create.index.js');
 var Profile = require('../Profile/profile.index.js');
+var Message = require('../Message/message.index.js');
 var CurrentQuest = require('../CurrentQuest/currentQuest.index.js');
 
 // var baseUrl = 'https://waypointserver.herokuapp.com';
@@ -63,13 +64,18 @@ class Main extends React.Component {
           selected={this.state.selectedTab === 'quest'}
           title="Quest"
           onPress={ ()=> {
-            this.setSelectedTab('quest');
+            if (this.state.selectedTab === 'quest') {
+              this.refs.QuestRef.popToTop();
+            } else {
+              this.setSelectedTab('quest');
+            }
           }}>
           {this.renderQuestView()}
         </TabBarIOS.Item>
 
 
         <TabBarIOS.Item
+          style={styles.description}
           selected={this.state.selectedTab === 'profile'}
           title="Profile"
           onPress={ ()=> {
@@ -107,7 +113,21 @@ class Main extends React.Component {
   // sets that chosen quest to be the user's current quest.
   setCurrentQuest(questData) {
     console.log('setting current quest: ', questData);
-    this.setState({ currentQuest: questData });
+    this.setState({ currentQuest: questData }, () => {
+      if (this.refs.QuestRef) {
+        var newRoute = {
+          title: 'Current Quest',
+          backButtonTitle: ' ',
+          component: Map,
+          passProps: { quest: this.state.currentQuest, 
+                       numWaypoints: this.state.currentQuest.waypoints.length,
+                       currentIndex: this.state.currentQuest.current_waypoint_index || 0,
+                       url: this.props.baseUrl,
+                       message: '' }
+        }
+        this.refs.QuestRef.replace(newRoute);
+      }
+    });
   }
 
   setSelectedTab(selection) {
@@ -156,13 +176,7 @@ class Main extends React.Component {
   // } // end of renderCreateView()
 
   renderQuestView() {
-    // return (
-    //   <View style={styles.wrapper}>
-    //     <CurrentQuest
-    //      quest={this.state.currentQuest}>
-    //     </CurrentQuest>
-    //   </View>
-    // )
+
     // if (this.state.currentQuest) {
 
     // } else {
@@ -172,10 +186,10 @@ class Main extends React.Component {
     //     </View>
     //   );
     // }
-    var component = this.state.currentQuest ? Map : View;
+    var component = this.state.currentQuest ? Map : Message;
     var currentIndex = this.state.currentQuest ? this.state.currentQuest.current_waypoint_index : null;
     var numWaypoints = this.state.currentQuest ? this.state.currentQuest.waypoints.length : null;
-
+    var message = "You do not have a current quest. Click Browse or Profile to start or resume a quest."
     return (
       <NavigatorIOS
         style={styles.wrapper}
@@ -183,11 +197,12 @@ class Main extends React.Component {
         initialRoute={{
           title: 'Current Quest',
           backButtonTitle: ' ',
-          component: Map,
+          component: component,
           passProps: { quest: this.state.currentQuest, 
                        numWaypoints: numWaypoints,
                        currentIndex: currentIndex || 0,
-                       url: this.props.baseUrl }
+                       url: this.props.baseUrl,
+                       message: message }
         }}/>
     )
   }
