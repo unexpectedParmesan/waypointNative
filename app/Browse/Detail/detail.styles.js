@@ -21,10 +21,12 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   title: {
-    fontSize: 25,
+    fontSize: 20,
+    color: '#348F38'
   },
   creator: {
     marginTop: 10,
+    color: '#606060',
   },
   map: {
     position: 'relative',
@@ -38,21 +40,21 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     lineHeight: 18,
-    color: '#839496',
+    color: '#8d8d8d',
     marginTop: 10,
   },
   description: {
-    color: '#5b6b77',
+    color: '#606060',
     fontSize: 17,
     lineHeight: 20,
     marginTop: 10,
   },
   startQuestButton: {
     marginTop: 20,
-    backgroundColor: '#106CC8',
+    backgroundColor: '#48B04A',
     padding: 15,
     borderWidth: 1,
-    borderColor: '#0d5ba9',
+    borderColor: '#348F38',
     borderRadius: 3,
     opacity: 1,
   },
