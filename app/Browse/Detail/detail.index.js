@@ -104,6 +104,7 @@ class Detail extends React.Component {
      var quest = this.props.details;
      quest.current_waypoint_index = JSON.parse(response._bodyText).current_waypoint_index;
      this.props.setCurrentQuest(quest);
+     this.props.setSelectedTab('quest');
     })
    .catch((error) => {
      console.warn(error);
@@ -118,9 +119,10 @@ class Detail extends React.Component {
       this._addActiveQuest();
     } else {
       this.props.setCurrentQuest(this.props.details);
+      this.props.setSelectedTab('quest');
     }
 
-
+    // this.props.setSelectedTab('quest');
     this.props.navigator.push({
       title: this.props.details.title,
       component: Map,

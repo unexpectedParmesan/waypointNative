@@ -52,9 +52,7 @@ class Main extends React.Component {
             if (this.state.selectedTab === 'browse'){
               this.refs.BrowseRef.popToTop();
             } else {
-              this.setState({
-                selectedTab: 'browse'
-              });
+              this.setSelectedTab('browse');
             }
           }}>
           {this.renderBrowseView()}
@@ -65,9 +63,7 @@ class Main extends React.Component {
           selected={this.state.selectedTab === 'quest'}
           title="Quest"
           onPress={ ()=> {
-            this.setState({
-              selectedTab: 'quest'
-            });
+            this.setSelectedTab('quest');
           }}>
           {this.renderQuestView()}
         </TabBarIOS.Item>
@@ -80,9 +76,7 @@ class Main extends React.Component {
             if (this.state.selectedTab === 'profile') {
               this.refs.ProfileRef.popToTop();
             } else {
-              this.setState({
-                selectedTab: 'profile'
-              });
+              this.setSelectedTab('profile');
             }
           }}>
           {this.renderProfileView()}
@@ -116,6 +110,13 @@ class Main extends React.Component {
     this.setState({ currentQuest: questData });
   }
 
+  setSelectedTab(selection) {
+    console.log('setting selected tab: ', selection);
+    this.setState({ selectedTab: selection }, () => {
+      console.log('new state after setting tab: ', this.state);
+    });
+  }
+
   // renders the Browse Quests list
   renderBrowseView(){
     console.log('rendering browse view');
@@ -133,7 +134,8 @@ class Main extends React.Component {
                        url: this.props.baseUrl + 'quests', 
                        baseUrl: this.props.baseUrl, 
                        type: 'browse',
-                       setCurrentQuest: this.setCurrentQuest.bind(this) }
+                       setCurrentQuest: this.setCurrentQuest.bind(this),
+                       setSelectedTab: this.setSelectedTab.bind(this) }
         }}/>
     )
   } // end of renderBrowseView()
@@ -204,7 +206,8 @@ class Main extends React.Component {
                        onLogout: this.props.onLogout, 
                        ref: this.refs, 
                        url: this.props.baseUrl,
-                       setCurrentQuest: this.setCurrentQuest.bind(this) }
+                       setCurrentQuest: this.setCurrentQuest.bind(this),
+                       setSelectedTab: this.setSelectedTab.bind(this) }
         }}/>
     )
   } // end of renderProfileView()

@@ -136,7 +136,8 @@ class Browse extends React.Component {
                    baseUrl: this.props.baseUrl, 
                    user: this.props.user, 
                    callback: this._fetchQuests.bind(this),
-                   setCurrentQuest: this.props.setCurrentQuest }
+                   setCurrentQuest: this.props.setCurrentQuest,
+                   setSelectedTab: this.props.setSelectedTab }
     }) // end of props.navigator.push()
   } // end of renderDetailView()
 
