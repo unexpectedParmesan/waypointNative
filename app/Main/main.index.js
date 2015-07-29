@@ -176,16 +176,6 @@ class Main extends React.Component {
   // } // end of renderCreateView()
 
   renderQuestView() {
-
-    // if (this.state.currentQuest) {
-
-    // } else {
-    //   return (
-    //     <View style={styles.centering}>
-    //      <Text>Go to Profile or Browse to start or resume a quest.</Text>
-    //     </View>
-    //   );
-    // }
     var component = this.state.currentQuest ? Map : Message;
     var currentIndex = this.state.currentQuest ? this.state.currentQuest.current_waypoint_index : null;
     var numWaypoints = this.state.currentQuest ? this.state.currentQuest.waypoints.length : null;
