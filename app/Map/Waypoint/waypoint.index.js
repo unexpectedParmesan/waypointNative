@@ -20,11 +20,12 @@ class Waypoint extends React.Component {
   }
 
   render() {
-    return (
-      <View>
-        <ScrollView style={styles.scrollView} centerContent={false}>
-          <Text style={styles.description}>{this.props.description}</Text>
-          <TouchableHighlight
+
+    var mediaView;
+    if (!this.props.url) {
+      mediaView = <View />;
+    } else {
+      mediaView = ( <TouchableHighlight
             onPress={() => {
                this.props.navigator.push(
                 {
@@ -38,7 +39,14 @@ class Waypoint extends React.Component {
                );
             }}>
             <Text style={styles.description}>{'CLICK MEDIA LINK HERE'}</Text>
-          </TouchableHighlight>
+          </TouchableHighlight> );
+    }
+
+    return (
+      <View>
+        <ScrollView style={styles.scrollView} centerContent={false}>
+          <Text style={styles.description}>{this.props.description}</Text>
+          {mediaView}
         </ScrollView>
         {this.props.button}
       </View>
