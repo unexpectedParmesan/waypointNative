@@ -16,6 +16,67 @@ var Map = require('../../Map/map.index.js');
 
 class Detail extends React.Component {
   // When 'Start Quest' button is pressed, renderQuest() is called
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      region: {
+        latitude: 37.783872,
+        latitudeDelta: 0.001,
+        longitude: -122.408972,
+        longitudeDelta: 0.001
+      },
+    };
+  } // end of constructor()
+
+  _setRegion(currentPosition) {
+    var maxLat = currentPosition.coords.latitude;
+    var minLat = maxLat;
+    var maxLong = currentPosition.coords.longitude;
+    var minLong = maxLong;
+    var waypoints = this.props.details.waypoints;
+    for (var i = 0; i < waypoints.length; i++) {
+      var waypoint = waypoints[i];
+      if (waypoint.latitude > maxLat) {
+        maxLat = waypoint.latitude;
+      }
+      if (waypoint.latitude < minLat) {
+        minLat = waypoint.latitude;
+      }
+      if (waypoints.longitude > maxLong) {
+        maxLong = waypoint.longitude;
+      }
+      if (waypoints.latitude < minLong) {
+        minLong = waypoint.longitude;
+      }
+    }
+    var latDelta = Math.max(maxLat - minLat, 0.001) * 2;
+    var longDelta = Math.max(maxLong - minLong, 0.001) * 2;
+    var latCenter = minLat + ((maxLat - minLat) / 2);
+    var longCenter = minLong + ((maxLong - minLong) / 2);
+
+    var newRegion = {
+      latitude: latCenter,
+      latitudeDelta: latDelta,
+      longitude: longCenter,
+      longitudeDelta: longDelta
+    };
+    this.setState({ region: newRegion }, () => {
+      console.log('new state: ', this.state.region);
+    })
+  }
+
+  componentDidMount() {
+    var context = this;
+    navigator.geolocation.getCurrentPosition(
+      (position) => { // success callback: sets initial position and initializes first waypoint
+        context._setRegion(position);
+      },
+      (error) => alert(error.message),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    );
+  }
+
   render () {
     return (
       <ScrollView
@@ -32,12 +93,8 @@ class Detail extends React.Component {
             </Text>
             <MapView
                style={styles.map}
-               region={{
-                 latitude:  37.783872,
-                 latitudeDelta: 0.001,
-                 longitude: -122.408972,
-                 longitudeDelta: 0.001,
-               }}
+               region={this.state.region}
+               annotations={this.props.details.waypoints}
                showsUserLocation={true}/>
             <View style={styles.detailsContainer}>
               <Text style={styles.details}>
@@ -138,16 +195,5 @@ class Detail extends React.Component {
   } // end of renderQuest()
 }; // end of Detail class
 
-    // ATTEMPTING TO SWITCH TABS TO CURRENT QUEST
-    // I THINK WE MIGHT NEED TO USE NAVIGATOR
-
-    // var Main = require('../../Main/main.index.js');
-    // console.log('$$$$$$$ passing props to main and selecting the quest tab');
-    // return (
-    //   <Main
-    //     currentQuest={this.props.details}
-    //     selectedTab='quest'
-    //   />
-    // )
 
 module.exports = Detail;
