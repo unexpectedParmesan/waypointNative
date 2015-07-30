@@ -123,6 +123,7 @@ class Main extends React.Component {
                        numWaypoints: this.state.currentQuest.waypoints.length,
                        currentIndex: this.state.currentQuest.current_waypoint_index || 0,
                        url: this.props.baseUrl,
+                       user: this.props.user,
                        message: '' }
         }
         this.refs.QuestRef.replace(newRoute);
@@ -192,7 +193,8 @@ class Main extends React.Component {
                        numWaypoints: numWaypoints,
                        currentIndex: currentIndex || 0,
                        url: this.props.baseUrl,
-                       message: message }
+                       message: message,
+                       user: this.props.user }
         }}/>
     )
   }

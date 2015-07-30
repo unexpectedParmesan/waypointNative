@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var styles = require('./map.styles.js');
+var Waypoint = require('./Waypoint/waypoint.index.js');
 var utils = require('./map.utils.js'); // utility functions for data munging
 
 var {
@@ -129,14 +130,23 @@ class Map extends React.Component {
 
     var description;
     if (this.state.expanded) {
+      // description = (
+      //   <View>
+      //     <ScrollView style={styles.scrollView} centerContent={false}>
+      //       <Text style={styles.description}>{this.props.quest.waypoints[this.state.currentIndex].description}</Text>
+      //     </ScrollView>
+      //     {nextWaypointButton}
+      //   </View>
+      // )
       description = (
-        <View>
-          <ScrollView style={styles.scrollView} centerContent={false}>
-            <Text style={styles.description}>{this.props.quest.waypoints[this.state.currentIndex].description}</Text>
-          </ScrollView>
-          {nextWaypointButton}
-        </View>
-      )
+        <Waypoint 
+          description={ this.props.quest.waypoints[this.state.currentIndex].description } 
+          title = { this.props.quest.waypoints[this.state.currentIndex].title } 
+          button={ nextWaypointButton } 
+          navigator={ this.props.navigator }
+          url= { this.props.quest.waypoints[this.state.currentIndex].media_url }
+        />
+      );
     } else {
       description = <View />;
     }
