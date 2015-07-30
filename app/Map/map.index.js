@@ -320,8 +320,8 @@ class Map extends React.Component {
             // updates current-distance-related state variables
             context.setState({
               currentDistance: utils.coordinateDistance(context.state.position.coords, context.state.currentWaypoint)}, () => {
-              context.setState({latitudeDelta: context._getCoordinateDelta('latitude'), // updates region for map display
-                                longitudeDelta: context._getCoordinateDelta('longitude')});
+              // context.setState({latitudeDelta: context._getCoordinateDelta('latitude'), // updates region for map display
+              //                   longitudeDelta: context._getCoordinateDelta('longitude')});
               context.setState({currentMiles: context._getCurrentDistanceInMiles()});
               // sets off arrival logic if we're close enough to waypoint
               if (context.state.currentDistance <= 0.0003 && !context.state.alertShowing) {
