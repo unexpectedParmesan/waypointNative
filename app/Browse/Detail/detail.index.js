@@ -43,15 +43,15 @@ class Detail extends React.Component {
       if (waypoint.latitude < minLat) {
         minLat = waypoint.latitude;
       }
-      if (waypoints.longitude > maxLong) {
+      if (waypoint.longitude > maxLong) {
         maxLong = waypoint.longitude;
       }
-      if (waypoints.latitude < minLong) {
+      if (waypoint.longitude < minLong) {
         minLong = waypoint.longitude;
       }
     }
-    var latDelta = Math.max(maxLat - minLat, 0.001) * 2;
-    var longDelta = Math.max(maxLong - minLong, 0.001) * 2;
+    var latDelta = Math.max(2 *(maxLat - minLat), 0.001);
+    var longDelta = Math.max(2 * (maxLong - minLong), 0.001);
     var latCenter = minLat + ((maxLat - minLat) / 2);
     var longCenter = minLong + ((maxLong - minLong) / 2);
 
@@ -94,8 +94,7 @@ class Detail extends React.Component {
             <MapView
                style={styles.map}
                region={this.state.region}
-               annotations={this.props.details.waypoints}
-               showsUserLocation={true}/>
+               annotations={this.props.details.waypoints} />
             <View style={styles.detailsContainer}>
               <Text style={styles.details}>
                 {this.props.details.numWaypoints} stops - {this.props.details.length} - {this.props.details.estimated_time}
