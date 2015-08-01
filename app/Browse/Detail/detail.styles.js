@@ -14,7 +14,7 @@ var styles = StyleSheet.create({
   },
   content: {
     position: 'relative',
-    marginTop: 64,
+    marginTop: 44,
   },
   detailsContainer: {
     flex: 1,
@@ -22,11 +22,11 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color: '#348F38'
+    color: '#3784d3'
   },
   creator: {
     marginTop: 10,
-    color: '#606060',
+    color: '#7f7f7f',
   },
   map: {
     position: 'relative',
@@ -40,11 +40,11 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     lineHeight: 18,
-    color: '#8d8d8d',
+    color: '#7f7f7f',
     marginTop: 10,
   },
   description: {
-    color: '#606060',
+    color: '#555555',
     fontSize: 17,
     lineHeight: 20,
     marginTop: 10,

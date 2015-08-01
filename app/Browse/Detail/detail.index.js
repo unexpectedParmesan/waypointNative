@@ -78,6 +78,7 @@ class Detail extends React.Component {
   }
 
   render () {
+    
     return (
       <ScrollView
         onScroll={() => { console.log('onScroll!'); }}
@@ -97,7 +98,7 @@ class Detail extends React.Component {
                annotations={this.props.details.waypoints} />
             <View style={styles.detailsContainer}>
               <Text style={styles.details}>
-                {this.props.details.numWaypoints} stops - {this.props.details.length} - {this.props.details.estimated_time}
+                {this.props.details.waypoints.length} stops { this.props.details.estimated_time ? '- ' + this.props.details.estimated_time : '' }
               </Text>
             </View>
               <Text style={styles.description}>{this.props.details.description}</Text>

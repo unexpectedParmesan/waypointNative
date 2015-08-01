@@ -89,8 +89,8 @@ class Browse extends React.Component {
   renderQuest(quest) {
     // If the quest is longer than 100 characters, show a portion of description and add ellipses
     var description = '';
-    if (quest.description.length >= 100) {
-      description = quest.description.substring(0, 105) + '...';
+    if (quest.description.length >= 95) {
+      description = quest.description.substring(0, 95) + '...';
     } else {
       description = quest.description;
     }
