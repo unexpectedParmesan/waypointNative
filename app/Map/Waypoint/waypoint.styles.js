@@ -14,7 +14,7 @@ var styles = StyleSheet.create({
   },
 
   url: {
-    color: '#fff',
+    color: '#3784D3',
     fontSize: 16,
     padding: 20,
   },
