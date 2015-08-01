@@ -25,8 +25,7 @@ class Main extends React.Component {
       selectedTab: props.selectedTab,
       user: props.user,
       currentQuest: null,
-      handleLogout: props.handleLogout,
-      isFirstRender: true
+      handleLogout: props.handleLogout
     };
   } // end of constructor()
 
