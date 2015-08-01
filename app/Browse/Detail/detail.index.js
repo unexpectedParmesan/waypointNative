@@ -145,7 +145,7 @@ class Detail extends React.Component {
         underlayColor={'#2f8d58'}
         style={styles.deleteQuestButton}>
         <Text style={styles.buttonText}>
-          { this.props.type === 'active' ? 'Quit' : 'Delete' }
+          { this.props.type === 'active' ? 'Stop Quest' : 'Delete' }
         </Text>
       </TouchableHighlight>
     )

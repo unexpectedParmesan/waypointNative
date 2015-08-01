@@ -38,7 +38,7 @@ class Waypoint extends React.Component {
                 }
                );
             }}>
-            <Text style={styles.description}>{'CLICK MEDIA LINK HERE'}</Text>
+            <Text style={styles.url}>Media link: {this.props.url}</Text>
           </TouchableHighlight> );
     }
 

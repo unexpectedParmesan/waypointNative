@@ -7,10 +7,10 @@ var styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 30
+    padding: 20
   },
   messageText: {
-    fontSize: 20,
+    fontSize: 15,
     color: '#8d8d8d'
   }
 });

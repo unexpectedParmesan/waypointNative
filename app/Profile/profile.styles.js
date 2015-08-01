@@ -9,32 +9,54 @@ var styles = StyleSheet.create({
 
   container: {
     flexDirection: 'column',
-    padding: 30,
+    padding: 20,
     marginTop: 65,
     alignItems: 'stretch',
     backgroundColor: '#FFFFFF',
     position: 'relative',
   },
 
-  photoContainer: {
-   flexDirection: 'row',
-   justifyContent: 'space-around',
-   height: 100,
-  },
-
-  name: {
-    fontSize: 18,
-    fontWeight: '500',
-    justifyContent: 'center',
-    alignItems: 'center',
-    lineHeight: 60,
-    color: '#196EEE',
-    height: 100
+  headerContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    marginBottom: 30,
   },
 
   photo: {
-    width: 100,
-    height: 100,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+  },
+
+  nameAndLogOutContainer: {
+    flex: 1,
+  },
+
+  name: {
+    fontSize: 16,
+    marginTop: 5,
+    fontWeight: '500',
+    marginLeft: 6,
+    color: '#555555',
+  },
+
+  logoutButton: {
+    marginLeft: 10,
+    marginTop: 10,
+    borderRadius: 3,
+    width: 80,
+    textAlign: 'center',
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 7,
+    paddingRight: 7,
+    backgroundColor: '#eeeeee',
+  },
+
+  logoutButtonText: {
+    fontSize: 13,
+    textAlign: 'center',
+    color: '#555555',
   },
 
   questsContainer: {
@@ -43,43 +65,16 @@ var styles = StyleSheet.create({
   },
 
   questButton: {
-    flex: 1,
     borderWidth: 1,
-    marginTop: 10,
     alignItems: 'center',
-    backgroundColor: '#106CC8',
-    borderColor: '#0d5ba9',
+    backgroundColor: '#48B04A',
+    borderColor: '#2F9032',
     borderRadius: 3,
     opacity: 1,
+    marginBottom: 10,
   },
 
   questButtonText: {
-    padding: 20,
-    fontSize: 20,
-    color: '#FFFFFF',
-    textAlign: 'center',
-    borderBottomWidth: 1,
-    borderRightWidth: 1,
-    borderBottomColor: '#000000',
-    borderRightColor: '#000000',
-  },
-
-  logoutButtonContainer: {
-    flex: 1,
-    marginTop: 20,
-    alignItems: 'center',
-  },
-
-  logoutButton: {
-    borderWidth: 1,
-    alignItems: 'center',
-    backgroundColor: '#106CC8',
-    borderColor: '#0d5ba9',
-    borderRadius: 3,
-    opacity: 1,
-  },
-
-  logoutButtonText: {
     padding: 15,
     fontSize: 16,
     color: '#FFFFFF',
@@ -88,7 +83,7 @@ var styles = StyleSheet.create({
     borderRightWidth: 1,
     borderBottomColor: '#000000',
     borderRightColor: '#000000',
-  }
+  },
 
 });
 
