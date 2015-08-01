@@ -64,40 +64,39 @@ class Profile extends React.Component {
   render() {
    return (
     <View style={ styles.container } >
-      <View style={ styles.photoContainer }>
+      <View style={ styles.headerContainer }>
         <Image
           style={styles.photo}
           source={{uri: this.props.user.photoUrl}}
-          accessibilityLabel="Your Profile Photo"
-        />
-        <Text style={ styles.name }> { this.props.user.name } </Text>
+          accessibilityLabel="Your Profile Photo" />
+        <View style={styles.nameAndLogOutContainer}>
+          <Text style={ styles.name }> { this.props.user.name } </Text>
+          <TouchableHighlight
+             style={ styles.logoutButton}
+             onPress={ this.props.onLogout }
+             underlayColor={'#eeeeee'}>
+               <Text style={ styles.logoutButtonText }>
+                 Log Out
+               </Text>
+            </TouchableHighlight>
+        </View>
       </View>
       <View style={ styles.questsContainer } >
         <TouchableHighlight
           style={ styles.questButton }
           onPress={ this.renderActiveQuests.bind(this) }
-          underlayColor={'#2f8d58'}>
+          underlayColor={'#48B04A'}>
           <Text style={ styles.questButtonText } >
-            Active Quests
+            View Active Quests
           </Text>
         </TouchableHighlight>
           <TouchableHighlight
           style={ styles.questButton}
           onPress={ this.renderCreatedQuests.bind(this) }
-          underlayColor={'#2f8d58'}>
+          underlayColor={'#48B04A'}>
           <Text style={ styles.questButtonText }>
-            Created Quests
+            View Created Quests
           </Text>
-        </TouchableHighlight>
-      </View>
-      <View style={ styles.logoutButtonContainer }>
-          <TouchableHighlight
-           style={ styles.logoutButton}
-           onPress={ this.props.onLogout }
-           underlayColor={'#2f8d58'}>
-           <Text style={ styles.logoutButtonText }>
-             Log Out
-           </Text>
         </TouchableHighlight>
       </View>
     </View>

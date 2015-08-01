@@ -14,7 +14,7 @@ var styles = StyleSheet.create({
   },
   content: {
     position: 'relative',
-    marginTop: 64,
+    marginTop: 44,
   },
   detailsContainer: {
     flex: 1,
@@ -22,11 +22,11 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color: '#348F38'
+    color: '#3784d3'
   },
   creator: {
     marginTop: 10,
-    color: '#606060',
+    color: '#7f7f7f',
   },
   map: {
     position: 'relative',
@@ -40,36 +40,35 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     lineHeight: 18,
-    color: '#8d8d8d',
+    color: '#7f7f7f',
     marginTop: 10,
   },
   description: {
-    color: '#606060',
+    color: '#555555',
     fontSize: 17,
     lineHeight: 20,
     marginTop: 10,
   },
   startQuestButton: {
-    marginTop: 20,
-    backgroundColor: '#48B04A',
-    padding: 15,
+    marginTop: 30,
     borderWidth: 1,
-    borderColor: '#348F38',
+    alignItems: 'center',
+    backgroundColor: '#48B04A',
+    borderColor: '#2F9032',
     borderRadius: 3,
     opacity: 1,
   },
   deleteQuestButton: {
-    marginTop: 30,
-    backgroundColor: '#BA5C5C',
-    padding: 15,
+    marginTop: 10,
+    backgroundColor: '#D32E2E',
     borderWidth: 1,
     borderColor: '#7E5555',
     borderRadius: 3,
     opacity: 1,
-    alignItems: 'center'
   },
   buttonText: {
-    fontSize: 20,
+    padding: 15,
+    fontSize: 16,
     color: '#FFFFFF',
     textAlign: 'center',
     borderBottomWidth: 1,

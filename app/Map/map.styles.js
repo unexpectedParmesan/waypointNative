@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
   statusHeaderText: {
     color: "#fff",
     textAlign: 'center',
-    fontSize: 28,
+    fontSize: 20,
   },
 
   scrollView: {

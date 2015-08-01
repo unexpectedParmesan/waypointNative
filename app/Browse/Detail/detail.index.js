@@ -78,6 +78,7 @@ class Detail extends React.Component {
   }
 
   render () {
+    
     return (
       <ScrollView
         onScroll={() => { console.log('onScroll!'); }}
@@ -97,14 +98,14 @@ class Detail extends React.Component {
                annotations={this.props.details.waypoints} />
             <View style={styles.detailsContainer}>
               <Text style={styles.details}>
-                {this.props.details.numWaypoints} stops - {this.props.details.length} - {this.props.details.estimated_time}
+                {this.props.details.waypoints.length} stops { this.props.details.estimated_time ? '- ' + this.props.details.estimated_time : '' }
               </Text>
             </View>
               <Text style={styles.description}>{this.props.details.description}</Text>
             </View>
             <TouchableHighlight
               onPress={this.renderQuest.bind(this, this.props)}
-              underlayColor={'#2f8d58'}
+              underlayColor={'#48B04A'}
               style={styles.startQuestButton}>
               <Text style={styles.buttonText}>
                 { this.props.details.current_waypoint_index || this.props.type === 'active' ? 'Resume Quest' : 'Start Quest' }
@@ -141,10 +142,10 @@ class Detail extends React.Component {
     return (
       <TouchableHighlight
         onPress={this._deleteQuest.bind(this)}
-        underlayColor={'#2f8d58'}
+        underlayColor={'#D32E2E'}
         style={styles.deleteQuestButton}>
         <Text style={styles.buttonText}>
-          { this.props.type === 'active' ? 'Quit' : 'Delete' }
+          { this.props.type === 'active' ? 'Stop Quest' : 'Delete' }
         </Text>
       </TouchableHighlight>
     )
