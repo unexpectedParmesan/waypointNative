@@ -60,7 +60,7 @@ var styles = StyleSheet.create({
   },
   deleteQuestButton: {
     marginTop: 10,
-    backgroundColor: '#BA5C5C',
+    backgroundColor: '#D32E2E',
     borderWidth: 1,
     borderColor: '#7E5555',
     borderRadius: 3,

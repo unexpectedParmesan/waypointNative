@@ -105,7 +105,7 @@ class Detail extends React.Component {
             </View>
             <TouchableHighlight
               onPress={this.renderQuest.bind(this, this.props)}
-              underlayColor={'#2f8d58'}
+              underlayColor={'#48B04A'}
               style={styles.startQuestButton}>
               <Text style={styles.buttonText}>
                 { this.props.details.current_waypoint_index || this.props.type === 'active' ? 'Resume Quest' : 'Start Quest' }
@@ -142,7 +142,7 @@ class Detail extends React.Component {
     return (
       <TouchableHighlight
         onPress={this._deleteQuest.bind(this)}
-        underlayColor={'#2f8d58'}
+        underlayColor={'#D32E2E'}
         style={styles.deleteQuestButton}>
         <Text style={styles.buttonText}>
           { this.props.type === 'active' ? 'Stop Quest' : 'Delete' }

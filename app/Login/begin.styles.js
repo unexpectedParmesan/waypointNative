@@ -24,7 +24,7 @@ var styles = StyleSheet.create({
   },
   heading: {
     fontSize: 32, 
-    color: '#242E8F',
+    color: '#555555',
     fontWeight: '300',
     marginLeft: 5,
     bottom: 2,

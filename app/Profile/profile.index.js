@@ -74,7 +74,7 @@ class Profile extends React.Component {
           <TouchableHighlight
              style={ styles.logoutButton}
              onPress={ this.props.onLogout }
-             underlayColor={'#2f8d58'}>
+             underlayColor={'#eeeeee'}>
                <Text style={ styles.logoutButtonText }>
                  Log Out
                </Text>
@@ -85,7 +85,7 @@ class Profile extends React.Component {
         <TouchableHighlight
           style={ styles.questButton }
           onPress={ this.renderActiveQuests.bind(this) }
-          underlayColor={'#2f8d58'}>
+          underlayColor={'#48B04A'}>
           <Text style={ styles.questButtonText } >
             View Active Quests
           </Text>
@@ -93,7 +93,7 @@ class Profile extends React.Component {
           <TouchableHighlight
           style={ styles.questButton}
           onPress={ this.renderCreatedQuests.bind(this) }
-          underlayColor={'#2f8d58'}>
+          underlayColor={'#48B04A'}>
           <Text style={ styles.questButtonText }>
             View Created Quests
           </Text>
