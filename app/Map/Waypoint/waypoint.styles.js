@@ -4,19 +4,19 @@ var { StyleSheet } = React;
 var styles = StyleSheet.create({
 
   scrollView: {
-    height: 100,
+    height: 200,
   },
 
   description: {
     color: "#fff",
     fontSize: 16,
-    padding: 10,
+    padding: 20,
   },
 
   url: {
     color: '#fff',
     fontSize: 16,
-    padding: 10,
+    padding: 20,
   },
 
 });
