@@ -48,9 +48,6 @@ var styles = StyleSheet.create({
     height: 250,
     marginBottom: 70,
     backgroundColor: '#FFFFFF',
-  },
-  hidden: {
-    opacity: 0
   }
 });
 
