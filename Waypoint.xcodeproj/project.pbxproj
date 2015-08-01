@@ -34,7 +34,6 @@
 		832BCA6C1B50A0EE00BD9F5A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 832BCA6B1B50A0EE00BD9F5A /* FontAwesome.ttf */; };
 		83EF86041B51A06D0004CBA9 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 83EF86031B51A06D0004CBA9 /* Fonts */; };
 		83EF860B1B51A0CD0004CBA9 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83EF860A1B51A08B0004CBA9 /* libRNVectorIcons.a */; };
-		C32B046D1B51CAB9000D875B /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C32B046C1B51CAB9000D875B /* main.jsbundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,7 +164,6 @@
 		83B8D1921B6861C400E6CFFD /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		83EF86031B51A06D0004CBA9 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		83EF86051B51A08B0004CBA9 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
-		C32B046C1B51CAB9000D875B /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -351,7 +349,6 @@
 				1124D8111B57168B00DC5A2A /* FBSDKLoginKit.framework */,
 				1124D80F1B57166A00DC5A2A /* FBSDKCoreKit.framework */,
 				1124D80D1B57160B00DC5A2A /* Bolts.framework */,
-				C32B046C1B51CAB9000D875B /* main.jsbundle */,
 				83EF86031B51A06D0004CBA9 /* Fonts */,
 				832BCA6B1B50A0EE00BD9F5A /* FontAwesome.ttf */,
 				13B07FAE1A68108700A75B9A /* Waypoint */,
@@ -610,7 +607,6 @@
 				83EF86041B51A06D0004CBA9 /* Fonts in Resources */,
 				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				C32B046D1B51CAB9000D875B /* main.jsbundle in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				832BCA6C1B50A0EE00BD9F5A /* FontAwesome.ttf in Resources */,
 			);

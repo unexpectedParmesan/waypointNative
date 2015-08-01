@@ -140,8 +140,7 @@ class Map extends React.Component {
           title = { this.props.quest.waypoints[this.state.currentIndex].title } 
           button={ nextWaypointButton } 
           navigator={ this.props.navigator }
-          url= { this.props.quest.waypoints[this.state.currentIndex].media_url }
-        />
+          url= { this.props.quest.waypoints[this.state.currentIndex].media_url } />
       );
     } else {
       description = <View />;
@@ -158,8 +157,7 @@ class Map extends React.Component {
             longitudeDelta: this.state.longitudeDelta
           }}
           showsUserLocation={true}
-          annotations={ [this.state.currentWaypoint] }
-         />
+          annotations={ [this.state.currentWaypoint] } />
         <View style={styles.statusContainer}>
           <TouchableHighlight
             onPress={() => {
