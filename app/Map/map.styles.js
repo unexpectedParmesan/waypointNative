@@ -22,7 +22,7 @@ var styles = StyleSheet.create({
   },
 
   scrollView: {
-    height: 200,
+    height: 500,
   },
 
   description: {
