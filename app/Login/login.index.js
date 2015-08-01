@@ -26,7 +26,7 @@ class Login extends React.Component {
     return (
       <View style={styles.loginContainer} >
         <View style={styles.headingContainer}>
-          <Image source={require('image!waypoint_icon_2')} style={styles.icon} />
+          <Image source={require('image!waypoint_icon')} style={styles.icon} />
           <Text style={styles.heading}>Waypoint Beta</Text>
         </View>
         <Image source={require('image!waypoint_map')} style={styles.mapIllustration} />
