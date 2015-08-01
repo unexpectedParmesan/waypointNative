@@ -164,6 +164,7 @@ class Map extends React.Component {
               this.state.expanded = !this.state.expanded;
             }}>
             <View style={styles.statusHeader}>
+              <Text style={ {color: 'white'} }> { this.state.expanded ? '' : '^'} </Text>
               <Text style={styles.statusHeaderText}>
                 {this.state.currentMiles}
               </Text>

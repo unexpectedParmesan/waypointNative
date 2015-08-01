@@ -45,7 +45,6 @@ var styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 3,
     width: 80,
-    textAlign: 'center',
     paddingTop: 5,
     paddingBottom: 5,
     paddingLeft: 7,
