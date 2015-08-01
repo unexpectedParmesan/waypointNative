@@ -19,7 +19,6 @@ class Profile extends React.Component {
 
   constructor(props){
     super(props);
-    console.log('props passed into profile: ', props)
   } // end of constructor()
 
   // This works the same as it does in the browse view.
@@ -28,7 +27,6 @@ class Profile extends React.Component {
   // Reuses browse component from the nav bar.
   renderActiveQuests() {
     var url = this.props.url + 'users/' + this.props.user.userId + '/activeQuests';
-    console.log('making this query: ', url);
     this.props.navigator.push({
       backButtonTitle: ' ',
       title: 'Active Quests',
@@ -44,7 +42,6 @@ class Profile extends React.Component {
 
   renderCreatedQuests() {
     var url = this.props.url + 'users/' + this.props.user.userId + '/createdQuests';
-    console.log('making this query: ', url);
     this.props.navigator.push({
       backButtonTitle: ' ',
       title: 'Created Quests',

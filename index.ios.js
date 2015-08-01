@@ -93,20 +93,17 @@ class Waypoint extends React.Component {
 
     var userUrl = this.state.baseUrl + 'users/' + data.credentials.userId;
 
-    console.log('this url: ', userUrl);
     // check that user is in db; if not, sends a POST request
     fetch(userUrl)
       .then((response) => {
          console.log('response to GET request to users endpoint: ', response);
          var userData = {};
-          userData.userId = data.credentials.userId;
+         userData.userId = data.credentials.userId;
 
          if (response.status === 404) {
-
           var nameUrl = this._getNameUrl(data);
           fetch(nameUrl)
            .then((response) => {
-              console.log('Got name from FB: ', response);
               userData.name = JSON.parse(response._bodyText).name; // collects name from API
 
               var photoUrl = this._getPhotoUrl(data);
@@ -122,7 +119,9 @@ class Waypoint extends React.Component {
                  })
                   .then((response) => {
                    this._setUserData(userData);
-                   console.log('POST request sent to server. Here is the response: ', response);    
+                   console.log('POST request sent to server. Here is the response: ', response);
+                   console.log('url sent: ', userUrl);
+                   console.log('data sent: ', { facebookId: userData.userId, name: userData.name, profilePic: userData.photoUrl });  
                   })
 
                })
@@ -135,7 +134,6 @@ class Waypoint extends React.Component {
            });
          } else {
            var responseBody = JSON.parse(response._bodyText);
-           console.log('response body from server: ', responseBody);
            userData.name = responseBody.name;
            userData.photoUrl = responseBody.profile_pic;
            this._setUserData(userData);
@@ -159,9 +157,6 @@ class Waypoint extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    console.log('calling componentWillUnmount');
-  }
 
   render() {
     return (

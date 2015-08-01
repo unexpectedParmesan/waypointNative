@@ -177,20 +177,6 @@ class Detail extends React.Component {
       this.props.setCurrentQuest(this.props.details);
       this.props.setSelectedTab('quest');
     }
-
-    this.props.navigator.pop();
-    this.props.navigator.push({
-      title: this.props.details.title,
-      component: Map,
-      passProps: {
-        numWaypoints: this.props.details.waypoints.length,
-        quest: this.props.details,
-        type: this.props.type,
-        user: this.props.user,
-        currentIndex: this.props.details.current_waypoint_index || 0,
-        url: this.props.baseUrl
-      }
-    }) // end of props.navigator.push()
   } // end of renderQuest()
 }; // end of Detail class
 

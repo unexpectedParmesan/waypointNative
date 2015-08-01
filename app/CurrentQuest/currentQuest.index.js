@@ -15,7 +15,6 @@ var Map = require('../Map/map.index.js');
 class CurrentQuest extends React.Component {
 
   constructor(props) {
-    console.log('user ' + props.user + 'is starting quest ' + props.quest);
     super(props);
 
   }
