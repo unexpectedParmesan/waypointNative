@@ -36,7 +36,7 @@ class Waypoint extends React.Component {
       // Because "entry" is a state variable, it auto-updates depending whether user is logged in.
       // handleLogin is passed as a property to the Login view so that when the user logs in,
       // the user data is loaded into the state at the index level.
-      entry: <Login onLogin={this.handleLogin.bind(this)}/>
+      entry: <Login onLogin={this.handleLogin.bind(this)} hideButton={true} />
     }
   }
 
@@ -48,7 +48,7 @@ class Waypoint extends React.Component {
     FBLoginManager.logout(function(error, data) {
       if (!error) {
         context.setState({ user : null});
-        context.setState({entry: <Login onLogin={ context.handleLogin.bind(context) }/>});
+        context.setState({entry: <Login onLogin={ context.handleLogin.bind(context) } hideButton={false} />});
       } else {
         console.log(error, data);
       }
@@ -149,6 +149,8 @@ class Waypoint extends React.Component {
     FBLoginManager.getCredentials(function(error, data){
       if (!error) {
         context._getUserProfile(data);
+      } else {
+        context.setState({entry: <Login onLogin={ context.handleLogin.bind(context) } hideButton={false} />});
       }
     });
   }
