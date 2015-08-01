@@ -20,17 +20,14 @@ class Login extends React.Component {
 
 
   render() {
+
     var context = this;
+
     // if user isn't logged in, displays "log in with facebook" button.
     // onLogin is called if user clicks that button.
-    return (
-      <View style={styles.loginContainer} >
-        <View style={styles.headingContainer}>
-          <Image source={require('image!waypoint_icon')} style={styles.icon} />
-          <Text style={styles.heading}>Waypoint Beta</Text>
-        </View>
-        <Image source={require('image!waypoint_map')} style={styles.mapIllustration} />
-        <FBLogin 
+    var loginButton = (
+      <View>
+        <FBLogin
           permissions={["email", "user_friends"]}
           onLogin={function(data) {
             console.log('Logged in!');
@@ -53,6 +50,20 @@ class Login extends React.Component {
             console.log(data);
           }}
         />
+      </View>
+    );
+
+    if (this.props.hideButton) {
+      loginButton = <View />;
+    }
+    return (
+      <View style={styles.loginContainer} >
+        <View style={styles.headingContainer}>
+          <Image source={require('image!waypoint_icon')} style={styles.icon} />
+          <Text style={styles.heading}>Waypoint Beta</Text>
+        </View>
+        <Image source={require('image!waypoint_map')} style={styles.mapIllustration} />
+        { loginButton }
       </View>
     );
   } // end of render()
