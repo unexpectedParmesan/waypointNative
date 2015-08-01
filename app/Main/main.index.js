@@ -17,20 +17,16 @@ var Profile = require('../Profile/profile.index.js');
 var Message = require('../Message/message.index.js');
 var CurrentQuest = require('../CurrentQuest/currentQuest.index.js');
 
-// var baseUrl = 'https://waypointserver.herokuapp.com';
-
 class Main extends React.Component {
   // Default view is 'browse'
   constructor (props) {
-    console.log('props passed into main: ', props);
-    // console.log('user passed into main: ', props.user);
     super(props);
     this.state = {
       selectedTab: props.selectedTab,
       user: props.user,
       currentQuest: null,
       handleLogout: props.handleLogout,
-      // baseUrl: 'http://127.0.0.1:3000'
+      isFirstRender: true
     };
   } // end of constructor()
 
@@ -112,7 +108,6 @@ class Main extends React.Component {
   // Passed into child components so that clicking on Start Quest or Resume Quest in detail view
   // sets that chosen quest to be the user's current quest.
   setCurrentQuest(questData) {
-    console.log('setting current quest: ', questData);
     this.setState({ currentQuest: questData }, () => {
       if (this.refs.QuestRef) {
         var newRoute = {
@@ -132,16 +127,11 @@ class Main extends React.Component {
   }
 
   setSelectedTab(selection) {
-    console.log('setting selected tab: ', selection);
-    this.setState({ selectedTab: selection }, () => {
-      console.log('new state after setting tab: ', this.state);
-    });
+    this.setState({ selectedTab: selection });
   }
 
   // renders the Browse Quests list
   renderBrowseView(){
-    console.log('rendering browse view');
-    console.log('baseUrl: ', this.props.baseUrl);
     return (
       <NavigatorIOS
         style={styles.wrapper}
@@ -158,7 +148,7 @@ class Main extends React.Component {
                        setCurrentQuest: this.setCurrentQuest.bind(this),
                        setSelectedTab: this.setSelectedTab.bind(this) }
         }}/>
-    )
+    ) 
   } // end of renderBrowseView()
 
   // // renders the Create view

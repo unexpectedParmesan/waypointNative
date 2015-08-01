@@ -43,7 +43,6 @@ class Map extends React.Component {
       alertShowing: false // tells whether an IOSAlert is currently showing: prevents
     };
     this.state.currentWaypoint = this.state.waypoints.annotations[this.props.currentIndex]; // initializes current waypoint
-    console.log('props passed into map view: ', props);
   } // look ma, no commas!
 
    /* This function makes an API call to calculate the distance to the next waypoint, then updates all
@@ -95,9 +94,6 @@ class Map extends React.Component {
   * annotations are the pins shown on the map and must be an array of objects.
   */
   render() {
-
-    console.log('this.props.quest.waypoints =============> ', this.props.quest.waypoints);
-
     var nextWaypointButton;
     if (this.state.arrived && this.state.currentIndex < this.props.quest.waypoints.length - 1) {
       nextWaypointButton = (
@@ -204,13 +200,11 @@ class Map extends React.Component {
   }
 
   _finishQuest(url) {
-     console.log('striking quest from active quests: ', url);
      fetch(url, {
         method: 'delete',
         headers: { 'Content-Type': 'application/json' },
      })
       .then((response) => {
-       console.log('DELETE request sent to server. Here is the response: ', response);
       })
      .catch((error) => {
       console.warn('Server error trying to delete: ', error);
@@ -218,14 +212,12 @@ class Map extends React.Component {
   }
 
   _updateQuestIndex(url, newIndex) {
-     console.log('updating active quest to database: ', url);
      fetch(url, {
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ current_waypoint_index: newIndex})
      })
       .then((response) => {
-       console.log('PUT request sent to server. Here is the response: ', response);
       })
      .catch((error) => {
       console.warn('Server error trying to update current index: ', error);
@@ -249,20 +241,10 @@ class Map extends React.Component {
   _handleArrival() {
     var context = this;
     var next = this.state.currentIndex < this.state.waypoints.number - 1 ? this.state.currentIndex + 1 : null;
-    // var alertText = next ? 'Next Waypoint' : 'Done!';
     if (this.state.currentWaypoint) {
-
       this._updateQuestStatus(next);
       this.state.arrived = true;
       this.state.expanded = true;
-      // this.state.alertShowing = true;
-      // AlertIOS.alert(
-      //   'Arrived at ' + this.state.currentWaypoint.title,
-      //   context.state.currentWaypoint.description,
-      //   [
-      //     {text: alertText, onPress: context._onNextPress.bind(context)}, // registers callback for alert press
-      //   ]
-      // )
     }
   }
 
@@ -320,8 +302,8 @@ class Map extends React.Component {
             // updates current-distance-related state variables
             context.setState({
               currentDistance: utils.coordinateDistance(context.state.position.coords, context.state.currentWaypoint)}, () => {
-              // context.setState({latitudeDelta: context._getCoordinateDelta('latitude'), // updates region for map display
-              //                   longitudeDelta: context._getCoordinateDelta('longitude')});
+              context.setState({latitudeDelta: context._getCoordinateDelta('latitude'), // updates region for map display
+                                longitudeDelta: context._getCoordinateDelta('longitude')});
               context.setState({currentMiles: context._getCurrentDistanceInMiles()});
               // sets off arrival logic if we're close enough to waypoint
               if (context.state.currentDistance <= 0.0003 && !context.state.alertShowing) {

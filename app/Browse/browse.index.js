@@ -25,11 +25,9 @@ class Browse extends React.Component {
 
 
   _fetchQuests() {
-    console.log('fetching this url: ', this.props.url);
 
     fetch(this.props.url) // assumes parent has passed in a quest url
       .then((response) => {
-        console.log('response from server: ', response);
         if (response.status === 404) {
           this.setState({ empty: true });
           return [];
@@ -144,10 +142,8 @@ class Browse extends React.Component {
 
   render() {
     if (this.state.loading) {
-      console.log("state is loading")
       return this.renderLoading();
     } else if (!this.state.empty) {
-      console.log('state is loaded')
       return this.renderList();
     } else {
       return this.renderError();
