@@ -109,7 +109,7 @@ class Browse extends React.Component {
           <Text style={styles.title}>{quest.title}</Text>
           <View style={styles.detailsContainer}>
             <Text style={styles.details}>
-            {quest.waypoints.length} stops - {quest.length} - {quest.estimated_time}</Text>
+            {quest.waypoints.length} stops {quest.estimated_time ? '- ' + quest.estimated_time : ''}</Text>
           </View>
           <View>
             <Text style={styles.description}>

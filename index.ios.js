@@ -96,7 +96,6 @@ class Waypoint extends React.Component {
     // check that user is in db; if not, sends a POST request
     fetch(userUrl)
       .then((response) => {
-         console.log('response to GET request to users endpoint: ', response);
          var userData = {};
          userData.userId = data.credentials.userId;
 
@@ -119,9 +118,6 @@ class Waypoint extends React.Component {
                  })
                   .then((response) => {
                    this._setUserData(userData);
-                   console.log('POST request sent to server. Here is the response: ', response);
-                   console.log('url sent: ', userUrl);
-                   console.log('data sent: ', { facebookId: userData.userId, name: userData.name, profilePic: userData.photoUrl });  
                   })
 
                })

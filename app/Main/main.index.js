@@ -41,7 +41,7 @@ class Main extends React.Component {
         selectedTab={this.state.selectedTab}>
 
         <TabBarIOS.Item
-          style={styles.description}
+          icon={require('image!browse')}
           selected={this.state.selectedTab === 'browse'}
           title="Browse"
           onPress={ ()=> {
@@ -55,7 +55,7 @@ class Main extends React.Component {
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
-          style={styles.description}
+          icon={require('image!quest')}
           selected={this.state.selectedTab === 'quest'}
           title="Quest"
           onPress={ ()=> {
@@ -70,7 +70,7 @@ class Main extends React.Component {
 
 
         <TabBarIOS.Item
-          style={styles.description}
+          icon={require('image!user')}
           selected={this.state.selectedTab === 'profile'}
           title="Profile"
           onPress={ ()=> {
