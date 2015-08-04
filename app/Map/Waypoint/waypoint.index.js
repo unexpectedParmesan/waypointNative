@@ -8,7 +8,8 @@ var {
   Text,
   ScrollView,
   TouchableHighlight,
-  WebView
+  WebView,
+  Image
 } = React;
 
 // If we have gotten this far, it means the user is logged in.

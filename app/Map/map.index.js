@@ -12,6 +12,7 @@ var {
   AlertIOS,
   TouchableHighlight,
   ScrollView,
+  Image
   } = React;
 
 class Map extends React.Component {
@@ -145,6 +146,13 @@ class Map extends React.Component {
     } else {
       description = <View />;
     }
+    var imageStyle = {
+        flex: 1,
+        alignSelf: 'center',
+        transform: [                        // `transform` is an ordered array
+          {scale: 0.3 },  // Map `bounceValue` to `scale`
+        ]
+    };
     return (
       <View style={styles.container}>
         <Text style={styles.title}></Text>
@@ -164,7 +172,7 @@ class Map extends React.Component {
               this.state.expanded = !this.state.expanded;
             }}>
             <View style={styles.statusHeader}>
-              <Text style={ {color: 'white'} }> { this.state.expanded ? '' : '^'} </Text>
+              <Image source={this.state.expanded ? require('image!down') : require('image!up')} style={imageStyle} />
               <Text style={styles.statusHeaderText}>
                 {this.state.currentMiles}
               </Text>
