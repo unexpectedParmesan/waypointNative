@@ -77,6 +77,9 @@ class Main extends React.Component {
             if (this.state.selectedTab === 'profile') {
               this.refs.ProfileRef.popToTop();
             } else {
+              if (this.refs.ProfileRef) {
+                this.refs.ProfileRef.popToTop();
+              }
               this.setSelectedTab('profile');
             }
           }}>
@@ -107,22 +110,22 @@ class Main extends React.Component {
   // Passed into child components so that clicking on Start Quest or Resume Quest in detail view
   // sets that chosen quest to be the user's current quest.
   setCurrentQuest(questData) {
-    this.setState({ currentQuest: questData }, () => {
-      if (this.refs.QuestRef) {
-        var newRoute = {
-          title: 'Current Quest',
-          backButtonTitle: ' ',
-          component: Map,
-          passProps: { quest: this.state.currentQuest, 
-                       numWaypoints: this.state.currentQuest.waypoints.length,
-                       currentIndex: this.state.currentQuest.current_waypoint_index || 0,
-                       url: this.props.baseUrl,
-                       user: this.props.user,
-                       message: '' }
+      this.setState({ currentQuest: questData }, () => {
+        if (this.refs.QuestRef &&  this.state.currentQuest.id !== questData.id) {
+          var newRoute = {
+            title: 'Current Quest',
+            backButtonTitle: ' ',
+            component: Map,
+            passProps: { quest: this.state.currentQuest, 
+                         numWaypoints: this.state.currentQuest.waypoints.length,
+                         currentIndex: this.state.currentQuest.current_waypoint_index || 0,
+                         url: this.props.baseUrl,
+                         user: this.props.user,
+                         message: '' }
+          }
+          this.refs.QuestRef.replace(newRoute);
         }
-        this.refs.QuestRef.replace(newRoute);
-      }
-    });
+      });
   }
 
   setSelectedTab(selection) {
@@ -190,9 +193,9 @@ class Main extends React.Component {
 
   // renders the Profile view
   renderProfileView(){
-    if (this.refs.ProfileRef) {
-      this.refs.ProfileRef.popToTop();
-    }
+    // if (this.refs.ProfileRef) {
+    //   this.refs.ProfileRef.popToTop();
+    // }
     return (
       <NavigatorIOS
         style={styles.wrapper}

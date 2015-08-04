@@ -60,11 +60,9 @@ var styles = StyleSheet.create({
     padding: 16,
     fontSize: 24,
     alignSelf: 'flex-end',
-    textAlign: 'center',
   },
   coords: {
     fontSize: 20,
-    textAlign: 'center',
     alignSelf: 'flex-end',
     marginBottom: 60,
   },
