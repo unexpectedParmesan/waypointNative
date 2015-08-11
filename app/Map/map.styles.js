@@ -52,6 +52,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
+
   title: {
     position: 'absolute',
     top: 10,
@@ -61,11 +62,13 @@ var styles = StyleSheet.create({
     fontSize: 24,
     alignSelf: 'flex-end',
   },
+
   coords: {
     fontSize: 20,
     alignSelf: 'flex-end',
     marginBottom: 60,
   },
+
   map: {
     position: 'absolute',
     right: 0,
@@ -76,6 +79,15 @@ var styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 5,
   },
+
+  imageStyle: {
+    flex: 1,
+    alignSelf: 'center',
+    transform: [
+      {scale: 0.3 }, // scales image to 0.3 of its original size
+    ]
+  }
+
 });
 
 module.exports = styles;

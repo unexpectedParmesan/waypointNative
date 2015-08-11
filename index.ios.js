@@ -9,6 +9,8 @@ var FBLogin = require('react-native-facebook-login');
 var FBLoginManager = require('NativeModules').FBLoginManager;
 
 var FBUrl = 'https://graph.facebook.com/v2.2/'; // root url for FB API
+var api = require('./api-helpers.js');
+
 
 var {
   AppRegistry,
@@ -91,53 +93,63 @@ class Waypoint extends React.Component {
   // then sets the relevant state variables.
   _getUserProfile(data) {
 
-    var userUrl = this.state.baseUrl + 'users/' + data.credentials.userId;
 
-    // check that user is in db; if not, sends a POST request
-    fetch(userUrl)
+    var mappingUrl = FBUrl + 'me/ids_for_business/?access_token=' + data.credentials.token;
+
+    fetch(mappingUrl)
       .then((response) => {
-         var userData = {};
-         userData.userId = data.credentials.userId;
+       var responseData = JSON.parse(response._bodyText).data;
+       console.log('response data: ', responseData);
+       var uniqueId = '';
+       var userUrl = '';
+       for (var i = 0; i < responseData.length; i++) {
+          if (responseData[i].app.id === '943850322345964') {
+            uniqueId = responseData[i].id;
+            data.credentials.userId = uniqueId;
+            userUrl = this.state.baseUrl + 'users/' + uniqueId;
+          }
+       }
+          // check that user is in db; if not, sends a POST request
+          fetch(userUrl)
+            .then((response) => {
+               var userData = {};
+               userData.userId = data.credentials.userId;
 
-         if (response.status === 404) {
-          var nameUrl = this._getNameUrl(data);
-          fetch(nameUrl)
-           .then((response) => {
-              userData.name = JSON.parse(response._bodyText).name; // collects name from API
+               if (response.status === 404) {
+                var nameUrl = this._getNameUrl(data);
+                fetch(nameUrl)
+                 .then((response) => {
+                    userData.name = JSON.parse(response._bodyText).name; // collects name from API
 
-              var photoUrl = this._getPhotoUrl(data);
+                    var photoUrl = this._getPhotoUrl(data);
 
-              fetch(photoUrl)
-               .then((response) => {
-                 userData.photoUrl = JSON.parse(response._bodyText).data.url; // collects photo URL from API
-
-                 fetch(userUrl, {
-                    method: 'post',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ facebookId: userData.userId, name: userData.name, profilePic: userData.photoUrl })
+                    fetch(photoUrl)
+                     .then((response) => {
+                       userData.photoUrl = JSON.parse(response._bodyText).data.url; // collects photo URL from API
+                       api.newUser(userUrl, userData, this._setUserData.bind(this));
+                     })
+                     .catch((error) => {
+                       console.warn(error);
+                     });
                  })
-                  .then((response) => {
-                   this._setUserData(userData);
-                  })
+                 .catch((error) => {
+                  console.warn(error);
+                 });
+               } else {
+                 var responseBody = JSON.parse(response._bodyText);
+                 userData.name = responseBody.name;
+                 userData.photoUrl = responseBody.profile_pic;
+                 this._setUserData(userData);
+               }
+            }).catch((error) => {
+              console.warn('server error: ', error);
+            });
+        // }
 
-               })
-               .catch((error) => {
-                 console.warn(error);
-               });
-           })
-           .catch((error) => {
-            console.warn(error);
-           });
-         } else {
-           var responseBody = JSON.parse(response._bodyText);
-           userData.name = responseBody.name;
-           userData.photoUrl = responseBody.profile_pic;
-           this._setUserData(userData);
-         }
-      }).catch((error) => {
-        console.warn('server error: ', error);
+      })
+      .catch((error) => {
+        console.warn('did not work: ', error);
       });
-
 
 
   }
