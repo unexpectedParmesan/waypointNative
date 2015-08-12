@@ -4,6 +4,7 @@ var React = require('react-native');
 var styles = require('./map.styles.js');
 var Waypoint = require('./Waypoint/waypoint.index.js');
 var utils = require('./map.utils.js'); // utility functions for data munging
+var api = require('../../api-helpers.js'); // utility functions for RESTful calls to the Waypoint API
 
 var {
   Text,
@@ -127,14 +128,6 @@ class Map extends React.Component {
 
     var description;
     if (this.state.expanded) {
-      // description = (
-      //   <View>
-      //     <ScrollView style={styles.scrollView} centerContent={false}>
-      //       <Text style={styles.description}>{this.props.quest.waypoints[this.state.currentIndex].description}</Text>
-      //     </ScrollView>
-      //     {nextWaypointButton}
-      //   </View>
-      // )
       description = (
         <Waypoint 
           description={ this.props.quest.waypoints[this.state.currentIndex].description } 
@@ -146,13 +139,6 @@ class Map extends React.Component {
     } else {
       description = <View />;
     }
-    var imageStyle = {
-        flex: 1,
-        alignSelf: 'center',
-        transform: [                        // `transform` is an ordered array
-          {scale: 0.3 },  // Map `bounceValue` to `scale`
-        ]
-    };
     return (
       <View style={styles.container}>
         <Text style={styles.title}></Text>
@@ -172,7 +158,7 @@ class Map extends React.Component {
               this.state.expanded = !this.state.expanded;
             }}>
             <View style={styles.statusHeader}>
-              <Image source={this.state.expanded ? require('image!down') : require('image!up')} style={imageStyle} />
+              <Image source={this.state.expanded ? require('image!down') : require('image!up')} style={styles.imageStyle} />
               <Text style={styles.statusHeaderText}>
                 {this.state.currentMiles}
               </Text>
@@ -218,27 +204,16 @@ class Map extends React.Component {
      });
   }
 
-  _updateQuestIndex(url, newIndex) {
-     fetch(url, {
-        method: 'put',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ current_waypoint_index: newIndex})
-     })
-      .then((response) => {
-      })
-     .catch((error) => {
-      console.warn('Server error trying to update current index: ', error);
-     });
-  }
-
   _updateQuestStatus(next) {
     // if you finished, DELETE quest from userActiveQuests table
     // else, PUT new index (this.state.currentIndex) into table
     var url = this.props.url + 'users/' + this.props.user.userId + '/activeQuests/' + this.props.quest.id;
     if (!next) {
-      this._finishQuest(url);
+      // this._finishQuest(url);
+      api.finishQuest(url);
     } else {
-      this._updateQuestIndex(url, next);
+      // this._updateQuestIndex(url, next);
+      api.updateQuestIndex(url, next);
     }
   }
 
