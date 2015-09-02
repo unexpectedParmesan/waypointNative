@@ -1,52 +1,15 @@
-# Project Name
+##Waypoint
 
-> Pithy project description
+Waypoint is a geolocation-based route creation and discovery platform. Users can browse and follow routes, which consist of a series of waypoints that include text and media. Possible use cases include scavenger hunts, pub crawls, city tours, alternate reality games, and exercise routes.
 
-## Team
+The native mobile version of the app was made using React Native and the Google Maps API. The web route creation companion was made with React, the Google Maps API, and Semantic UI. On the back-end, Waypoint uses a Node.js/Express server with a MySql database, managed with Bookshelf.js/Knex.
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+The Waypoint Team
 
-## Table of Contents
+Colin Parsons - Team Lead/Full-Stack Engineer
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
-    1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
-1. [Team](#team)
-1. [Contributing](#contributing)
+Tamara Woodson - Mobile App Lead/Full-Stack Engineer
 
-## Usage
+Danielle Knudson - Web App Lead/Full-Stack Engineer
 
-> Some usage instructions
-
-## Requirements
-
-- Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
-
-## Development
-
-### Installing Dependencies
-
-From within the root directory:
-
-```sh
-sudo npm install -g bower
-npm install
-bower install
-```
-
-### Roadmap
-
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
-
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+Josh Turner - Back-End Architect/Full-Stack Engineer
